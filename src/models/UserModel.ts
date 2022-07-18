@@ -1,4 +1,4 @@
-import { Table, Model, Column, DataType, BeforeCreate } from "sequelize-typescript";
+import { Table, Model, Column, DataType, BeforeCreate, BeforeFind } from "sequelize-typescript";
 import bcrypt from 'bcrypt';
 import { IUserAdd } from '../interfaces/User';
 

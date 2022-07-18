@@ -4,7 +4,7 @@ import { IUserToken } from '../interfaces/User';
 const secret = process.env.SECRET || 'jwtsecret';
 
 const jwtConfig: SignOptions = {
-  expiresIn: '40m',
+  expiresIn: '15m',
   algorithm: 'HS256',
 };
 

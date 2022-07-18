@@ -3,7 +3,7 @@ export interface IUserData {
 }
 
 export interface IUserAdd extends IUserData {
-  fullName: string,
+  fullName?: string,
   password: string
 }
 
