@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
-import { User } from '../models/User';
+import UserModel from '../models/UserModel';
 
 const connection = new Sequelize({
   dialect: 'mysql',
@@ -8,7 +8,7 @@ const connection = new Sequelize({
   password: 'mynewpassword',
   database: 'StockApp',
   logging: false,
-  models: [User],
+  models: [UserModel],
 });
 
 connection.query('CREATE DATABASE IF NOT EXISTS StockApp')

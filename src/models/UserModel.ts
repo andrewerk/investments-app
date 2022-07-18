@@ -1,11 +1,12 @@
 import { Table, Model, Column, DataType } from "sequelize-typescript";
-import { IUser } from '../interfaces/User';
+import { IUserAdd } from '../interfaces/User';
+
 
 @Table({
   timestamps: false,
-  tableName: "Users",
+  tableName: 'Users',
 })
-export class User extends Model<IUser> {
+export default class UserModel extends Model<IUserAdd> {
   @Column({
     type: DataType.STRING,
     allowNull: false,
