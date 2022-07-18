@@ -1,6 +1,5 @@
 import { Router } from "express";
 import userRouter from './userRoutes';
-import 'express-async-errors'
 
 const routes = Router();
 
