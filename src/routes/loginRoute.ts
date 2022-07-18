@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { Router } from 'express';
 import loginController from '../controllers/loginController';
-import 'express-async-errors'
+import 'express-async-errors';
 
 const loginRoute = Router();
 
-loginRoute.post('/', loginController.login)
+loginRoute.post('/', loginController.login);
 
 export default loginRoute;

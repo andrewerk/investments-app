@@ -11,6 +11,6 @@ const connection = new Sequelize({
   models: [UserModel],
 });
 
-connection.query('CREATE DATABASE IF NOT EXISTS StockApp')
+connection.query('CREATE DATABASE IF NOT EXISTS StockApp');
 
 export default connection;

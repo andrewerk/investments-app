@@ -1,7 +1,8 @@
-import { Table, Model, Column, DataType, BeforeCreate } from "sequelize-typescript";
+import {
+  Table, Model, Column, DataType, BeforeCreate,
+} from 'sequelize-typescript';
 import bcrypt from 'bcrypt';
 import { IUserAdd } from '../interfaces/User';
-
 
 @Table({
   timestamps: false,
@@ -12,31 +13,32 @@ export default class UserModel extends Model<IUserAdd> {
     type: DataType.STRING,
     allowNull: false,
   })
-  fullName!: string;
+    fullName!: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
   })
-  email!: string;
+    email!: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  password!: string;
+    password!: string;
 
   @Column({
     type: DataType.FLOAT,
     allowNull: false,
-    defaultValue: 0
+    defaultValue: 0,
   })
-  balance!: number;
+    balance!: number;
 
   @BeforeCreate
   static async encryptPassword(instance: UserModel) {
-    const salt = bcrypt.genSaltSync(10)
-    instance.password = bcrypt.hashSync(instance.password, salt)
+    const salt = bcrypt.genSaltSync(10);
+    // eslint-disable-next-line no-param-reassign
+    instance.password = bcrypt.hashSync(instance.password, salt);
   }
 }

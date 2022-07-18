@@ -1,3 +1,5 @@
 /*.js’
-node_modules
-dist
+/node_modules
+/dist
+.eslintrc.js
+.prettier.config.js

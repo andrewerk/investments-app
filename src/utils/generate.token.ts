@@ -8,8 +8,6 @@ const jwtConfig: SignOptions = {
   algorithm: 'HS256',
 };
 
-const generateToken = (data: IUserToken): string => {
-  return sign(data, secret, jwtConfig);
-}
+const generateToken = (data: IUserToken): string => sign(data, secret, jwtConfig);
 
 export default generateToken;

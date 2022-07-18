@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { Router } from 'express';
 import userController from '../controllers/userController';
-import 'express-async-errors'
+import 'express-async-errors';
 
 const userRouter = Router();
 
-userRouter.post('/', userController.createUser)
+userRouter.post('/', userController.createUser);
 
 export default userRouter;
