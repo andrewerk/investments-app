@@ -12,7 +12,7 @@ app.use(routes);
 
 app.use(httpErrorMiddleware);
 
-connection.sync({ force: true });
+connection.sync();
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
