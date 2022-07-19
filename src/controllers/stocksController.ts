@@ -7,6 +7,13 @@ const listStocks = async (req: Request, res: Response): Promise<Response> => {
   return res.status(HttpStatusCode.OK).json(stocks);
 };
 
+const getBySymbol = async (req: Request, res: Response): Promise<Response> => {
+  const { symbol } = req.params;
+  const stocks = await stockApiService.getStock(symbol.toUpperCase());
+  return res.status(HttpStatusCode.OK).json(stocks);
+};
+
 export default {
   listStocks,
+  getBySymbol,
 };
