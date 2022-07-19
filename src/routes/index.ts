@@ -13,6 +13,6 @@ routes.use('/users', addUserValidation, userRouter);
 routes.use('/login', loginRoute);
 routes.use('/account', validateToken, accountRoutes);
 routes.use('/stocks', validateToken, stocksRoutes);
-routes.use('/investiments', validateToken, tradeRoutes);
+routes.use('/investments', validateToken, tradeRoutes);
 
 export default routes;

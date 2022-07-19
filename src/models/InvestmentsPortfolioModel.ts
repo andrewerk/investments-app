@@ -1,15 +1,14 @@
 import {
   Table, Model, Column, DataType, ForeignKey, BelongsTo,
 } from 'sequelize-typescript';
-import ITrade from '../interfaces/Trade';
 import StockModel from './StockModel';
 import UserModel from './UserModel';
 
 @Table({
   timestamps: true,
-  tableName: 'Trades',
+  tableName: 'InvestmentsPortfolio',
 })
-export default class TradeModel extends Model<ITrade> {
+export default class InvestmentsPortfoliotModel extends Model {
   @ForeignKey(() => UserModel)
   @Column({
     type: DataType.INTEGER,
@@ -35,16 +34,4 @@ export default class TradeModel extends Model<ITrade> {
     allowNull: false,
   })
     quantity!: number;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-    type!: string;
-
-  @Column({
-    type: DataType.FLOAT,
-    allowNull: false,
-  })
-    value!: number;
 }
