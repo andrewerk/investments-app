@@ -1,8 +1,10 @@
+/* eslint-disable import/no-cycle */
 import {
-  Table, Model, Column, DataType, BeforeCreate,
+  Table, Model, Column, DataType, BeforeCreate, HasMany,
 } from 'sequelize-typescript';
 import bcrypt from 'bcrypt';
 import { IUser } from '../interfaces/User';
+import InvestmentsPortfoliotModel from './InvestmentsPortfolioModel';
 
 @Table({
   timestamps: false,
@@ -34,6 +36,9 @@ export default class UserModel extends Model<IUser> {
     defaultValue: 0,
   })
     balance!: number;
+
+  @HasMany(() => InvestmentsPortfoliotModel)
+    portfolios!: InvestmentsPortfoliotModel[];
 
   @BeforeCreate
   static async encryptPassword(instance: UserModel) {

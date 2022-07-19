@@ -6,19 +6,22 @@ import stockApiService from './stockApiService';
 import stockService from './stockService';
 import ITrade from '../interfaces/Trade';
 import investmentsPortfolioService from './investmentsPortfolioService';
+import IPortfolio from '../interfaces/Portfolio';
+import InvestmentsPortfoliotModel from '../models/InvestmentsPortfolioModel';
 
 const buyStock = async (userId: number, stockSymbol: string, quantity: number) => {
   const stock = await stockApiService.getStock(stockSymbol);
   const { currentValue } = stock;
   const account = await connection.transaction(async (t: Sequelize.Transaction) => {
     const total: number = currentValue * quantity;
-    const accountAfterBuy = await accountService.withdraw(userId, total, t);
+    await accountService.withdraw(userId, total, t);
     await stockService.buy(stockSymbol, quantity, t);
-    await investmentsPortfolioService.buy(userId, stockSymbol, quantity, t);
-    return accountAfterBuy;
+    const portfolio = await investmentsPortfolioService
+      .buy(userId, stockSymbol, quantity, t) as IPortfolio;
+    return portfolio;
   });
   await TradeModel.create({
-    userId, stockSymbol, type: 'buy', quantity, value: currentValue,
+    portfolioId: account.id, type: 'buy', quantity, value: currentValue,
   });
   return account;
 };
@@ -28,25 +31,41 @@ const saleStock = async (userId: number, stockSymbol: string, quantity: number) 
   const { currentValue } = stock;
   const account = await connection.transaction(async (t: Sequelize.Transaction) => {
     const total: number = currentValue * quantity;
-    const accountAfterSale = await accountService.deposit(userId, total, t);
+    await accountService.deposit(userId, total, t);
     await stockService.sale(stockSymbol, quantity, t);
-    await investmentsPortfolioService.sale(userId, stockSymbol, quantity, t);
-    return accountAfterSale;
+    const portfolio = await investmentsPortfolioService
+      .sale(userId, stockSymbol, quantity, t) as IPortfolio;
+    return portfolio;
   });
   await TradeModel.create({
-    userId, stockSymbol, type: 'sale', quantity, value: currentValue,
+    portfolioId: account.id, type: 'sale', quantity, value: currentValue,
   });
   return account;
 };
 
-const getTrades = async (userId: number): Promise<ITrade[]> => {
-  const trades = await TradeModel.findAll({ where: { userId } });
-  return trades!;
+const getTrades = async (userId: number): Promise<IPortfolio[] | ITrade> => {
+  const trades = await InvestmentsPortfoliotModel.scope('records')
+    .findAll({
+      attributes: ['stockSymbol', 'quantity'],
+      where: { userId },
+    });
+  return trades;
 };
 
-const getTradesByType = async (userId: number, type: string): Promise<ITrade[]> => {
-  const trades = await TradeModel.findAll({ where: { userId, type } });
-  return trades!;
+const getTradesByType = async (userId: number, type: string): Promise<IPortfolio[] | ITrade> => {
+  const trades = await InvestmentsPortfoliotModel.scope('records')
+    .findAll({
+      attributes: ['stockSymbol', 'quantity'],
+      where: { userId },
+      include: {
+        model: TradeModel,
+        attributes: { exclude: ['type'] },
+        where: {
+          type,
+        },
+      },
+    });
+  return trades;
 };
 
 export default {

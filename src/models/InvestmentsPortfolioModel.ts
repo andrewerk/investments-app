@@ -1,9 +1,11 @@
+/* eslint-disable import/no-cycle */
 import {
-  Table, Model, Column, DataType, ForeignKey, BelongsTo, Scopes,
+  Table, Model, Column, DataType, ForeignKey, BelongsTo, Scopes, HasMany,
 } from 'sequelize-typescript';
 import StockModel from './StockModel';
 import UserModel from './UserModel';
 import IPortfolio from '../interfaces/Portfolio';
+// eslint-disable-next-line import/no-cycle
 import TradeModel from './TradeModel';
 
 @Scopes(() => ({
@@ -12,7 +14,7 @@ import TradeModel from './TradeModel';
   },
 }))
 @Table({
-  timestamps: true,
+  timestamps: false,
   tableName: 'InvestmentsPortfolio',
 })
 export default class InvestmentsPortfoliotModel extends Model<IPortfolio> {
@@ -41,4 +43,7 @@ export default class InvestmentsPortfoliotModel extends Model<IPortfolio> {
     allowNull: false,
   })
     quantity!: number;
+
+  @HasMany(() => TradeModel)
+    trades!: TradeModel[];
 }

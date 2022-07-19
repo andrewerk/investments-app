@@ -2,11 +2,6 @@ import { Request, Response } from 'express';
 import investmentsPortfolioService from '../services/investmentsPortfolioService';
 import HttpStatusCode from '../utils/http.status.code';
 
-// const listStocks = async (req: Request, res: Response): Promise<Response> => {
-//   const stocks = await stockApiService.listPopularStocks();
-//   return res.status(HttpStatusCode.OK).json(stocks);
-// };
-
 const getAssetsByCustomer = async (req: Request, res: Response): Promise<Response> => {
   const { id } = res.locals.user;
   const assets = await investmentsPortfolioService.getAssetsByCustomer(id);

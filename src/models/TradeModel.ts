@@ -1,34 +1,24 @@
+/* eslint-disable import/no-cycle */
 import {
   Table, Model, Column, DataType, ForeignKey, BelongsTo,
 } from 'sequelize-typescript';
 import ITrade from '../interfaces/Trade';
-import StockModel from './StockModel';
-import UserModel from './UserModel';
+import InvestmentsPortfoliotModel from './InvestmentsPortfolioModel';
 
 @Table({
-  timestamps: true,
+  timestamps: false,
   tableName: 'Trades',
 })
 export default class TradeModel extends Model<ITrade> {
-  @ForeignKey(() => UserModel)
+  @ForeignKey(() => InvestmentsPortfoliotModel)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-    userId!: number;
+    portfolioId!: number;
 
-  @BelongsTo(() => UserModel)
-    user!: UserModel;
-
-  @ForeignKey(() => StockModel)
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-    stockSymbol!: string;
-
-  @BelongsTo(() => StockModel)
-    stock!: StockModel;
+  @BelongsTo(() => InvestmentsPortfoliotModel)
+    portfolio!: InvestmentsPortfoliotModel;
 
   @Column({
     type: DataType.INTEGER,

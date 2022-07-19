@@ -1,5 +1,7 @@
 export default interface IPortfolio {
-  userId: number,
+  id?: number,
+  userId?: number,
   stockSymbol: string,
   quantity: number,
+  currentValue?: number,
 }

@@ -1,6 +1,5 @@
 export default interface ITrade {
-  userId: number,
-  stockSymbol: string,
+  portfolioId?: number,
   quantity: number,
   value: number,
   type: string

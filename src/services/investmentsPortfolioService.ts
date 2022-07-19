@@ -3,6 +3,7 @@ import InvestmentsPortfolioModel from '../models/InvestmentsPortfolioModel';
 import HttpException from '../utils/http.exception';
 import HttpStatusCode from '../utils/http.status.code';
 import IPortfolio from '../interfaces/Portfolio';
+import insertValue from '../utils/insertValue';
 
 const buy = async (
   userId: number,
@@ -21,9 +22,9 @@ const buy = async (
       quantity: asset.quantity + quantity,
     }, { transaction: t });
     await asset.save({ transaction: t });
-    return { userId, stockSymbol, quantity: asset.quantity };
+    return { id: asset.id, stockSymbol, quantity: asset.quantity };
   }
-  return { userId, stockSymbol, quantity };
+  return { id: asset.id, stockSymbol, quantity };
 };
 
 const sale = async (
@@ -43,14 +44,15 @@ const sale = async (
       quantity: asset.quantity - quantity,
     }, { transaction: t });
     await asset.save({ transaction: t });
-    return { userId, stockSymbol, quantity: asset.quantity };
+    return { id: asset.id, stockSymbol, quantity: asset.quantity };
   }
   throw new HttpException(HttpStatusCode.CONFLICT, `Customer can only sell ${asset.quantity} assets`);
 };
 
 const getAssetsByCustomer = async (id: number): Promise<IPortfolio[]> => {
   const userAssets = await InvestmentsPortfolioModel.findAll({ where: { userId: id } });
-  return userAssets;
+  const userAssetsValues = await insertValue(userAssets);
+  return userAssetsValues;
 };
 
 const getAssetByCustomerHistory = async (

@@ -12,12 +12,12 @@ const login = async (user: IUserAdd): Promise<IUserToken> => {
     },
   });
   if (!userExists) {
-    throw new HttpException(HttpStatusCode.NOT_FOUND, 'Email not registered');
+    throw new HttpException(HttpStatusCode.UNAUTHORIZED, 'Invalid credentials');
   }
   if (await bcrypt.compare(password, userExists.password)) {
     return { id: userExists.id, email };
   }
-  throw new HttpException(HttpStatusCode.UNAUTHORIZED, 'Incorrect password');
+  throw new HttpException(HttpStatusCode.UNAUTHORIZED, 'Invalid credentials');
 };
 
 export default {
