@@ -1,9 +1,9 @@
 import UserModel from '../models/UserModel';
-import { IUserAdd, IUserToken } from '../interfaces/User';
+import { IUser, IUserToken } from '../interfaces/User';
 import HttpException from '../utils/http.exception';
 import HttpStatusCode from '../utils/http.status.code';
 
-const createUser = async (user: IUserAdd): Promise<IUserToken> => {
+const createUser = async (user: IUser): Promise<IUserToken> => {
   const { email } = user;
   const userExists = await UserModel.findAll({
     where: {

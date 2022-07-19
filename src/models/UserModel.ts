@@ -2,13 +2,13 @@ import {
   Table, Model, Column, DataType, BeforeCreate,
 } from 'sequelize-typescript';
 import bcrypt from 'bcrypt';
-import { IUserAdd } from '../interfaces/User';
+import { IUser } from '../interfaces/User';
 
 @Table({
   timestamps: false,
   tableName: 'Users',
 })
-export default class UserModel extends Model<IUserAdd> {
+export default class UserModel extends Model<IUser> {
   @Column({
     type: DataType.STRING,
     allowNull: false,

@@ -1,5 +1,5 @@
 import { curly } from 'node-libcurl';
-import Stock from '../interfaces/Stock';
+import { Stock } from '../interfaces/Stock';
 import ExternalApiErrors from '../utils/apiErrors';
 import mainStocks from '../utils/mainStocks';
 
