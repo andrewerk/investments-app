@@ -7,6 +7,7 @@ enum HttpStatusCode {
   NOT_FOUND = 404,
   CONFLICT = 409,
   UNPROCESSABLE_ENTITY = 422,
+  TO_MANY_REQUESTS = 429,
 }
 
 export default HttpStatusCode;
