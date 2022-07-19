@@ -19,5 +19,5 @@ export default class StockModel extends Model<StockAvailability> {
     type: DataType.INTEGER,
     allowNull: false,
   })
-    quantity!: number;
+    stockQuantity!: number;
 }

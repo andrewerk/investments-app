@@ -31,10 +31,16 @@ export default class TradeModel extends Model {
     stock!: StockModel;
 
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.STRING,
     allowNull: false,
   })
     quantity!: number;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+    type!: string;
 
   @Column({
     type: DataType.FLOAT,

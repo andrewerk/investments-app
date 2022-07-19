@@ -6,5 +6,5 @@ export interface Stock {
 
 export interface StockAvailability {
   symbol: string,
-  quantity: number
+  stockQuantity: number
 }

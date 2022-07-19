@@ -3,6 +3,7 @@ export default interface ITrade {
   stockSymbol: string,
   quantity: number,
   value: number,
-  createdAt: Date,
-  updatedAt: Date,
+  type: string
+  createdAt?: Date,
+  updatedAt?: Date,
 }
