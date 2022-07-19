@@ -1,10 +1,16 @@
 import {
-  Table, Model, Column, DataType, ForeignKey, BelongsTo,
+  Table, Model, Column, DataType, ForeignKey, BelongsTo, Scopes,
 } from 'sequelize-typescript';
 import StockModel from './StockModel';
 import UserModel from './UserModel';
 import IPortfolio from '../interfaces/Portfolio';
+import TradeModel from './TradeModel';
 
+@Scopes(() => ({
+  records: {
+    include: [TradeModel],
+  },
+}))
 @Table({
   timestamps: true,
   tableName: 'InvestmentsPortfolio',

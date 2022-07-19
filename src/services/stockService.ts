@@ -30,7 +30,7 @@ const buy = async (
     await stock.save({ transaction: t });
     return;
   }
-  throw new HttpException(HttpStatusCode.CONFLICT, 'Not enough assets');
+  throw new HttpException(HttpStatusCode.CONFLICT, `Only ${stock.stockQuantity} are available to sale`);
 };
 
 const sale = async (

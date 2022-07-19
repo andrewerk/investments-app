@@ -45,16 +45,27 @@ const sale = async (
     await asset.save({ transaction: t });
     return { userId, stockSymbol, quantity: asset.quantity };
   }
-  throw new HttpException(HttpStatusCode.CONFLICT, 'Not enough assets to sell');
+  throw new HttpException(HttpStatusCode.CONFLICT, `Customer can only sell ${asset.quantity} assets`);
 };
 
-// const getById = async (id: number): Promise<Account> => {
-//   const user = await UserModel.findByPk(id);
-//   return { fullName: user!.fullName, balance: user!.balance };
-// };
+const getAssetsByCustomer = async (id: number): Promise<IPortfolio[]> => {
+  const userAssets = await InvestmentsPortfolioModel.findAll({ where: { userId: id } });
+  return userAssets;
+};
+
+const getAssetByCustomerHistory = async (
+  id: number,
+  stockSymbol: string,
+): Promise<IPortfolio> => {
+  const userAsset = await InvestmentsPortfolioModel.scope('records').findOne(
+    { where: { userId: id, stockSymbol } },
+  ) as InvestmentsPortfolioModel;
+  return userAsset;
+};
 
 export default {
   buy,
   sale,
-  // getById,
+  getAssetsByCustomer,
+  getAssetByCustomerHistory,
 };
