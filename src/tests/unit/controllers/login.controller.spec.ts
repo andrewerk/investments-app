@@ -7,6 +7,7 @@ import HttpException from '../../../utils/http.exception';
 import HttpStatusCode from '../../../utils/http.status.code';
 
 describe('Test login controller', () => {
+  afterEach(() => sinon.restore());
   it('Test login without sending data', async () => {
     const response = await request(app)
       .post('/login')
@@ -26,25 +27,23 @@ describe('Test login controller', () => {
     expect(response.status).to.eql(422);
   });
   it('Test login sending invalid credentials', async () => {
-    const stub = sinon.stub(loginService, 'login').throws(new HttpException(HttpStatusCode.UNAUTHORIZED, 'Invalid Credentials'));
+    sinon.stub(loginService, 'login').throws(new HttpException(HttpStatusCode.UNAUTHORIZED, 'Invalid Credentials'));
     const response = await request(app)
       .post('/login')
       .send({ email: 'teste@teste.com', password: 'newpassword' });
     expect(response.status).to.eql(401);
     expect(response.body.message).to.eql('Invalid Credentials');
-    stub.restore();
   });
   it('Test login successful', async () => {
     const objectStub = {
       id: 1,
       email: 'teste@teste.com',
     };
-    const stub = sinon.stub(loginService, 'login').resolves(objectStub);
+    sinon.stub(loginService, 'login').resolves(objectStub);
     const response = await request(app)
       .post('/login')
       .send({ email: 'teste@teste.com', password: 'mynewpass' });
     expect(response.status).to.eql(200);
     expect(response.body).to.be.a('string');
-    stub.restore();
   });
 });

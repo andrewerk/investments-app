@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">41.17% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/17</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">41.17% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/17</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -98,22 +98,22 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -124,23 +124,23 @@ import HttpStatusCode from '../utils/http.status.code';
 &nbsp;
 const secret = process.env.SECRET || 'jwtsecret';
 &nbsp;
-const verifyToken = <span class="fstat-no" title="function not covered" >(t</span>oken: string | undefined): JwtPayload | string =&gt; {
-<span class="cstat-no" title="statement not covered" >  if (!token) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new HttpException(HttpStatusCode.UNAUTHORIZED, 'Token not found');</span>
+const verifyToken = (token: string | undefined): JwtPayload | string =&gt; {
+  if (!token) {
+    throw new HttpException(HttpStatusCode.UNAUTHORIZED, 'Token not found');
   }
-<span class="cstat-no" title="statement not covered" >  try {</span>
-    const payload = <span class="cstat-no" title="statement not covered" >verify(token, secret);</span>
-<span class="cstat-no" title="statement not covered" >    return payload;</span>
+  try {
+    const payload = verify(token, secret);
+    return payload;
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    throw new HttpException(HttpStatusCode.UNAUTHORIZED, 'Invalid token');</span>
+    throw new HttpException(HttpStatusCode.UNAUTHORIZED, 'Invalid token');
   }
 };
 &nbsp;
-const validateToken = <span class="fstat-no" title="function not covered" >(r</span>eq: Request, res: Response, next: NextFunction) =&gt; {
-  const token = <span class="cstat-no" title="statement not covered" >req.headers.authorization as string || undefined;</span>
-  const payload = <span class="cstat-no" title="statement not covered" >verifyToken(token);</span>
-<span class="cstat-no" title="statement not covered" >  res.locals.user = payload;</span>
-<span class="cstat-no" title="statement not covered" >  next();</span>
+const validateToken = (req: Request, res: Response, next: NextFunction) =&gt; {
+  const token = req.headers.authorization as string || undefined;
+  const payload = verifyToken(token);
+  res.locals.user = payload;
+  next();
 };
 &nbsp;
 export default validateToken;
@@ -151,7 +151,7 @@ export default validateToken;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-07-20T17:10:26.256Z
+                at 2022-07-20T19:48:55.353Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

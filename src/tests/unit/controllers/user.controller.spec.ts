@@ -6,6 +6,7 @@ import userService from '../../../services/userService';
 import HttpStatusCode from '../../../utils/http.status.code';
 
 describe('Test user controller', () => {
+  afterEach(() => sinon.restore());
   it('Test create user without sending data', async () => {
     const response = await request(app)
       .post('/users')
@@ -39,7 +40,7 @@ describe('Test user controller', () => {
       id: 1,
       email: 'teste@teste.com',
     };
-    const stub = sinon.stub(userService, 'createUser').resolves(objectStub);
+    sinon.stub(userService, 'createUser').resolves(objectStub);
     const response = await request(app)
       .post('/users')
       .send({
@@ -49,6 +50,5 @@ describe('Test user controller', () => {
       });
     expect(response.status).to.eql(HttpStatusCode.CREATED);
     expect(response.body).to.be.a('string');
-    stub.restore();
   });
 });

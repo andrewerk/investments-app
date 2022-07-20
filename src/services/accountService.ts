@@ -3,6 +3,7 @@ import UserModel from '../models/UserModel';
 import HttpException from '../utils/http.exception';
 import HttpStatusCode from '../utils/http.status.code';
 import Account from '../interfaces/Account';
+import { IUser } from '../interfaces/User';
 
 const deposit = async (
   userId: number,
@@ -37,8 +38,9 @@ const withdraw = async (
 };
 
 const getById = async (id: number): Promise<Account> => {
-  const user = await UserModel.findByPk(id);
-  return { fullName: user!.fullName, balance: user!.balance };
+  const user = await UserModel.findByPk(id) as IUser;
+  const { balance, fullName } = user as { balance: number, fullName: string };
+  return { fullName, balance };
 };
 
 export default {

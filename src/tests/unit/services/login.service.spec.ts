@@ -7,8 +7,9 @@ import HttpException from '../../../utils/http.exception';
 import HttpStatusCode from '../../../utils/http.status.code';
 
 describe('Test login service', () => {
+  afterEach(() => sinon.restore());
   it('Test login for inexistent user', async () => {
-    const stub = sinon.stub(UserModel, 'findOne').resolves(null);
+    sinon.stub(UserModel, 'findOne').resolves(null);
     try {
       await loginService.login({ email: '', password: '' });
     } catch (error) {
@@ -17,7 +18,6 @@ describe('Test login service', () => {
         expect(error.message).to.eql('Invalid credentials');
       }
     }
-    stub.restore();
   });
   it('Test login for wrong password', async () => {
     const user = {
@@ -26,7 +26,7 @@ describe('Test login service', () => {
       email: 'user@email.com',
       password: 'cryptopassword',
     };
-    const stub = sinon.stub(UserModel, 'findOne').resolves(user as any);
+    sinon.stub(UserModel, 'findOne').resolves(user as any);
     try {
       await loginService.login({ email: 'user@email.com', password: 'password' });
     } catch (error) {
@@ -35,7 +35,6 @@ describe('Test login service', () => {
         expect(error.message).to.eql('Invalid credentials');
       }
     }
-    stub.restore();
   });
   it('Test login for correct credentials', async () => {
     const salt = bcrypt.genSaltSync(10);
@@ -48,9 +47,8 @@ describe('Test login service', () => {
       email: 'user@email.com',
       password: hashPassword,
     };
-    const stub = sinon.stub(UserModel, 'findOne').resolves(user as any);
+    sinon.stub(UserModel, 'findOne').resolves(user as any);
     const response = await loginService.login({ email: 'user@email.com', password: 'password' });
     expect(response).to.eql({ id: 1, email: 'user@email.com' });
-    stub.restore();
   });
 });

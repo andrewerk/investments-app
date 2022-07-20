@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/20</span>
+                <span class='fraction'>20/20</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">35.29% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/17</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -97,23 +97,23 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -125,24 +125,24 @@
 import accountService from '../services/accountService';
 import HttpStatusCode from '../utils/http.status.code';
 &nbsp;
-const deposit = <span class="fstat-no" title="function not covered" >async (r</span>eq: Request, res: Response): Promise&lt;Response&gt; =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  const { id } = <span class="cstat-no" title="statement not covered" >res.locals.user;</span>
-  const { value } = <span class="cstat-no" title="statement not covered" >req.body;</span>
-  const account = <span class="cstat-no" title="statement not covered" >await accountService.deposit(id, value, null);</span>
-<span class="cstat-no" title="statement not covered" >  return res.status(HttpStatusCode.OK).json(account);</span>
+const deposit = async (req: Request, res: Response): Promise&lt;Response&gt; =&gt; {
+  const { id } = res.locals.user;
+  const { value } = req.body;
+  const account = await accountService.deposit(id, value, null);
+  return res.status(HttpStatusCode.OK).json(account);
 };
 &nbsp;
-const withdraw = <span class="fstat-no" title="function not covered" >async (r</span>eq: Request, res: Response): Promise&lt;Response&gt; =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  const { id } = <span class="cstat-no" title="statement not covered" >res.locals.user;</span>
-  const { value } = <span class="cstat-no" title="statement not covered" >req.body;</span>
-  const account = <span class="cstat-no" title="statement not covered" >await accountService.withdraw(id, value, null);</span>
-<span class="cstat-no" title="statement not covered" >  return res.status(HttpStatusCode.OK).json(account);</span>
+const withdraw = async (req: Request, res: Response): Promise&lt;Response&gt; =&gt; {
+  const { id } = res.locals.user;
+  const { value } = req.body;
+  const account = await accountService.withdraw(id, value, null);
+  return res.status(HttpStatusCode.OK).json(account);
 };
 &nbsp;
-const check = <span class="fstat-no" title="function not covered" >async (r</span>eq: Request, res: Response): Promise&lt;Response&gt; =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  const { id } = <span class="cstat-no" title="statement not covered" >res.locals.user;</span>
-  const account = <span class="cstat-no" title="statement not covered" >await accountService.getById(id);</span>
-<span class="cstat-no" title="statement not covered" >  return res.status(HttpStatusCode.OK).json(account);</span>
+const check = async (req: Request, res: Response): Promise&lt;Response&gt; =&gt; {
+  const { id } = res.locals.user;
+  const account = await accountService.getById(id);
+  return res.status(HttpStatusCode.OK).json(account);
 };
 &nbsp;
 export default {
@@ -157,7 +157,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-07-20T17:10:26.230Z
+                at 2022-07-20T19:48:55.321Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
