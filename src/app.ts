@@ -19,3 +19,5 @@ app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Listening to port ${port}`);
 });
+
+export default app;
