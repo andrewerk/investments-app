@@ -5,15 +5,13 @@ import HttpStatusCode from '../utils/http.status.code';
 
 const createUser = async (user: IUser): Promise<IUserToken> => {
   const { email } = user;
-  const userExists = await UserModel.findAll({
-    where: {
-      email,
-    },
+  const [{ id }, created] = await UserModel.findOrCreate({
+    where: { email },
+    defaults: user,
   });
-  if (userExists.length > 0) {
+  if (!created) {
     throw new HttpException(HttpStatusCode.CONFLICT, 'Email already in use');
   }
-  const { id } = await UserModel.create(user);
   return { id, email };
 };
 

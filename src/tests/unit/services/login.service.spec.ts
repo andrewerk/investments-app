@@ -1,8 +1,6 @@
-import request from 'supertest';
 import sinon from 'sinon';
-import { expect, assert } from 'chai';
+import { expect } from 'chai';
 import bcrypt from 'bcrypt';
-import app from '../../../app';
 import UserModel from '../../../models/UserModel';
 import loginService from '../../../services/loginService';
 import HttpException from '../../../utils/http.exception';
@@ -15,7 +13,7 @@ describe('Test login service', () => {
       await loginService.login({ email: '', password: '' });
     } catch (error) {
       if (error instanceof HttpException) {
-        expect(error.status).to.eql(401);
+        expect(error.status).to.eql(HttpStatusCode.UNAUTHORIZED);
         expect(error.message).to.eql('Invalid credentials');
       }
     }
@@ -33,7 +31,7 @@ describe('Test login service', () => {
       await loginService.login({ email: 'user@email.com', password: 'password' });
     } catch (error) {
       if (error instanceof HttpException) {
-        expect(error.status).to.eql(401);
+        expect(error.status).to.eql(HttpStatusCode.UNAUTHORIZED);
         expect(error.message).to.eql('Invalid credentials');
       }
     }
