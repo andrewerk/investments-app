@@ -3,10 +3,10 @@
     "check-coverage": true,
     "all": true,
     "include": [
-        "src/**/!(*.test.*).[tj]s?(x)"
+        "src/**/!(*.spec.*).[tj]s?(x)"
     ],
     "exclude": [
-        "src/_tests_/**/*.*"
+        "src/tests/**/*.spec.ts"
     ],
     "reporter": [
         "html",
