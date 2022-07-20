@@ -21,7 +21,6 @@ const buy = async (
     await asset.update({
       quantity: asset.quantity + quantity,
     }, { transaction: t });
-    await asset.save({ transaction: t });
     return { id: asset.id, stockSymbol, quantity: asset.quantity };
   }
   return { id: asset.id, stockSymbol, quantity };
@@ -43,7 +42,6 @@ const sale = async (
     await asset.update({
       quantity: asset.quantity - quantity,
     }, { transaction: t });
-    await asset.save({ transaction: t });
     return { id: asset.id, stockSymbol, quantity: asset.quantity };
   }
   throw new HttpException(HttpStatusCode.CONFLICT, `Customer can only sell ${asset.quantity} assets`);

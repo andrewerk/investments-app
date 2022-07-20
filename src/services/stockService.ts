@@ -27,7 +27,6 @@ const buy = async (
     await stock.update({
       stockQuantity: stock.stockQuantity - quantity,
     }, { transaction: t });
-    await stock.save({ transaction: t });
     return;
   }
   throw new HttpException(HttpStatusCode.CONFLICT, `Only ${stock.stockQuantity} are available to sale`);
@@ -42,7 +41,6 @@ const sale = async (
   await stock.update({
     stockQuantity: stock!.stockQuantity + quantity,
   }, { transaction: t });
-  await stock.save({ transaction: t });
 };
 
 export default {

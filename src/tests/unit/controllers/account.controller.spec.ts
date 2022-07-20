@@ -49,6 +49,22 @@ describe('Test account controller', async () => {
     expect(response.status).to.eql(HttpStatusCode.OK);
     expect(response.body).to.eql({ fullName: 'test', balance: 1000 });
   });
+  it('Test deposit feature without sending body', async () => {
+    sinon.stub(accountService, 'deposit').resolves({ fullName: 'test', balance: 10 });
+    const response = await request(app)
+      .post('/account/deposit')
+      .send()
+      .set({ authorization: token });
+    expect(response.status).to.eql(HttpStatusCode.BAD_REQUEST);
+  });
+  it('Test deposit feature without sending string as value', async () => {
+    sinon.stub(accountService, 'deposit').resolves({ fullName: 'test', balance: 10 });
+    const response = await request(app)
+      .post('/account/deposit')
+      .send({ value: 'string' })
+      .set({ authorization: token });
+    expect(response.status).to.eql(HttpStatusCode.UNPROCESSABLE_ENTITY);
+  });
   it('Test deposit feature', async () => {
     sinon.stub(accountService, 'deposit').resolves({ fullName: 'test', balance: 10 });
     const response = await request(app)

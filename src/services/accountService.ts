@@ -9,16 +9,12 @@ const deposit = async (
   userId: number,
   value: number,
   t: Sequelize.Transaction | null,
-): Promise<Account> => {
-  const user = await UserModel.findByPk(userId);
-  if (user) {
-    await user.update({
-      balance: user.balance + value,
-    }, { transaction: t });
-    await user.save({ transaction: t });
-    return { fullName: user.fullName, balance: user.balance };
-  }
-  throw new HttpException(HttpStatusCode.CONFLICT, 'Not possible to proceed with deposit. Try again in a few minutes');
+): Promise<Account | undefined> => {
+  const user = await UserModel.findByPk(userId) as UserModel;
+  const updatedUser = await user.update({
+    balance: user.balance + value,
+  }, { transaction: t });
+  return { fullName: updatedUser.fullName, balance: updatedUser.balance };
 };
 
 const withdraw = async (
@@ -26,13 +22,18 @@ const withdraw = async (
   value: number,
   t: Sequelize.Transaction | null,
 ): Promise<Account> => {
-  const user = await UserModel.findByPk(userId);
-  if (user && user.balance >= value) {
-    await user.update({
-      balance: user.balance - value,
-    }, { transaction: t });
-    await user.save({ transaction: t });
-    return { fullName: user.fullName, balance: user.balance };
+  const user = await UserModel.findByPk(userId) as UserModel;
+  if (user.balance >= value) {
+    await UserModel.update(
+      {
+        balance: user.balance - value,
+      },
+      {
+        where: { id: userId },
+        transaction: t,
+      },
+    );
+    return { fullName: user.fullName, balance: user.balance - value };
   }
   throw new HttpException(HttpStatusCode.CONFLICT, 'Not possible to proceed with withdraw or sale. Not enough funds');
 };

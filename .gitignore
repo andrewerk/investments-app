@@ -3,3 +3,8 @@
 
 # misc
 .env
+
+# NYC Output and test coverage
+.nyc_otput
+
+/coverage

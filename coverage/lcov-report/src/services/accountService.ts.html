@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/25</span>
+                <span class='fraction'>21/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">29.16% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/24</span>
+                <span class='fraction'>20/20</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -113,7 +113,8 @@
 <a name='L48'></a><a href='#L48'>48</a>
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
-<a name='L51'></a><a href='#L51'>51</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -124,38 +125,39 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -170,42 +172,43 @@ import HttpStatusCode from '../utils/http.status.code';
 import Account from '../interfaces/Account';
 import { IUser } from '../interfaces/User';
 &nbsp;
-const deposit = <span class="fstat-no" title="function not covered" >async (</span>
+const deposit = async (
   userId: number,
   value: number,
   t: Sequelize.Transaction | null,
-): Promise&lt;Account&gt; =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  const user = <span class="cstat-no" title="statement not covered" >await UserModel.findByPk(userId);</span>
-<span class="cstat-no" title="statement not covered" >  if (user) {</span>
-<span class="cstat-no" title="statement not covered" >    await user.update({</span>
-      balance: user.balance + value,
-    }, { transaction: t });
-<span class="cstat-no" title="statement not covered" >    await user.save({ transaction: t });</span>
-<span class="cstat-no" title="statement not covered" >    return { fullName: user.fullName, balance: user.balance };</span>
-  }
-<span class="cstat-no" title="statement not covered" >  throw new HttpException(HttpStatusCode.CONFLICT, 'Not possible to proceed with deposit. Try again in a few minutes');</span>
+): Promise&lt;Account | undefined&gt; =&gt; {
+  const user = await UserModel.findByPk(userId) as UserModel;
+  const updatedUser = await user.update({
+    balance: user.balance + value,
+  }, { transaction: t });
+  return { fullName: updatedUser.fullName, balance: updatedUser.balance };
 };
 &nbsp;
-const withdraw = <span class="fstat-no" title="function not covered" >async (</span>
+const withdraw = async (
   userId: number,
   value: number,
   t: Sequelize.Transaction | null,
-): Promise&lt;Account&gt; =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  const user = <span class="cstat-no" title="statement not covered" >await UserModel.findByPk(userId);</span>
-<span class="cstat-no" title="statement not covered" >  if (user &amp;&amp; user.balance &gt;= value) {</span>
-<span class="cstat-no" title="statement not covered" >    await user.update({</span>
-      balance: user.balance - value,
-    }, { transaction: t });
-<span class="cstat-no" title="statement not covered" >    await user.save({ transaction: t });</span>
-<span class="cstat-no" title="statement not covered" >    return { fullName: user.fullName, balance: user.balance };</span>
+): Promise&lt;Account&gt; =&gt; {
+  const user = await UserModel.findByPk(userId) as UserModel;
+  if (user.balance &gt;= value) {
+    await UserModel.update(
+      {
+        balance: user.balance - value,
+      },
+      {
+        where: { id: userId },
+        transaction: t,
+      },
+    );
+    return { fullName: user.fullName, balance: user.balance - value };
   }
-<span class="cstat-no" title="statement not covered" >  throw new HttpException(HttpStatusCode.CONFLICT, 'Not possible to proceed with withdraw or sale. Not enough funds');</span>
+  throw new HttpException(HttpStatusCode.CONFLICT, 'Not possible to proceed with withdraw or sale. Not enough funds');
 };
 &nbsp;
-const getById = <span class="fstat-no" title="function not covered" >async (i</span>d: number): Promise&lt;Account&gt; =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  const user = <span class="cstat-no" title="statement not covered" >await UserModel.findByPk(id) as IUser;</span>
-  const { balance, fullName } = <span class="cstat-no" title="statement not covered" >user as { balance: number, fullName: string };</span>
-<span class="cstat-no" title="statement not covered" >  return { fullName, balance };</span>
+const getById = async (id: number): Promise&lt;Account&gt; =&gt; {
+  const user = await UserModel.findByPk(id) as IUser;
+  const { balance, fullName } = user as { balance: number, fullName: string };
+  return { fullName, balance };
 };
 &nbsp;
 export default {
@@ -220,7 +223,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-07-20T19:48:55.353Z
+                at 2022-07-20T21:47:40.380Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
