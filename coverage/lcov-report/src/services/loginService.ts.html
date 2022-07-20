@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.85% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.15% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/13</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -94,20 +94,20 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -119,20 +119,20 @@ import { IUserAdd, IUserToken } from '../interfaces/User';
 import HttpException from '../utils/http.exception';
 import HttpStatusCode from '../utils/http.status.code';
 &nbsp;
-const login = <span class="fstat-no" title="function not covered" >async (u</span>ser: IUserAdd): Promise&lt;IUserToken&gt; =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  const { email, password } = <span class="cstat-no" title="statement not covered" >user;</span>
-  const userExists = <span class="cstat-no" title="statement not covered" >await UserModel.findOne({</span>
+const login = async (user: IUserAdd): Promise&lt;IUserToken&gt; =&gt; {
+  const { email, password } = user;
+  const userExists = await UserModel.findOne({
     where: {
       email,
     },
   });
-<span class="cstat-no" title="statement not covered" >  if (!userExists) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new HttpException(HttpStatusCode.UNAUTHORIZED, 'Invalid credentials');</span>
+  if (!userExists) {
+    throw new HttpException(HttpStatusCode.UNAUTHORIZED, 'Invalid credentials');
   }
-<span class="cstat-no" title="statement not covered" >  if (await bcrypt.compare(password, userExists.password)) {</span>
-<span class="cstat-no" title="statement not covered" >    return { id: userExists.id, email };</span>
+  if (await bcrypt.compare(password, userExists.password)) {
+    return { id: userExists.id, email };
   }
-<span class="cstat-no" title="statement not covered" >  throw new HttpException(HttpStatusCode.UNAUTHORIZED, 'Invalid credentials');</span>
+  throw new HttpException(HttpStatusCode.UNAUTHORIZED, 'Invalid credentials');
 };
 &nbsp;
 export default {
@@ -145,7 +145,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-07-20T15:01:42.282Z
+                at 2022-07-20T16:49:00.562Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
