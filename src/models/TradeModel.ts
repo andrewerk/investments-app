@@ -6,7 +6,7 @@ import ITrade from '../interfaces/Trade';
 import InvestmentsPortfoliotModel from './InvestmentsPortfolioModel';
 
 @Table({
-  timestamps: false,
+  timestamps: true,
   tableName: 'Trades',
 })
 export default class TradeModel extends Model<ITrade> {
