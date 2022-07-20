@@ -1,13 +1,26 @@
-import IPortfolio from '../interfaces/Portfolio';
+import InvestmentsPortfoliotModel from '../models/InvestmentsPortfolioModel';
 import stockApiService from '../services/stockApiService';
 
-const insertValue = async (portfolio: IPortfolio[]) => {
-  const portfolioWithValue = Promise.all(portfolio.map(async (asset: IPortfolio) => {
-    const value = await stockApiService.getStock(asset.stockSymbol);
-    const { stockSymbol, quantity } = asset;
-    return { stockSymbol, quantity, currentValue: value.currentValue };
-  }));
-  console.log(portfolioWithValue);
+const insertValue = async (portfolio: InvestmentsPortfoliotModel[]) => {
+  const portfolioWithValue = Promise
+    .all(portfolio.map(async (asset: InvestmentsPortfoliotModel) => {
+      const value = await stockApiService.getStock(asset.stockSymbol);
+      const { stockSymbol, quantity } = asset;
+      console.log(asset.trades);
+      if (asset.trades) {
+        return {
+          id: asset.id,
+          stockSymbol,
+          quantity,
+          currentValue: value.currentValue,
+          trade: asset.trades,
+        };
+      }
+      return {
+        id: asset.id, stockSymbol, quantity, currentValue: value.currentValue,
+      };
+    }));
+
   return portfolioWithValue;
 };
 

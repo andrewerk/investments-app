@@ -18,10 +18,16 @@ const buy = async (
       transaction: t,
     });
   if (!created) {
-    await asset.update({
-      quantity: asset.quantity + quantity,
-    }, { transaction: t });
-    return { id: asset.id, stockSymbol, quantity: asset.quantity };
+    await InvestmentsPortfolioModel.update(
+      {
+        quantity: asset.quantity + quantity,
+      },
+      {
+        where: { id: userId },
+        transaction: t,
+      },
+    );
+    return { id: asset.id, stockSymbol, quantity: asset.quantity + quantity };
   }
   return { id: asset.id, stockSymbol, quantity };
 };
@@ -60,7 +66,8 @@ const getAssetByCustomerHistory = async (
   const userAsset = await InvestmentsPortfolioModel.scope('records').findOne(
     { where: { userId: id, stockSymbol } },
   ) as InvestmentsPortfolioModel;
-  return userAsset;
+  const userAssetsValues = await insertValue([userAsset]);
+  return userAssetsValues[0];
 };
 
 export default {

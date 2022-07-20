@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30% </span>
+                <span class="strong">29.03% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/30</span>
+                <span class='fraction'>9/31</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.03% </span>
+                <span class="strong">30% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/29</span>
+                <span class='fraction'>9/30</span>
             </div>
         
             
@@ -134,7 +134,14 @@
 <a name='L69'></a><a href='#L69'>69</a>
 <a name='L70'></a><a href='#L70'>70</a>
 <a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -157,25 +164,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -184,6 +176,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -196,6 +209,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -225,10 +239,16 @@ const buy = <span class="fstat-no" title="function not covered" >async (</span>
       transaction: t,
     });
 <span class="cstat-no" title="statement not covered" >  if (!created) {</span>
-<span class="cstat-no" title="statement not covered" >    await asset.update({</span>
-      quantity: asset.quantity + quantity,
-    }, { transaction: t });
-<span class="cstat-no" title="statement not covered" >    return { id: asset.id, stockSymbol, quantity: asset.quantity };</span>
+<span class="cstat-no" title="statement not covered" >    await InvestmentsPortfolioModel.update(</span>
+      {
+        quantity: asset.quantity + quantity,
+      },
+      {
+        where: { id: userId },
+        transaction: t,
+      },
+    );
+<span class="cstat-no" title="statement not covered" >    return { id: asset.id, stockSymbol, quantity: asset.quantity + quantity };</span>
   }
 <span class="cstat-no" title="statement not covered" >  return { id: asset.id, stockSymbol, quantity };</span>
 };
@@ -267,7 +287,8 @@ const getAssetByCustomerHistory = <span class="fstat-no" title="function not cov
   const userAsset = <span class="cstat-no" title="statement not covered" >await InvestmentsPortfolioModel.scope('records').findOne(</span>
     { where: { userId: id, stockSymbol } },
   ) as InvestmentsPortfolioModel;
-<span class="cstat-no" title="statement not covered" >  return userAsset;</span>
+  const userAssetsValues = <span class="cstat-no" title="statement not covered" >await insertValue([userAsset]);</span>
+<span class="cstat-no" title="statement not covered" >  return userAssetsValues[0];</span>
 };
 &nbsp;
 export default {
@@ -283,7 +304,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-07-20T21:47:40.291Z
+                at 2022-07-20T23:32:26.337Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

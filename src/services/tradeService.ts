@@ -4,10 +4,9 @@ import connection from '../db/config';
 import TradeModel from '../models/TradeModel';
 import stockApiService from './stockApiService';
 import stockService from './stockService';
-import ITrade from '../interfaces/Trade';
 import investmentsPortfolioService from './investmentsPortfolioService';
 import IPortfolio from '../interfaces/Portfolio';
-import InvestmentsPortfoliotModel from '../models/InvestmentsPortfolioModel';
+import InvestmentsPortfolioModel from '../models/InvestmentsPortfolioModel';
 
 const buyStock = async (userId: number, stockSymbol: string, quantity: number) => {
   const stock = await stockApiService.getStock(stockSymbol);
@@ -43,8 +42,8 @@ const saleStock = async (userId: number, stockSymbol: string, quantity: number) 
   return account;
 };
 
-const getTrades = async (userId: number): Promise<IPortfolio[] | ITrade> => {
-  const trades = await InvestmentsPortfoliotModel.scope('records')
+const getTrades = async (userId: number): Promise<InvestmentsPortfolioModel | IPortfolio[]> => {
+  const trades = await InvestmentsPortfolioModel.scope('records')
     .findAll({
       attributes: ['stockSymbol', 'quantity'],
       where: { userId },
@@ -52,8 +51,9 @@ const getTrades = async (userId: number): Promise<IPortfolio[] | ITrade> => {
   return trades;
 };
 
-const getTradesByType = async (userId: number, type: string): Promise<IPortfolio[] | ITrade> => {
-  const trades = await InvestmentsPortfoliotModel.scope('records')
+const getTradesByType = async (userId: number, type: string):
+Promise<InvestmentsPortfolioModel | IPortfolio[]> => {
+  const trades = await InvestmentsPortfolioModel.scope('records')
     .findAll({
       attributes: ['stockSymbol', 'quantity'],
       where: { userId },

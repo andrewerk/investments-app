@@ -17,7 +17,7 @@ import TradeModel from './TradeModel';
   timestamps: false,
   tableName: 'InvestmentsPortfolio',
 })
-export default class InvestmentsPortfoliotModel extends Model<IPortfolio> {
+export default class InvestmentsPortfolioModel extends Model<IPortfolio> {
   @ForeignKey(() => UserModel)
   @Column({
     type: DataType.INTEGER,
