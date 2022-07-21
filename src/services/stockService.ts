@@ -21,26 +21,39 @@ const buy = async (
   symbol: string,
   quantity: number,
   t: Sequelize.Transaction | null,
-): Promise<void> => {
+): Promise<number> => {
   const stock = await StockModel.findByPk(symbol) as StockModel;
   if (quantity < stock.stockQuantity) {
-    await stock.update({
-      stockQuantity: stock.stockQuantity - quantity,
-    }, { transaction: t });
-    return;
+    await StockModel.update(
+      {
+        stockQuantity: stock.stockQuantity - quantity,
+      },
+      {
+        where: { symbol },
+        transaction: t,
+      },
+    );
+    return stock.stockQuantity - quantity;
   }
-  throw new HttpException(HttpStatusCode.CONFLICT, `Only ${stock.stockQuantity} are available to sale`);
+  throw new HttpException(HttpStatusCode.CONFLICT, `Only ${stock.stockQuantity} are available to sell`);
 };
 
 const sale = async (
   symbol: string,
   quantity: number,
   t: Sequelize.Transaction | null,
-): Promise<void> => {
+): Promise<number> => {
   const stock = await StockModel.findByPk(symbol) as StockModel;
-  await stock.update({
-    stockQuantity: stock!.stockQuantity + quantity,
-  }, { transaction: t });
+  await StockModel.update(
+    {
+      stockQuantity: stock.stockQuantity + quantity,
+    },
+    {
+      where: { symbol },
+      transaction: t,
+    },
+  );
+  return stock.stockQuantity + quantity;
 };
 
 export default {
