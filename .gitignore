@@ -1,10 +1,10 @@
 # dependencies
-/node_modules
+node_modules/
 
 # misc
 .env
 
 # NYC Output and test coverage
-.nyc_output
+.nyc_output/
 
-/coverage
+coverage/
