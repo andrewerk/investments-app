@@ -18,44 +18,29 @@ jobs:
 
         - name: executes eslint
           run: npx eslint .
-  # test:
-  #   runs-on: ubuntu-latest
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-  #   services:
-  #     postgres:
-  #       image: postgres
+      - name: Set up Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
 
-  #       env:
-  #         POSTGRES_PASSWORD: postgres
-  #         POSTGRES_USER: postgres
-  #         POSTGRES_DB: postgres
+      - name: Install dependencies
+        run: npm install
 
-  #       options: >-
-  #         --health-cmd pg_isready
-  #         --health-interval 10s
-  #         --health-timeout 5s
-  #         --health-retries 5
-  #       ports:
-  #         - 5432:5432
+      - name: initialize docker-compose
+        run: docker-compose up --build -d
 
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v2
-
-  #     - name: Set up Node.js 14.x
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: 14.x
-
-  #     - name: Install dependencies
-  #       run: npm install
-
-  #     - name: migrate database
-  #       run: npm test
-  #       env:
-  #         DB_PASSWORD: postgres
-  #         DB_USERNAME: postgres
-  #         DB_NAME: postgres
-  #         DB_DIALECT: postgres
-  #         JWT_SECRET: MySecretToken
-  #         DB_HOST: localhost
+      - name: run tests
+        run: npm test
+        env:
+          DB_PASSWORD: password
+          DB_USERNAME: root
+          DB_NAME: StockApp
+          DB_DIALECT: postgres
+          JWT_SECRET: MySecretToken
+          DB_HOST: db
