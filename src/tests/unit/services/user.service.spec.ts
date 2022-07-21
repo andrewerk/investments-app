@@ -18,7 +18,7 @@ describe('Test createUser service', () => {
     password: 'password',
     fullName: 'full name',
   };
-  it('Test createUSer for existent user', async () => {
+  it('Test createUser for existent user', async () => {
     sinon.stub(UserModel, 'findOrCreate').resolves([userReturn as any, false]);
     try {
       await userService.createUser(userCreate);
@@ -29,7 +29,7 @@ describe('Test createUser service', () => {
       }
     }
   });
-  it('Test createUSer working properly', async () => {
+  it('Test createUser working properly', async () => {
     sinon.stub(UserModel, 'findOrCreate').resolves([userReturn as any, true]);
 
     const user = await userService.createUser(userCreate);

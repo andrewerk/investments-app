@@ -45,5 +45,6 @@ export default class UserModel extends Model<IUser> {
     const salt = bcrypt.genSaltSync(10);
     // eslint-disable-next-line no-param-reassign
     instance.password = bcrypt.hashSync(instance.password, salt);
+    return instance.password;
   }
 }
