@@ -36,7 +36,7 @@ jobs:
         run: docker-compose up --build -d
 
       - name: Enter docker bash
-      - run: docker exec -it stock-app /bin/sh
+        run: docker exec -it stock-app /bin/sh
 
       - name: run tests
         run: npm test
