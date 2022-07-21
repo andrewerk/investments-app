@@ -32,15 +32,18 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: initialize docker-compose
+      - name: run docker-compose
         run: docker-compose up --build -d
+
+      - name: Enter docker bash
+      - run: docker exec -it stock-app /bin/sh
 
       - name: run tests
         run: npm test
         env:
+          DB_HOST: db
           DB_PASSWORD: password
           DB_USERNAME: root
           DB_NAME: StockApp
           DB_DIALECT: postgres
           JWT_SECRET: MySecretToken
-          DB_HOST: db
