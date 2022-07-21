@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40.9% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/22</span>
+                <span class='fraction'>23/23</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.36% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/19</span>
+                <span class='fraction'>20/20</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -94,7 +94,8 @@
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -103,22 +104,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -134,22 +136,23 @@ import stockService from './stockService';
 &nbsp;
 const token = 'cbadpm2ad3ickr4mtf4g';
 &nbsp;
-const getStock = <span class="fstat-no" title="function not covered" >async (s</span>tock: string): Promise&lt;Stock&gt; =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  const url = <span class="cstat-no" title="statement not covered" >`https://finnhub.io/api/v1/quote?symbol=${stock}&amp;token=${token}`;</span>
-  const { statusCode, data } = <span class="cstat-no" title="statement not covered" >await curly.get(url);</span>
-<span class="cstat-no" title="statement not covered" >  if (statusCode === 429) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new HttpException(HttpStatusCode.TO_MANY_REQUESTS, 'To many requests to external API. Wait one minute');</span>
+const getStock = async (stock: string): Promise&lt;Stock&gt; =&gt; {
+  const url = `https://finnhub.io/api/v1/quote?symbol=${stock}&amp;token=${token}`;
+  const { statusCode, data } = await curly.get(url);
+  if (statusCode === 429) {
+    throw new HttpException(HttpStatusCode.TO_MANY_REQUESTS, 'To many requests to external API. Wait one minute');
   }
-<span class="cstat-no" title="statement not covered" >  if (data.c === 0) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new HttpException(HttpStatusCode.NOT_FOUND, 'Stock not found');</span>
+  if (data.c === 0) {
+    throw new HttpException(HttpStatusCode.NOT_FOUND, 'Stock not found');
   }
-  const stockQuantity = <span class="cstat-no" title="statement not covered" >await stockService.getQuantity(stock);</span>
-<span class="cstat-no" title="statement not covered" >  return { currentValue: data.c, stock, stockQuantity };</span>
+  const stockQuantity = await stockService.getQuantity(stock);
+  return { currentValue: data.c, stock, stockQuantity };
 };
 &nbsp;
-const listPopularStocks = <span class="fstat-no" title="function not covered" >async (): Promise&lt;Stock[]&gt; =</span>&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  const stocks = <span class="cstat-no" title="statement not covered" >Promise.all(mainStocks.map(<span class="fstat-no" title="function not covered" >(s</span>tock) =&gt; <span class="cstat-no" title="statement not covered" >getStock(stock))</span>);</span>
-<span class="cstat-no" title="statement not covered" >  return stocks;</span>
+const listPopularStocks = async (): Promise&lt;Stock[]&gt; =&gt; {
+  const stocks = Promise.all(mainStocks.map((stock) =&gt; getStock(stock)));
+  console.log(stocks);
+  return stocks;
 };
 &nbsp;
 export default {
@@ -163,7 +166,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-07-21T00:48:05.567Z
+                at 2022-07-21T02:34:19.709Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
