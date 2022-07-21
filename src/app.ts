@@ -15,9 +15,6 @@ app.use(routes);
 
 app.use(httpErrorMiddleware);
 
-// const db = process.env.DB_NAME;
-// connection.query(`CREATE DATABASE IF NOT EXISTS ${db}`);
-
 connection.sync();
 
 const port = process.env.PORT || 3000;
