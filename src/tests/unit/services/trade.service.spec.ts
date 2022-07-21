@@ -26,6 +26,7 @@ describe('Test trade service', () => {
     beforeEach(() => {
       sinon.stub(stockApiService, 'getStock').resolves(stock);
       sinon.stub(accountService, 'withdraw');
+      // sinon.stub(connection, 'transaction');
       sinon.stub(stockService, 'buy');
       sinon.stub(investmentsPortfolioService, 'buy').resolves(portfolioItem);
       sinon.stub(accountService, 'deposit');

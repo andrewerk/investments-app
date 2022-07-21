@@ -98,4 +98,15 @@ describe('Test portfolio service', () => {
     const asset = await investmentsPortfolioService.getAssetByCustomerHistory(userId, stockSymbol);
     expect(asset).to.eql(portfolioObject);
   });
+  it('Tests get getAssetByCustomerHistory for an asset that customer never had', async () => {
+    sinon.stub(InvestmentsPortfolioModel, 'findAll').resolves(null as any);
+    try {
+      await investmentsPortfolioService.getAssetByCustomerHistory(userId, 'anyString');
+    } catch (error) {
+      if (error instanceof HttpException) {
+        expect(error.status).to.eql(HttpStatusCode.NOT_FOUND);
+        expect(error.message).to.eql('No assets found');
+      }
+    }
+  });
 });

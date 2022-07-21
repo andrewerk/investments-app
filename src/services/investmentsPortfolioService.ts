@@ -72,6 +72,9 @@ const getAssetByCustomerHistory = async (
   const userAsset = await InvestmentsPortfolioModel.scope('records').findOne(
     { where: { userId: id, stockSymbol } },
   ) as InvestmentsPortfolioModel;
+  if (!userAsset) {
+    throw new HttpException(HttpStatusCode.NOT_FOUND, 'No assets found');
+  }
   const userAssetsValues = await insertValue([userAsset]);
   return userAssetsValues[0];
 };

@@ -1,9 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import { verify, JwtPayload } from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import HttpException from '../utils/http.exception';
 import HttpStatusCode from '../utils/http.status.code';
 
-const secret = process.env.SECRET || 'jwtsecret';
+dotenv.config();
+
+const secret = process.env.JWT_SECRET as string;
 
 const verifyToken = (token: string | undefined): JwtPayload | string => {
   if (!token) {

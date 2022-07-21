@@ -1,8 +1,11 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import connection from './db/config';
 import routes from './routes';
 import 'express-async-errors';
 import httpErrorMiddleware from './middlewares/http.error.middleware';
+
+dotenv.config();
 
 const app = express();
 
