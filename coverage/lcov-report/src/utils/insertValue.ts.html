@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.07% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/13</span>
+                <span class='fraction'>12/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/12</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -89,18 +89,16 @@
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -108,39 +106,38 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import InvestmentsPortfoliotModel from '../models/InvestmentsPortfolioModel';
 import stockApiService from '../services/stockApiService';
 &nbsp;
-const insertValue = <span class="fstat-no" title="function not covered" >async (p</span>ortfolio: InvestmentsPortfoliotModel[]) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  const portfolioWithValue = <span class="cstat-no" title="statement not covered" >Promise</span>
-    .all(portfolio.map(<span class="fstat-no" title="function not covered" >async (a</span>sset: InvestmentsPortfoliotModel) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-      const value = <span class="cstat-no" title="statement not covered" >await stockApiService.getStock(asset.stockSymbol);</span>
-      const { stockSymbol, quantity } = <span class="cstat-no" title="statement not covered" >asset;</span>
-<span class="cstat-no" title="statement not covered" >      console.log(asset.trades);</span>
-<span class="cstat-no" title="statement not covered" >      if (asset.trades) {</span>
-<span class="cstat-no" title="statement not covered" >        return {</span>
+const insertValue = async (portfolio: InvestmentsPortfoliotModel[]) =&gt; {
+  const portfolioWithValue = Promise
+    .all(portfolio.map(async (asset: InvestmentsPortfoliotModel) =&gt; {
+      const value = await stockApiService.getStock(asset.stockSymbol);
+      const { stockSymbol, quantity } = asset;
+      if (asset.trades) {
+        return {
           id: asset.id,
           stockSymbol,
           quantity,
           currentValue: value.currentValue,
-          trade: asset.trades,
+          trades: asset.trades,
         };
       }
-<span class="cstat-no" title="statement not covered" >      return {</span>
+      return {
         id: asset.id, stockSymbol, quantity, currentValue: value.currentValue,
       };
     }));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return portfolioWithValue;</span>
+  return portfolioWithValue;
 };
 &nbsp;
 export default insertValue;
@@ -151,7 +148,7 @@ export default insertValue;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-07-20T23:32:26.366Z
+                at 2022-07-21T00:48:05.594Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

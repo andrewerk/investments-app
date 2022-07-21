@@ -1,46 +1,101 @@
-// import sinon from 'sinon';
-// import { expect } from 'chai';
-// import UserModel from '../../../models/UserModel';
-// import HttpException from '../../../utils/http.exception';
-// import HttpStatusCode from '../../../utils/http.status.code';
-// import accountService from '../../../services/accountService';
+import sinon from 'sinon';
+import { expect } from 'chai';
+import HttpException from '../../../utils/http.exception';
+import HttpStatusCode from '../../../utils/http.status.code';
+import InvestmentsPortfolioModel from '../../../models/InvestmentsPortfolioModel';
+import investmentsPortfolioService from '../../../services/investmentsPortfolioService';
+import stockApiService from '../../../services/stockApiService';
 
-// describe('Test portfolio service', () => {
-//   afterEach(() => sinon.restore());
-//   const userReturn = {
-//     userId: 1,
-//     stockSymbol: 'string',
-//     quantity: 100,
-//   };
-//   it('Test get by id', async () => {
-//     sinon.stub(UserModel, 'findByPk').resolves(userReturn as any);
-//     const user = await accountService.getById(1);
-//     expect(user).to.eql({ fullName: userReturn.fullName, balance: userReturn.balance });
-//   });
-//   it('Test deposit feature', async () => {
-//     sinon.stub(UserModel, 'findByPk').resolves(UserModel as any);
-//     sinon.stub(UserModel, 'update').resolves(userReturn as any);
-//     const user = await accountService.deposit(1, 100, null);
-//     expect(user).to.eql({ fullName: userReturn.fullName, balance: 100 });
-//   });
-//   it('Test withdraw feature when there is not enough funds', async () => {
-//     sinon.stub(UserModel, 'findByPk').resolves(userReturn as any);
-//     sinon.stub(UserModel, 'update');
-//     const value = 101;
-//     try {
-//       await accountService.withdraw(userReturn.id, value, null);
-//     } catch (error) {
-//       if (error instanceof HttpException) {
-//         expect(error.status).to.eql(HttpStatusCode.CONFLICT);
-//         expect(error.message).to.eql('Not possible to proceed with withdraw or sale. Not enough funds');
-//       }
-//     }
-//   });
-//   it('Test withdraw feature', async () => {
-//     sinon.stub(UserModel, 'findByPk').resolves(userReturn as any);
-//     sinon.stub(UserModel, 'update');
-//     const value = 50;
-//     const user = await accountService.withdraw(userReturn.id, value, null);
-//     expect(user).to.eql({ fullName: userReturn.fullName, balance: userReturn.balance - value });
-//   });
-// });
+describe('Test portfolio service', () => {
+  afterEach(() => sinon.restore());
+  const assetReturn = {
+    id: 1,
+    userId: 1,
+    stockSymbol: 'string',
+    quantity: 100,
+  };
+  const { userId, stockSymbol, quantity } = assetReturn;
+  it('Test buy new asset', async () => {
+    sinon.stub(InvestmentsPortfolioModel, 'findOrCreate').resolves([assetReturn as any, true]);
+    const asset = await investmentsPortfolioService.buy(userId, stockSymbol, quantity, null);
+    expect(asset).to.eql({ id: asset.id, stockSymbol, quantity });
+  });
+  it('Test buy more assets of a stock customer already has', async () => {
+    sinon.stub(InvestmentsPortfolioModel, 'findOrCreate').resolves([assetReturn as any, false]);
+    sinon.stub(InvestmentsPortfolioModel, 'update');
+    const asset = await investmentsPortfolioService.buy(userId, stockSymbol, quantity, null);
+    expect(asset).to.eql({ id: asset.id, stockSymbol, quantity: quantity * 2 });
+  });
+  it('Test sell asset successfully', async () => {
+    sinon.stub(InvestmentsPortfolioModel, 'findOne').resolves(assetReturn as any);
+    sinon.stub(InvestmentsPortfolioModel, 'update');
+    const asset = await investmentsPortfolioService.sale(userId, stockSymbol, quantity, null);
+    expect(asset).to.eql({ id: asset.id, stockSymbol, quantity: 0 });
+  });
+  it('Test sell asset without having any of the stock', async () => {
+    sinon.stub(InvestmentsPortfolioModel, 'findOne').resolves(null);
+    try {
+      await investmentsPortfolioService.sale(userId, stockSymbol, quantity, null);
+    } catch (error) {
+      if (error instanceof HttpException) {
+        expect(error.status).to.eql(HttpStatusCode.CONFLICT);
+        expect(error.message).to.eql('Customer does not owns any of these assets');
+      }
+    }
+  });
+  it('Test sell asset without having enough to sell', async () => {
+    sinon.stub(InvestmentsPortfolioModel, 'findOne').resolves(assetReturn as any);
+    try {
+      await investmentsPortfolioService.sale(userId, stockSymbol, quantity + 1, null);
+    } catch (error) {
+      if (error instanceof HttpException) {
+        expect(error.status).to.eql(HttpStatusCode.CONFLICT);
+        expect(error.message).to.eql(`Customer can only sell ${quantity} assets`);
+      }
+    }
+  });
+  it('Test getAssetsByCustomer', async () => {
+    const stock = {
+      stock: 'string',
+      currentValue: 100,
+      stockQuantity: 100,
+    };
+    const portfolioObject = {
+      id: 1,
+      stockSymbol,
+      quantity,
+      currentValue: 100,
+    };
+    sinon.stub(InvestmentsPortfolioModel, 'findAll').resolves([assetReturn] as any);
+    sinon.stub(stockApiService, 'getStock').resolves(stock);
+    const asset = await investmentsPortfolioService.getAssetsByCustomer(userId);
+    expect(asset).to.eql([portfolioObject]);
+  });
+  it('Test getAssetByCustomerHistory', async () => {
+    const stock = {
+      id: 1,
+      stock: 'string',
+      currentValue: 100,
+      stockQuantity: 100,
+    };
+    const portfolioObject = {
+      id: 1,
+      stockSymbol,
+      quantity,
+      currentValue: 100,
+      trades: [
+        {
+          id: 1,
+          portfolioId: 1,
+          quantity: 2,
+          type: 'buy',
+          value: 100,
+        },
+      ],
+    };
+    sinon.stub(InvestmentsPortfolioModel, 'findOne').resolves(portfolioObject as any);
+    sinon.stub(stockApiService, 'getStock').resolves(stock);
+    const asset = await investmentsPortfolioService.getAssetByCustomerHistory(userId, stockSymbol);
+    expect(asset).to.eql(portfolioObject);
+  });
+});

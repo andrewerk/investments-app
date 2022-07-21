@@ -6,14 +6,13 @@ const insertValue = async (portfolio: InvestmentsPortfoliotModel[]) => {
     .all(portfolio.map(async (asset: InvestmentsPortfoliotModel) => {
       const value = await stockApiService.getStock(asset.stockSymbol);
       const { stockSymbol, quantity } = asset;
-      console.log(asset.trades);
       if (asset.trades) {
         return {
           id: asset.id,
           stockSymbol,
           quantity,
           currentValue: value.currentValue,
-          trade: asset.trades,
+          trades: asset.trades,
         };
       }
       return {

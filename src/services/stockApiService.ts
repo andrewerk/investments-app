@@ -1,6 +1,7 @@
 import { curly } from 'node-libcurl';
 import { Stock } from '../interfaces/Stock';
-import ExternalApiErrors from '../utils/apiErrors';
+import HttpException from '../utils/http.exception';
+import HttpStatusCode from '../utils/http.status.code';
 import mainStocks from '../utils/mainStocks';
 import stockService from './stockService';
 
@@ -10,12 +11,10 @@ const getStock = async (stock: string): Promise<Stock> => {
   const url = `https://finnhub.io/api/v1/quote?symbol=${stock}&token=${token}`;
   const { statusCode, data } = await curly.get(url);
   if (statusCode === 429) {
-    ExternalApiErrors.TO_MANY_REQUESTS();
+    throw new HttpException(HttpStatusCode.TO_MANY_REQUESTS, 'To many requests to external API. Wait one minute');
   }
-
-  // Deve ser refatorado
   if (data.c === 0) {
-    ExternalApiErrors.NOT_FOUND();
+    throw new HttpException(HttpStatusCode.NOT_FOUND, 'Stock not found');
   }
   const stockQuantity = await stockService.getQuantity(stock);
   return { currentValue: data.c, stock, stockQuantity };
