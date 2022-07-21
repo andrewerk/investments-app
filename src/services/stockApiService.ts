@@ -1,15 +1,18 @@
-import { curly } from 'node-libcurl';
+import dotenv from 'dotenv';
 import { Stock } from '../interfaces/Stock';
 import HttpException from '../utils/http.exception';
 import HttpStatusCode from '../utils/http.status.code';
 import mainStocks from '../utils/mainStocks';
 import stockService from './stockService';
+import externalApi from '../utils/externalApi';
 
-const token = 'cbadpm2ad3ickr4mtf4g';
+dotenv.config();
+
+const token = process.env.API_TOKEN;
 
 const getStock = async (stock: string): Promise<Stock> => {
   const url = `https://finnhub.io/api/v1/quote?symbol=${stock}&token=${token}`;
-  const { statusCode, data } = await curly.get(url);
+  const { statusCode, data } = await externalApi.fetchData(url);
   if (statusCode === 429) {
     throw new HttpException(HttpStatusCode.TO_MANY_REQUESTS, 'To many requests to external API. Wait one minute');
   }

@@ -4,10 +4,11 @@
   "description": "Backend for stocks app",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --check-leaks -r ts-node/register src/tests/**/*.spec.ts",
+    "test": "PORT=3001 mocha --check-leaks -r ts-node/register src/tests/**/*.spec.ts",
     "test:coverage": "nyc npm run test",
-    "dev": "tsnd --respawn src/app.ts",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "debug": "tsnd --respawn src/app.ts",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "start": "tsnd --respawn src/app.ts"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "@types/jsonwebtoken": "^8.5.8",
     "@types/mocha": "^9.1.1",
     "@types/node": "^18.0.6",
+    "@types/node-fetch": "^2.5.12",
     "@types/sinon": "^10.0.13",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
@@ -50,7 +52,7 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
-    "node-libcurl": "^2.3.4",
+    "node-fetch": "^2.6.5",
     "pg": "^8.7.3",
     "sequelize": "^6.21.3",
     "sequelize-typescript": "^2.1.3"

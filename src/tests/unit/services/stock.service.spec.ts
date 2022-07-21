@@ -1,11 +1,11 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { curly } from 'node-libcurl';
 import HttpException from '../../../utils/http.exception';
 import HttpStatusCode from '../../../utils/http.status.code';
 import stockApiService from '../../../services/stockApiService';
 import stockService from '../../../services/stockService';
 import StockModel from '../../../models/StockModel';
+import externalApi from '../../../utils/externalApi';
 
 describe('Test internal and external stock service', () => {
   afterEach(() => sinon.restore());
@@ -35,13 +35,13 @@ describe('Test internal and external stock service', () => {
     const stockQuantity = 100;
     const toManyRequests = '{"error":"API limit reached. Please try again later. Remaining Limit: 0"}';
     it('Test getStock in case of success', async () => {
-      sinon.stub(curly, 'get').resolves({ statusCode: 200, data } as any);
+      sinon.stub(externalApi, 'fetchData').resolves({ statusCode: 200, data });
       sinon.stub(stockService, 'getQuantity').resolves(100);
       const stockReturn = await stockApiService.getStock(stock);
       expect(stockReturn).to.eql({ stock, stockQuantity, currentValue: data.c });
     });
     it('Test getStock in case of too many requests', async () => {
-      sinon.stub(curly, 'get').resolves({ statusCode: HttpStatusCode.TO_MANY_REQUESTS, data: toManyRequests } as any);
+      sinon.stub(externalApi, 'fetchData').resolves({ statusCode: HttpStatusCode.TO_MANY_REQUESTS, data: toManyRequests } as any);
       try {
         await stockApiService.getStock(stock);
       } catch (error) {
@@ -52,7 +52,7 @@ describe('Test internal and external stock service', () => {
       }
     });
     it('Test getStock in case of non stock found', async () => {
-      sinon.stub(curly, 'get').resolves({ statusCode: HttpStatusCode.NOT_FOUND, data: dataNotFound } as any);
+      sinon.stub(externalApi, 'fetchData').resolves({ statusCode: HttpStatusCode.NOT_FOUND, data: dataNotFound } as any);
       try {
         await stockApiService.getStock(stock);
       } catch (error) {

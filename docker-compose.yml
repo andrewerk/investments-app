@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  app:
+    container_name: 'stock-app'
+    build: .
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - db
+
+  db:
+    container_name: 'database-store-manager'
+    image: postgres:12
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=StockApp
+    volumes:
+      - pgdata1:/var/lib/postgresql/data
+
+volumes:
+  pgdata1: {}
+

@@ -1,9 +1,10 @@
 module.exports = {
   root: true,
-  parser: '@typescript-eslint/parser', // Especifica o analisador ESLint
+  parser: '@typescript-eslint/parser', 
   parserOptions: {
-    ecmaVersion: 2020, // Permite a análise de recursos modernos do ECMAScript
-    sourceType: 'module', // Permite o uso de imports
+    ecmaVersion: 2020, 
+    sourceType: 'module', 
+    project: './tsconfig.json'
   },
   env: {
     es6: true,
@@ -14,12 +15,9 @@ module.exports = {
     'airbnb-base',
     'airbnb-typescript/base',
   ],
-  parserOptions: {
-       project: './tsconfig.json'
-  },
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
-  rules: {},
+  ignorePatterns: ['coverage/**/*.js']
 };
