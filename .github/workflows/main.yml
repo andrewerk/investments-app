@@ -18,44 +18,44 @@ jobs:
 
         - name: executes eslint
           run: npx eslint .
-  test:
-    runs-on: ubuntu-latest
+  # test:
+  #   runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres
+  #   services:
+  #     postgres:
+  #       image: postgres
 
-        env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
-          POSTGRES_DB: postgres
+  #       env:
+  #         POSTGRES_PASSWORD: postgres
+  #         POSTGRES_USER: postgres
+  #         POSTGRES_DB: postgres
 
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
+  #       options: >-
+  #         --health-cmd pg_isready
+  #         --health-interval 10s
+  #         --health-timeout 5s
+  #         --health-retries 5
+  #       ports:
+  #         - 5432:5432
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
 
-      - name: Set up Node.js 14.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.x
+  #     - name: Set up Node.js 14.x
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 14.x
 
-      - name: Install dependencies
-        run: npm install
+  #     - name: Install dependencies
+  #       run: npm install
 
-      - name: migrate database
-        run: npm test
-        env:
-          DB_PASSWORD: postgres
-          DB_USERNAME: postgres
-          DB_NAME: postgres
-          DB_DIALECT: postgres
-          JWT_SECRET: MySecretToken
-          DB_HOST: localhost
+  #     - name: migrate database
+  #       run: npm test
+  #       env:
+  #         DB_PASSWORD: postgres
+  #         DB_USERNAME: postgres
+  #         DB_NAME: postgres
+  #         DB_DIALECT: postgres
+  #         JWT_SECRET: MySecretToken
+  #         DB_HOST: localhost

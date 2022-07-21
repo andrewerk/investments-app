@@ -15,6 +15,9 @@ app.use(routes);
 
 app.use(httpErrorMiddleware);
 
+
+
+
 connection.sync();
 
 const port = process.env.PORT || 3000;
