@@ -39,7 +39,6 @@ jobs:
           - 5432:5432
 
     steps:
-      # run steps required in the workflow
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -52,7 +51,7 @@ jobs:
         run: npm install
 
       - name: migrate database
-        run: npm install
+        run: npm test
         env:
           DB_PASSWORD: postgres
           DB_USERNAME: postgres
