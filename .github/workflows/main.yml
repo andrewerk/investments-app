@@ -18,32 +18,73 @@ jobs:
 
         - name: executes eslint
           run: npx eslint .
-  test:
+  unit-tests:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    services:
+      postgres:
+        image: postgres:12-alpine
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: StockApp
+        ports:
+          - 5432:5432
+        options: 
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - name: Checkout repository
+      - name: Check repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js 16.x
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: 16.x
-
+          node-version: ${{ matrix.node-version }}
+      
       - name: Install dependencies
         run: npm install
 
-      - name: run docker-compose
-        run: docker-compose up --build -d
-
-      - name: Enter docker bash
-        run: docker container exec -it stock-app /bin/sh
-
-      - name: run tests
+      - name: Run test script
         run: npm test
+
         env:
-          DB_HOST: db
+          DB_HOST: postgres
           DB_PASSWORD: password
           DB_USERNAME: root
           DB_NAME: StockApp
           DB_DIALECT: postgres
           JWT_SECRET: MySecretToken
+
+    # runs-on: ubuntu-latest
+    # steps:
+    #   - name: Checkout repository
+    #     uses: actions/checkout@v2
+
+    #   - name: Set up Node.js 16.x
+    #     uses: actions/setup-node@v1
+    #     with:
+    #       node-version: 16.x
+
+    #   - name: Install dependencies
+    #     run: npm install
+
+    #   - name: run docker-compose
+    #     run: docker-compose up --build -d
+
+    #   - name: Enter docker bash
+    #     run: docker container exec -it stock-app /bin/sh
+
+    #   - name: run tests
+    #     run: npm test
+    #     env:
+    #       DB_HOST: db
+    #       DB_PASSWORD: password
+    #       DB_USERNAME: root
+    #       DB_NAME: StockApp
+    #       DB_DIALECT: postgres
+    #       JWT_SECRET: MySecretToken

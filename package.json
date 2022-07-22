@@ -4,7 +4,7 @@
   "description": "Backend for stocks app",
   "main": "index.js",
   "scripts": {
-    "test": "PORT=3001 mocha --check-leaks -r ts-node/register src/tests/**/*.spec.ts",
+    "test": "PORT=3001 mocha --check-leaks -r ts-node/register src/tests/**/*.spec.ts --exit",
     "test:coverage": "PORT=3001 nyc mocha --check-leaks -r ts-node/register src/tests/**/*.spec.ts --exit",
     "debug": "tsnd --respawn src/app.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
