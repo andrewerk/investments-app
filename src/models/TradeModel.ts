@@ -1,10 +1,15 @@
 /* eslint-disable import/no-cycle */
 import {
-  Table, Model, Column, DataType, ForeignKey, BelongsTo,
+  Table, Model, Column, DataType, ForeignKey, BelongsTo, Scopes,
 } from 'sequelize-typescript';
 import ITrade from '../interfaces/Trade';
 import InvestmentsPortfoliotModel from './InvestmentsPortfolioModel';
 
+@Scopes(() => ({
+  portfolio: {
+    attributes: { exclude: ['portfolioId'] },
+  },
+}))
 @Table({
   timestamps: true,
   tableName: 'Trades',

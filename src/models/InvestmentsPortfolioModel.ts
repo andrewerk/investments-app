@@ -10,7 +10,7 @@ import TradeModel from './TradeModel';
 
 @Scopes(() => ({
   records: {
-    include: [TradeModel],
+    include: [TradeModel.scope('portfolio')],
   },
 }))
 @Table({

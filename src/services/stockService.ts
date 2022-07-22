@@ -23,7 +23,7 @@ const buy = async (
   t: Sequelize.Transaction | null,
 ): Promise<number> => {
   const stock = await StockModel.findByPk(symbol) as StockModel;
-  if (quantity < stock.stockQuantity) {
+  if (quantity <= stock.stockQuantity) {
     await StockModel.update(
       {
         stockQuantity: stock.stockQuantity - quantity,

@@ -110,6 +110,9 @@
             }
           ],
           "responses": {
+              "401": {
+                "description": "Token nao encontrado ou inválido."
+              },
               "200": {
                 "description": "Conta da pessoa usuária.",
                 "content": {
@@ -153,6 +156,9 @@
             "responses": {
               "400": {
                 "description": "Value deve ser enviado no campo da requisição."
+              },
+              "401": {
+                "description": "Token nao encontrado ou inválido."
               },
               "422": {
                 "description": "Value deve ser um número maior do que 0."
@@ -201,6 +207,9 @@
               "400": {
                 "description": "Value deve ser enviado no campo da requisição."
               },
+              "401": {
+                "description": "Token nao encontrado ou inválido."
+              },
               "409": {
                 "description": "A conta não possui fundos suficientes para sacar esta quantia."
               },
@@ -218,6 +227,229 @@
                   }
                 }  
             }
+        }
+      },
+      "/stocks": {
+        "get": {
+          "summary": "Listar ações em alta",
+          "description": "Este endpoint retorna 20 ações pré selecionadas, que estão em destaque na plataforma do NASDAQ. O array retorna objetos que contém o nome da ação, preço atualizado em tempo real e quantidade fictícia disponivel na corretora. A autenticação pelo token é necessária neste endpoint.",
+          "tags": ["stocks"],
+          "security": [
+            {
+            "jwt": []
+            }
+          ],
+          "responses": {
+              "200": {
+                "description": "Ações em alta.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/stock"
+                    }
+                  }
+                }
+              }
+            }  
+          }
+        }
+      },
+      "/stocks/{symbol}": {
+        "get": {
+          "summary": "Procurar ação por símbolo",
+          "description": "Este endpoint retorna informações relacionadas a uma ação, conforme o símbolo passado na url como parâmetro. O objeto contém o nome da ação, preço atualizado em tempo real e quantidade fictícia disponivel na corretora. Pode ser pesquisada qualquer ação que exista no mercado, pelo seu símbolo oficial (exemplos de simbolos podem ser procurados no site https://www.nasdaq.com/market-activity/stocks/screener ). A autenticação pelo token é necessária neste endpoint.",
+          "tags": ["stocks"],
+          "security": [
+            {
+            "jwt": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "symbol",
+              "in": "path",
+              "description": "Símbolo da ação",
+              "required": true
+            }
+          ],
+          "responses": {
+              "200": {
+                "description": "Informações da ação.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/stock"
+                  }
+                }
+              }
+            }  
+          }
+        }
+      },
+      "/investments/buy": {
+        "post": {
+            "summary": "Comprar ações",
+            "description": "Endpoint utilizado para operações de compra de ações. Deve ser enviado no body da requisição a propriedade 'symbol', a qual representa o simbolo oficial da ação, como por exemplo AAPL para ações da Apple (exemplos de simbolos podem ser procurados no site https://www.nasdaq.com/market-activity/stocks/screener ). Além do símbolo, deve também ser enviada a quantidade de ações a serem compradas, por meio da propriedade 'quantity'. O endpoint irá retornar um objeto com o 'id' desse ação da pessoa usuária, com o 'stockSymbol' e a quantity, reprensentando a quantidade total de ativos que a pessoa usuária possui. Ressalta-se que se a pessoa comprar ou vender mais ativos da mesma ação, o id será o mesmo, bem como a quantidade será afetada pela nova compra ou venda. Essa requisição poderar falhar nos cenários de a pessoa usuária não possuir saldo para a compra, a corretora não possuir ativos suficiente, ou requisição não está autenticada. Não é necessário enviar nenhuma informação para identificar o usuário, uma vez que a identificação é feita automaticamente pelo token, que é obrigatório nesta requisição.",
+            "tags": ["investments"],
+            "security": [
+              {
+              "jwt": []
+            }
+            ],
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/assetTrade"
+                        },
+                        "examples": {
+                            "UserData": {
+                                "summary": "asset trade",
+                                "value": {
+                                  "symbol": "AAPL",
+                                  "quantity": 1
+                              }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+              "400": {
+                "description": "Algum dos campos obrigatórios não foi preenchido."
+              },
+              "401": {
+                "description": "Token nao encontrado ou inválido."
+              },
+              "409": {
+                "description": "A conta não possui fundos suficientes para esta compra ou a corretora nao possui ativos suficiente."
+              },
+                "200": {
+                  "description": "Compra realizada com sucesso.",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/assetTradeResponse"
+                      }
+                    }
+                  }
+                }  
+            }
+        }
+      },
+      "/investments/sale": {
+        "post": {
+            "summary": "Vender ações",
+            "description": "Endpoint utilizado para operações de venda de ações. Deve ser enviado no body da requisição a propriedade 'symbol', a qual representa o simbolo oficial da ação, como por exemplo AAPL para ações da Apple (exemplos de simbolos podem ser procurados no site https://www.nasdaq.com/market-activity/stocks/screener ). Além do símbolo, deve também ser enviada a quantidade de ações a serem vendidas, por meio da propriedade 'quantity'. O endpoint irá retornar um objeto com o 'id' desse ação da pessoa usuária, com o 'stockSymbol' e a quantity, reprensentando a quantidade total de ativos que a pessoa usuária possui. Ressalta-se que se a pessoa comprar ou vender mais ativos da mesma ação, o id será o mesmo, bem como a quantidade será afetada pela nova compra ou venda. Essa requisição poderar falhar nos cenários de a pessoa usuária não possuir ativos suficientes para a venda ou requisição não está autenticada. Não é necessário enviar nenhuma informação para identificar o usuário, uma vez que a identificação é feita automaticamente pelo token, que é obrigatório nesta requisição.",
+            "tags": ["investments"],
+            "security": [
+              {
+              "jwt": []
+            }
+            ],
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/assetTrade"
+                        },
+                        "examples": {
+                            "UserData": {
+                                "summary": "asset trade",
+                                "value": {
+                                  "symbol": "AAPL",
+                                  "quantity": 1
+                              }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+              "400": {
+                "description": "Algum dos campos obrigatórios não foi preenchido."
+              },
+              "401": {
+                "description": "Token nao encontrado ou inválido."
+              },
+              "409": {
+                "description": "A pessoa usuária não possui ativos suficientes para esta venda."
+              },
+                "200": {
+                  "description": "Venda realizada com sucesso.",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/assetTradeResponse"
+                      }
+                    }
+                  }
+                }  
+            }
+        }
+      },
+      "/assets": {
+        "get": {
+          "summary": "Listar todos ativos que pessoa usuária possui",
+          "description": "Este endpoint retorna todos os ativos que a pessoa usuária possui. O array retorna objetos que contém o id deste ativo em sua conta (o mesmo que retorna quando é feita uma compra ou venda), nome da ação, preço atualizado em tempo real e quantidade de ativos que a pessoa usuáriao possui. A autenticação pelo token é necessária neste endpoint.",
+          "tags": ["assets"],
+          "security": [
+            {
+            "jwt": []
+            }
+          ],
+          "responses": {
+              "200": {
+                "description": "Ativos da pessoa usuária.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/asset"
+                    }
+                  }
+                }
+              }
+            }  
+          }
+        }
+      },
+      "/assets/{symbol}": {
+        "get": {
+          "summary": "Ativos da pessoa usuária na respectiva ação",
+          "description": "Este endpoint retorna o ativo pesquisado se a pessoa usuária o possui. O array retorna um objeto que contém o id deste ativo em sua conta (o mesmo que retorna quando é feita uma compra ou venda), nome da ação, preço atualizado em tempo real e quantidade de ativos que a pessoa usuáriao possui. A requisição também retorna o histórico de movimentação dessa ação pela pessoa usuária, na chave trade, por meio de um objeto que informa: o id dessa movimentação, a quantidade que foi negociada, o tipo de negociação (compra ou venda), o valor da ação no momento da negociação e o instante da negociação. A autenticação pelo token é necessária neste endpoint.",
+          "tags": ["assets"],
+          "security": [
+            {
+            "jwt": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "symbol",
+              "in": "path",
+              "description": "Símbolo da ação",
+              "required": true
+            }
+          ],
+          "responses": {
+              "200": {
+                "description": "Ativo da ação pesquisada.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/assetHistory"
+                    }
+                  }
+                }
+              }
+            }  
+          }
         }
       }
     },    
@@ -281,7 +513,104 @@
                     "type": "number"
                   }
               }
+            },
+            "assetTrade": {
+              "type": "object",
+              "properties": {
+                  "symbol": {
+                    "type": "string"
+                  },
+                  "quantity": {
+                    "type": "number"
+                  }
+              }
           },
+          "assetTradeResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "stockSymbol": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "number"
+                }
+            }
+        },
+        "stock": {
+          "type": "object",
+          "properties": {
+              "currentValue": {
+                "type": "number"
+              },
+              "stock": {
+                "type": "string"
+              },
+              "stockQuantity": {
+                "type": "number"
+              }
+          }
+      },
+      "asset": {
+        "type": "object",
+        "properties": {
+            "id": {
+              "type": "number"
+            },
+            "stockSymbol": {
+              "type": "string"
+            },
+            "quantity": {
+              "type": "number"
+            },
+            "currentValue": {
+              "type": "number"
+            }
+        }
+      },
+      "assetHistory": {
+        "type": "object",
+        "properties": {
+            "id": {
+              "type": "number"
+            },
+            "stockSymbol": {
+              "type": "string"
+            },
+            "quantity": {
+              "type": "number"
+            },
+            "currentValue": {
+              "type": "number"
+            },
+            "trade": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "quantity": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "number"
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "type": "string"
+                }
+              }
+            }
+            
+        }
+    },
             "invalidToken": {
               "type": "object",
               "properties": {
