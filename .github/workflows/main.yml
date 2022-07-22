@@ -59,6 +59,7 @@ jobs:
           DB_NAME: StockApp
           DB_DIALECT: postgres
           JWT_SECRET: MySecretToken
+          POSTGRES_PORT: 5432
 
     # runs-on: ubuntu-latest
     # steps:
