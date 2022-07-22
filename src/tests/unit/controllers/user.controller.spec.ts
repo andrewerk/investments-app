@@ -49,6 +49,6 @@ describe('Test user controller', () => {
         fullName: 'full name',
       });
     expect(response.status).to.eql(HttpStatusCode.CREATED);
-    expect(response.body).to.be.a('string');
+    expect(response.body.token).to.be.a('string');
   });
 });

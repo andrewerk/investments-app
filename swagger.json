@@ -1,0 +1,307 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "App de Ações!",
+        "description": "API para um aplicativo de compra e venda de ações, desenvolvida no âmbito do processo seletivo da XP para os alunos da Trybe - Turma XP.",
+        "contact": {
+            "email": "andrewerk1804@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/users": {
+            "post": {
+                "summary": "Cria nova pessoa usuária",
+                "description": "Cria nova pessoa usuária no o sistema. Ao criar um usuário, o sistema retornará um token que será utilizado para autenticação em todas as rotas, com exceção de criar uma nova pessoa usuária e login. Assim, ao receber o token na resposta, copie o conteúdo entre as aspas e clique no cadeado verde na parte superior direita da página, para colar o token e autenticar todas suas requisições no tempo em que estiver na página. Vale salientar que, para criar um usuário, deve ser enviado um email com o formato correto, uma senha com pelo menos 6 caracters e nome completo com 3 caracteres.",
+                "tags": ["user"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/user"
+                            },
+                            "examples": {
+                                "UserData": {
+                                    "summary": "user",
+                                    "value": {
+                                        "fullName": "Nome da pessoa usuária",
+                                        "email": "user@email.com",
+                                        "password": "senhaComPeloMenosSeisDigitos"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                      "description": "Algum dos campos obrigatórios não foi enviado."
+                    },
+                    "409": {
+                        "description": "Email já cadastrado na plataforma."
+                      },
+                    "422": {
+                      "description": "Algum dos campos está preenchido de forma incorreta."
+                    },
+                    "201": {
+                      "description": "Pessoa usuária cadastrada com sucesso.",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                            "$ref": "#/components/schemas/token"
+                          }
+                        }
+                      }
+                    }  
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "Login no sistema.",
+                "description": "Os usuários já cadastrados no sistema podem utilizar seu email e senha para recuperar um novo token, caso o que tenha sido recebido anteriormente tenha expirado ou a pessoa usuária tenha perdido seu token de autenticação.",
+                "tags": ["login"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/loginBody"
+                            },
+                            "examples": {
+                                "UserData": {
+                                    "summary": "login",
+                                    "value": {
+                                        "email": "user@email.com",
+                                        "password": "password"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                  "400": {
+                    "description": "Algum dos campos obrigatórios não foi enviado."
+                  },
+                  "422": {
+                    "description": "Algum dos campos está preenchido de forma incorreta."
+                  },
+                    "200": {
+                      "description": "Login feito com sucesso.",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                            "$ref": "#/components/schemas/token"
+                          }
+                        }
+                      }
+                    }  
+                }
+            }
+        },
+      "/account": {
+        "get": {
+          "summary": "Verificar conta",
+          "description": "Este endpoint retorna o nome completo da pessoa usuária e seu saldo bancário (balance). A autenticação pelo token é necessária neste endpoint.",
+          "tags": ["account"],
+          "security": [
+            {
+            "jwt": []
+            }
+          ],
+          "responses": {
+              "200": {
+                "description": "Conta da pessoa usuária.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/account"
+                    }
+                }
+              }
+            }  
+          }
+        }
+      },
+      "/account/deposit": {
+        "post": {
+            "summary": "Deposito em conta",
+            "description": "Endpoint utilizado para operações de depósito na conta da pessoa usuária. Deve ser enviado no body da requisição a propriedade value com o valor total a ser depositado. Uma vez que se tenha dinheiro na conta, será possível futuramente realizar a compra de ações. Não é necessário enviar nenhuma informação para identificar o usuário, uma vez que a identificação é feita automaticamente pelo token, que é obrigatório nesta requisição. O endpoint irá retornar o nome completo da pessoa usuária e seu saldo bancário.",
+            "tags": ["account"],
+            "security": [
+              {
+              "jwt": []
+            }
+            ],
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/transaction"
+                        },
+                        "examples": {
+                            "UserData": {
+                                "summary": "transaction",
+                                "value": {
+                                    "value": 1000
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+              "400": {
+                "description": "Value deve ser enviado no campo da requisição."
+              },
+              "422": {
+                "description": "Value deve ser um número maior do que 0."
+              },
+                "200": {
+                  "description": "Dinheiro depositado com sucesso.",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/account"
+                      }
+                    }
+                  }
+                }  
+            }
+        }
+      },
+      "/account/withdraw": {
+        "post": {
+            "summary": "Saque da conta",
+            "description": "Endpoint utilizado para operações de saque da conta da pessoa usuária. Deve ser enviado no body da requisição a propriedade value com o valor total a ser retirado. Caso a pessoa usuária não tenha em conta o suficiente para sacar, a transação será recusada e uma exceção será retornada. Não é necessário enviar nenhuma informação para identificar o usuário, uma vez que a identificação é feita automaticamente pelo token, que é obrigatório nesta requisição.  O endpoint irá retornar o nome completo da pessoa usuária e seu saldo bancário.",
+            "tags": ["account"],
+            "security": [
+              {
+              "jwt": []
+            }
+            ],
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/transaction"
+                        },
+                        "examples": {
+                            "UserData": {
+                                "summary": "transaction",
+                                "value": {
+                                    "value": 100
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+              "400": {
+                "description": "Value deve ser enviado no campo da requisição."
+              },
+              "409": {
+                "description": "A conta não possui fundos suficientes para sacar esta quantia."
+              },
+              "422": {
+                "description": "Value deve ser um número maior do que 0."
+              },
+                "200": {
+                  "description": "Dinheiro retirado com sucesso.",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/account"
+                      }
+                    }
+                  }
+                }  
+            }
+        }
+      }
+    },    
+    "components": {
+        "schemas": {
+            "user": {
+                "type": "object",
+                "required": [ "fullName", "email", "password"],
+                "properties": {
+                    "fullName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "id": {
+                      "type": "number"
+                    },
+                    "balance": {
+                      "type": "number"
+                  }
+                }
+            },
+            "loginBody": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "token": {
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    }
+                }
+            },
+            "transaction": {
+              "type": "object",
+              "properties": {
+                  "value": {
+                      "type": "number"
+                  }
+              }
+            },
+            "account": {
+              "type": "object",
+              "properties": {
+                  "fullName": {
+                    "type": "string"
+                  },
+                  "balance": {
+                    "type": "number"
+                  }
+              }
+          },
+            "invalidToken": {
+              "type": "object",
+              "properties": {
+                  "message": {
+                      "type": "string"
+                  }
+              }
+          }
+        },
+        "responses": {
+          "Unauthorized": {
+            "description": "Expired or invalid token or Token not found"
+          }
+        },
+        "securitySchemes": {
+          "jwt": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "authorization"
+          }
+        }
+    }
+}

@@ -44,6 +44,6 @@ describe('Test login controller', () => {
       .post('/login')
       .send({ email: 'teste@teste.com', password: 'mynewpass' });
     expect(response.status).to.eql(200);
-    expect(response.body).to.be.a('string');
+    expect(response.body.token).to.be.a('string');
   });
 });

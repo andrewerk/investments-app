@@ -22,7 +22,7 @@ describe('Test portfolio controller', () => {
     const userCreated = await request(app)
       .post('/users')
       .send(createUser);
-    token = userCreated.body;
+    token = userCreated.body.token;
   });
   afterEach(async () => {
     sinon.restore();

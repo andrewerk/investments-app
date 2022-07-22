@@ -8,11 +8,8 @@ import externalApi from '../utils/externalApi';
 
 dotenv.config();
 
-const token = process.env.API_TOKEN;
-
 const getStock = async (stock: string): Promise<Stock> => {
-  const url = `https://finnhub.io/api/v1/quote?symbol=${stock}&token=${token}`;
-  const { statusCode, data } = await externalApi.fetchData(url);
+  const { statusCode, data } = await externalApi.fetchData(stock);
   if (statusCode === 429) {
     throw new HttpException(HttpStatusCode.TO_MANY_REQUESTS, 'To many requests to external API. Wait one minute');
   }

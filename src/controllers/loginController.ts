@@ -6,7 +6,7 @@ import HttpStatusCode from '../utils/http.status.code';
 const login = async (req: Request, res: Response): Promise<Response> => {
   const user = await loginService.login(req.body);
   const token = generateToken(user);
-  return res.status(HttpStatusCode.OK).json(token);
+  return res.status(HttpStatusCode.OK).json({ token });
 };
 
 export default {

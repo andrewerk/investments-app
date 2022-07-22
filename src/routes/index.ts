@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import swaggerUi from 'swagger-ui-express';
 import loginRoute from './loginRoute';
 import userRouter from './userRoutes';
 import accountRoutes from './accountRoutes';
@@ -15,5 +16,6 @@ routes.use('/account', validateToken, accountRoutes);
 routes.use('/stocks', validateToken, stocksRoutes);
 routes.use('/investments', validateToken, tradeRoutes);
 routes.use('/assets', validateToken, portfolioRoute);
+routes.use('/docs', swaggerUi.serve, swaggerUi.setup(require('../../swagger.json')));
 
 export default routes;
