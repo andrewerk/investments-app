@@ -5,7 +5,6 @@ node_modules/
 .env
 
 # NYC Output and test coverage
-.nyc_output
+.nyc_output/
 .nyc*
-coverage
-/coverage
+coverage/
