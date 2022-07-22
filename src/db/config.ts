@@ -12,6 +12,7 @@ const dbUser = process.env.DB_USERNAME as string;
 const dbHost = process.env.DB_HOST;
 const dbDriver = process.env.DB_DIALECT as Dialect;
 const dbPassword = process.env.DB_PASSWORD;
+const dbPort = process.env.DB_PORT as number | undefined;
 const models = [UserModel, TradeModel, StockModel, InvestmentsPortfoliotModel];
 
 const sequelizeConnection = new Sequelize(dbName, dbUser, dbPassword, {
@@ -19,6 +20,7 @@ const sequelizeConnection = new Sequelize(dbName, dbUser, dbPassword, {
   dialect: dbDriver,
   models,
   logging: false,
+  port: dbPort,
 });
 
 export default sequelizeConnection;
