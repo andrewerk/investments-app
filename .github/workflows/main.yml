@@ -53,7 +53,7 @@ jobs:
         run: npm test
 
         env:
-          DB_HOST: postgres
+          DB_HOST: localhost
           DB_PASSWORD: password
           DB_USERNAME: root
           DB_NAME: StockApp
