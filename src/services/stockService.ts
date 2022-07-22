@@ -2,13 +2,13 @@ import Sequelize from 'sequelize';
 import StockModel from '../models/StockModel';
 import HttpException from '../utils/http.exception';
 import HttpStatusCode from '../utils/http.status.code';
-import generateRandomQuantity from '../utils/randomQuantity';
+import randomQuantity from '../utils/randomQuantity';
 
 // Generates random quantity for current searched stock. If it hasn`t been searched already
 // saves value for new Stock;
 
 const getQuantity = async (symbol: string): Promise<number> => {
-  const stockQuantity = generateRandomQuantity(100);
+  const stockQuantity = randomQuantity.generateRandomQuantity(100);
   const [stock] = await StockModel.findOrCreate({
     where: { symbol },
     defaults: { symbol, stockQuantity },

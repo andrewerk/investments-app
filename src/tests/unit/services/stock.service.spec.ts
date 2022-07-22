@@ -6,6 +6,7 @@ import stockApiService from '../../../services/stockApiService';
 import stockService from '../../../services/stockService';
 import StockModel from '../../../models/StockModel';
 import externalApi from '../../../utils/externalApi';
+import randomQuantity from '../../../utils/randomQuantity';
 
 describe('Test internal and external stock service', () => {
   afterEach(() => sinon.restore());
@@ -101,6 +102,12 @@ describe('Test internal and external stock service', () => {
           expect(error.message).to.eql(`Only ${returnStock.stockQuantity} are available to sell`);
         }
       }
+    });
+    it('Test getQuantity function', async () => {
+      sinon.stub(randomQuantity, 'generateRandomQuantity');
+      sinon.stub(StockModel, 'findOrCreate').resolves([{ stockQuantity: 5 }] as any);
+      const quantity = await stockService.getQuantity('string');
+      expect(quantity).to.eql(5);
     });
   });
 });

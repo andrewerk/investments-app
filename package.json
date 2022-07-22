@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "PORT=3001 mocha --check-leaks -r ts-node/register src/tests/**/*.spec.ts",
-    "test:coverage": "nyc npm run test",
+    "test:coverage": "PORT=3001 nyc mocha --check-leaks -r ts-node/register src/tests/**/*.spec.ts --exit",
     "debug": "tsnd --respawn src/app.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "start": "ts-node src/app.ts"
