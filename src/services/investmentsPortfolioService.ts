@@ -18,7 +18,7 @@ const buy = async (
       transaction: t,
     });
   if (!created) {
-    await InvestmentsPortfolioModel.update(
+    await asset.update(
       {
         quantity: asset.quantity + quantity,
       },
@@ -27,9 +27,8 @@ const buy = async (
         transaction: t,
       },
     );
-    return { id: asset.id, stockSymbol, quantity: asset.quantity + quantity };
   }
-  return { id: asset.id, stockSymbol, quantity };
+  return { id: asset.id, stockSymbol, quantity: asset.quantity };
 };
 
 const sale = async (
@@ -45,7 +44,7 @@ const sale = async (
     throw new HttpException(HttpStatusCode.CONFLICT, 'Customer does not owns any of these assets');
   }
   if (asset.quantity >= quantity) {
-    await InvestmentsPortfolioModel.update(
+    await asset.update(
       {
         quantity: asset.quantity - quantity,
       },
@@ -54,7 +53,7 @@ const sale = async (
         transaction: t,
       },
     );
-    return { id: asset.id, stockSymbol, quantity: asset.quantity - quantity };
+    return { id: asset.id, stockSymbol, quantity: asset.quantity };
   }
   throw new HttpException(HttpStatusCode.CONFLICT, `Customer can only sell ${asset.quantity} assets`);
 };
