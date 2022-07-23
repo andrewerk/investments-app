@@ -232,7 +232,7 @@
       "/stocks": {
         "get": {
           "summary": "Listar ações em alta",
-          "description": "Este endpoint retorna 20 ações pré selecionadas, que estão em destaque na plataforma do NASDAQ. O array retorna objetos que contém o nome da ação, preço atualizado em tempo real e quantidade fictícia disponivel na corretora. A autenticação pelo token é necessária neste endpoint.",
+          "description": "Este endpoint retorna 20 ações pré selecionadas, que estão em destaque na plataforma da NASDAQ. O array retorna objetos que contém o nome da ação, preço atualizado em tempo real e quantidade fictícia disponivel na corretora. A autenticação pelo token é necessária neste endpoint.",
           "tags": ["stocks"],
           "security": [
             {
