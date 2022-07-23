@@ -55,7 +55,7 @@ const sale = async (
     );
     return { id: asset.id, stockSymbol, quantity: asset.quantity };
   }
-  throw new HttpException(HttpStatusCode.CONFLICT, `Customer can only sell ${asset.quantity} assets`);
+  throw new HttpException(HttpStatusCode.CONFLICT, `Assets customer can sell: ${asset.quantity}`);
 };
 
 const getAssetsByCustomer = async (id: number): Promise<IPortfolio[]> => {

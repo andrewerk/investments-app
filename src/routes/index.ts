@@ -7,6 +7,7 @@ import validateToken from '../middlewares/auth.middleware';
 import stocksRoutes from './stocksRoutes';
 import tradeRoutes from './tradeRoutes';
 import portfolioRoute from './portfolioRoutes';
+import userController from '../controllers/userController';
 
 const routes = Router();
 
@@ -17,5 +18,7 @@ routes.use('/stocks', validateToken, stocksRoutes);
 routes.use('/investments', validateToken, tradeRoutes);
 routes.use('/assets', validateToken, portfolioRoute);
 routes.use('/docs', swaggerUi.serve, swaggerUi.setup(require('../../swagger.json')));
+
+routes.use('/*', userController.notallowed);
 
 export default routes;

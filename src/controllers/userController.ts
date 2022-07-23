@@ -9,6 +9,12 @@ const createUser = async (req: Request, res: Response): Promise<Response> => {
   return res.status(HttpStatusCode.CREATED).json({ token });
 };
 
+const notallowed = async (req: Request, res: Response): Promise<Response> => {
+  const response = 'Method not allowed';
+  return res.status(HttpStatusCode.METHOD_NOT_ALLOWED).json({ response });
+};
+
 export default {
   createUser,
+  notallowed,
 };

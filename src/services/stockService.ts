@@ -35,7 +35,7 @@ const buy = async (
     );
     return stock.stockQuantity - quantity;
   }
-  throw new HttpException(HttpStatusCode.CONFLICT, `Only ${stock.stockQuantity} are available to sell`);
+  throw new HttpException(HttpStatusCode.CONFLICT, `Quantity available to sell: ${stock.stockQuantity}`);
 };
 
 const sale = async (

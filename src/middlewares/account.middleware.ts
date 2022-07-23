@@ -4,7 +4,7 @@ import HttpException from '../utils/http.exception';
 import HttpStatusCode from '../utils/http.status.code';
 
 const valueDTO = Joi.object({
-  value: Joi.number().min(1).required(),
+  value: Joi.number().min(0).required(),
 }).messages({
   'any.required': '{{#label}} is required',
   'any.number': '{{#label}} must be a number',
