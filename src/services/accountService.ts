@@ -35,7 +35,7 @@ const withdraw = async (
     );
     return { fullName: user.fullName, balance: user.balance - value };
   }
-  throw new HttpException(HttpStatusCode.CONFLICT, 'Not possible to proceed with withdraw or sale. Not enough funds');
+  throw new HttpException(HttpStatusCode.CONFLICT, 'Not possible to proceed with withdraw or sell. Not enough funds');
 };
 
 const getById = async (id: number): Promise<Account> => {

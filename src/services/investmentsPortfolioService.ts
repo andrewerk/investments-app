@@ -31,7 +31,7 @@ const buy = async (
   return { id: asset.id, stockSymbol, quantity: asset.quantity };
 };
 
-const sale = async (
+const sell = async (
   userId: number,
   stockSymbol: string,
   quantity: number,
@@ -55,7 +55,7 @@ const sale = async (
     );
     return { id: asset.id, stockSymbol, quantity: asset.quantity };
   }
-  throw new HttpException(HttpStatusCode.CONFLICT, `Assets customer can sell: ${asset.quantity}`);
+  throw new HttpException(HttpStatusCode.CONFLICT, `Assets available to sell: ${asset.quantity}`);
 };
 
 const getAssetsByCustomer = async (id: number): Promise<IPortfolio[]> => {
@@ -80,7 +80,7 @@ const getAssetByCustomerHistory = async (
 
 export default {
   buy,
-  sale,
+  sell,
   getAssetsByCustomer,
   getAssetByCustomerHistory,
 };

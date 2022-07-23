@@ -25,19 +25,19 @@ const buyStock = async (userId: number, stockSymbol: string, quantity: number) =
   return account;
 };
 
-const saleStock = async (userId: number, stockSymbol: string, quantity: number) => {
+const sellStock = async (userId: number, stockSymbol: string, quantity: number) => {
   const stock = await stockApiService.getStock(stockSymbol);
   const { currentValue } = stock;
   const account = await connection.transaction(async (t: Sequelize.Transaction) => {
     const total: number = currentValue * quantity;
     await accountService.deposit(userId, total, t);
-    await stockService.sale(stockSymbol, quantity, t);
+    await stockService.sell(stockSymbol, quantity, t);
     const portfolio = await investmentsPortfolioService
-      .sale(userId, stockSymbol, quantity, t) as IPortfolio;
+      .sell(userId, stockSymbol, quantity, t) as IPortfolio;
     return portfolio;
   });
   await TradeModel.create({
-    portfolioId: account.id, type: 'sale', quantity, value: currentValue,
+    portfolioId: account.id, type: 'sell', quantity, value: currentValue,
   });
   return account;
 };
@@ -70,7 +70,7 @@ Promise<InvestmentsPortfolioModel | IPortfolio[]> => {
 
 export default {
   buyStock,
-  saleStock,
+  sellStock,
   getTrades,
   getTradesByType,
 };

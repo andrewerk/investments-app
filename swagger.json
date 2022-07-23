@@ -339,7 +339,7 @@
             }
         }
       },
-      "/investments/sale": {
+      "/investments/sell": {
         "post": {
             "summary": "Vender ações",
             "description": "Endpoint utilizado para operações de venda de ações. Deve ser enviado no body da requisição a propriedade 'symbol', a qual representa o simbolo oficial da ação, como por exemplo AAPL para ações da Apple (exemplos de simbolos podem ser procurados no site https://www.nasdaq.com/market-activity/stocks/screener ). Além do símbolo, deve também ser enviada a quantidade de ações a serem vendidas, por meio da propriedade 'quantity'. O endpoint irá retornar um objeto com o 'id' desse ação da pessoa usuária, com o 'stockSymbol' e a quantity, reprensentando a quantidade total de ativos que a pessoa usuária possui. Ressalta-se que se a pessoa comprar ou vender mais ativos da mesma ação, o id será o mesmo, bem como a quantidade será afetada pela nova compra ou venda. Essa requisição poderar falhar nos cenários de a pessoa usuária não possuir ativos suficientes para a venda ou requisição não está autenticada. Não é necessário enviar nenhuma informação para identificar o usuário, uma vez que a identificação é feita automaticamente pelo token, que é obrigatório nesta requisição.",

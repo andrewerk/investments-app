@@ -4,9 +4,6 @@ import HttpException from '../utils/http.exception';
 import HttpStatusCode from '../utils/http.status.code';
 import randomQuantity from '../utils/randomQuantity';
 
-// Generates random quantity for current searched stock. If it hasn`t been searched already
-// saves value for new Stock;
-
 const getQuantity = async (symbol: string): Promise<number> => {
   const stockQuantity = randomQuantity.generateRandomQuantity(100);
   const [stock] = await StockModel.findOrCreate({
@@ -35,10 +32,10 @@ const buy = async (
     );
     return stock.stockQuantity - quantity;
   }
-  throw new HttpException(HttpStatusCode.CONFLICT, `Quantity available to sell: ${stock.stockQuantity}`);
+  throw new HttpException(HttpStatusCode.CONFLICT, `Assets available to sell: ${stock.stockQuantity}`);
 };
 
-const sale = async (
+const sell = async (
   symbol: string,
   quantity: number,
   t: Sequelize.Transaction | null,
@@ -59,5 +56,5 @@ const sale = async (
 export default {
   getQuantity,
   buy,
-  sale,
+  sell,
 };

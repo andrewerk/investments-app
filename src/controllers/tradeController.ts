@@ -9,10 +9,10 @@ const buyStocks = async (req: Request, res: Response): Promise<Response> => {
   return res.status(HttpStatusCode.OK).json(result);
 };
 
-const saleStocks = async (req: Request, res: Response): Promise<Response> => {
+const sellStocks = async (req: Request, res: Response): Promise<Response> => {
   const { id } = res.locals.user;
   const { symbol, quantity } = req.body;
-  const result = await tradeService.saleStock(id, symbol.toUpperCase(), quantity);
+  const result = await tradeService.sellStock(id, symbol.toUpperCase(), quantity);
   return res.status(HttpStatusCode.OK).json(result);
 };
 
@@ -31,7 +31,7 @@ const getTradeByType = async (req: Request, res: Response): Promise<Response> =>
 
 export default {
   buyStocks,
-  saleStocks,
+  sellStocks,
   getTradeByUser,
   getTradeByType,
 };

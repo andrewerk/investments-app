@@ -92,10 +92,10 @@ describe('Test trades controller', () => {
     expect(response.status).to.eql(HttpStatusCode.OK);
     expect(response.body).to.eql(portfolioItem);
   });
-  it('Test saleStocks', async () => {
-    sinon.stub(tradeService, 'saleStock').resolves(portfolioItem as any);
+  it('Test sellStocks', async () => {
+    sinon.stub(tradeService, 'sellStock').resolves(portfolioItem as any);
     const response = await request(app)
-      .post('/investments/sale')
+      .post('/investments/sell')
       .send(tradeItem)
       .set({ authorization: token });
     expect(response.status).to.eql(HttpStatusCode.OK);

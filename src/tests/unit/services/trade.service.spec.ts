@@ -30,8 +30,8 @@ describe('Test trade service', () => {
       sinon.stub(stockService, 'buy');
       sinon.stub(investmentsPortfolioService, 'buy').resolves(portfolioItem);
       sinon.stub(accountService, 'deposit');
-      sinon.stub(stockService, 'sale');
-      sinon.stub(investmentsPortfolioService, 'sale').resolves(portfolioItem);
+      sinon.stub(stockService, 'sell');
+      sinon.stub(investmentsPortfolioService, 'sell').resolves(portfolioItem);
       sinon.stub(TradeModel, 'create');
     });
     afterEach(() => sinon.restore());
@@ -41,7 +41,7 @@ describe('Test trade service', () => {
       expect(assets).to.eql(portfolioItem);
     });
     it('Tests sell stock function', async () => {
-      const assets = await tradeService.saleStock(userId, stockSymbol, quantity);
+      const assets = await tradeService.sellStock(userId, stockSymbol, quantity);
       expect(assets).to.eql(portfolioItem);
     });
   });

@@ -83,9 +83,9 @@ describe('Test internal and external stock service', () => {
       sinon.stub(StockModel, 'findByPk').resolves(returnStock as any);
     });
     afterEach(() => sinon.restore());
-    it('Test sale function in case of success', async () => {
+    it('Test sell function in case of success', async () => {
       sinon.stub(StockModel, 'update');
-      const assetsAvailable = await stockService.sale('string', 5, null);
+      const assetsAvailable = await stockService.sell('string', 5, null);
       expect(assetsAvailable).to.eql(15);
     });
     it('Test buy function in case of succes', async () => {
@@ -99,7 +99,7 @@ describe('Test internal and external stock service', () => {
       } catch (error) {
         if (error instanceof HttpException) {
           expect(error.status).to.eql(HttpStatusCode.CONFLICT);
-          expect(error.message).to.eql(`Only ${returnStock.stockQuantity} are available to sell`);
+          expect(error.message).to.eql(`Assets available to sell: ${returnStock.stockQuantity}`);
         }
       }
     });

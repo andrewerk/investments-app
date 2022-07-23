@@ -7,7 +7,7 @@ const tradeRoutes = Router();
 
 tradeRoutes.get('/user/:type', tradeController.getTradeByType);
 tradeRoutes.post('/buy', tradeValidation, tradeController.buyStocks);
-tradeRoutes.post('/sale', tradeValidation, tradeController.saleStocks);
+tradeRoutes.post('/sell', tradeValidation, tradeController.sellStocks);
 tradeRoutes.get('/', tradeController.getTradeByUser);
 
 export default tradeRoutes;

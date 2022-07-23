@@ -34,7 +34,7 @@ describe('Test account service', () => {
     } catch (error) {
       if (error instanceof HttpException) {
         expect(error.status).to.eql(HttpStatusCode.CONFLICT);
-        expect(error.message).to.eql('Not possible to proceed with withdraw or sale. Not enough funds');
+        expect(error.message).to.eql('Not possible to proceed with withdraw or sell. Not enough funds');
       }
     }
   });

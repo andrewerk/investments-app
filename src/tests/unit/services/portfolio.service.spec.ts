@@ -29,13 +29,13 @@ describe('Test portfolio service', () => {
   // it('Test sell asset successfully', async () => {
   //   sinon.stub(InvestmentsPortfolioModel, 'findOne').resolves(assetReturn as any);
   //   sinon.stub(InvestmentsPortfolioModel, 'update');
-  //   const asset = await investmentsPortfolioService.sale(userId, stockSymbol, quantity, null);
+  //   const asset = await investmentsPortfolioService.sell(userId, stockSymbol, quantity, null);
   //   expect(asset).to.eql({ id: asset.id, stockSymbol, quantity: 0 });
   // });
   it('Test sell asset without having any of the stock', async () => {
     sinon.stub(InvestmentsPortfolioModel, 'findOne').resolves(null);
     try {
-      await investmentsPortfolioService.sale(userId, stockSymbol, quantity, null);
+      await investmentsPortfolioService.sell(userId, stockSymbol, quantity, null);
     } catch (error) {
       if (error instanceof HttpException) {
         expect(error.status).to.eql(HttpStatusCode.CONFLICT);
@@ -46,11 +46,11 @@ describe('Test portfolio service', () => {
   it('Test sell asset without having enough to sell', async () => {
     sinon.stub(InvestmentsPortfolioModel, 'findOne').resolves(assetReturn as any);
     try {
-      await investmentsPortfolioService.sale(userId, stockSymbol, quantity + 1, null);
+      await investmentsPortfolioService.sell(userId, stockSymbol, quantity + 1, null);
     } catch (error) {
       if (error instanceof HttpException) {
         expect(error.status).to.eql(HttpStatusCode.CONFLICT);
-        expect(error.message).to.eql(`Customer can only sell ${quantity} assets`);
+        expect(error.message).to.eql(`Assets available to sell: ${quantity}`);
       }
     }
   });
