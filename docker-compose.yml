@@ -13,7 +13,7 @@ services:
       - db
 
   db:
-    container_name: 'database-store-manager'
+    container_name: 'stock-app-db'
     image: postgres:12
     restart: always
     ports:
