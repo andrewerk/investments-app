@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import portfolioController from '../controllers/portfolioController';
+import investmentsPortfolioController from '../controllers/investmentPortfolioController';
 import 'express-async-errors';
 
-const portfolioRoute = Router();
+const investmentPortfolioRoute = Router();
 
-portfolioRoute.get('/:asset', portfolioController.getAssetByCustomerHistory);
-portfolioRoute.get('/', portfolioController.getAssetsByCustomer);
+investmentPortfolioRoute.get('/:asset', investmentsPortfolioController.getAssetByCustomerHistory);
+investmentPortfolioRoute.get('/', investmentsPortfolioController.getAssetsByCustomer);
 
-export default portfolioRoute;
+export default investmentPortfolioRoute;
