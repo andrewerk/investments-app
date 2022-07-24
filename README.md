@@ -35,9 +35,9 @@ Os serviços responsáveis pelo funcionamento local do projeto foram orquestrado
 - `npm run test:coverage`
 
 
-# Deploy e Documentação completa
+# Deploy e documentação completa
 
-A documentação completa da API foi feita de acordo com as especificações Open API, e está disponível para visualização por meio da interface do swagger neste [link](https://andrewerk-stock-app.herokuapp.com/docs/). As requisições feitas pela interface estão rodando no banco de dados em nuvem.
+A documentação completa da API foi feita de acordo com as especificações Open API, e está disponível para visualização por meio da User Interface do Swagger neste [link](https://andrewerk-stock-app.herokuapp.com/docs/). As requisições feitas pela interface estão rodando no banco de dados em nuvem.
 
 Foi feito o deploy do projeto utilizando o heroku para a aplicação e o supabase para hostear o banco de dados. O deploy conta com um pipeline CI/CD, com todo push ao repositório do GitHub sendo verificado por meio de GitHub Actions que rodam os testes unitários e teste de padronização e semântica do ESlint. Após a conclusão com sucesso das actions, o Heroku identifica o novo deploy e refaz o build da aplicação, subindo a nova versão para o ambiente de produção.
 
@@ -48,7 +48,7 @@ Como a conta em que foi realizado o deploy no heroku é gratuita, a aplicação 
 <details>
   <summary>Valores das ações em tempo real</summary><br />
 
-O sistema consome uma API externa, o [Finnhub](https://finnhub.io/), para obter em os valores atualizados das ações. Assim, duas variáveis de ambiente são importantes para essa configuração. A variável API_TOKEN é um token pessoal gratuíto, feito apenas para o contexto desse projeto, e está sendo disponibilizada aqui para permitir o teste da aplicação. No entanto, ressalta-se que disponibilizar esse tipo de informação em um repositório público não é uma boa prática e está sendo feito apenas por ser a única opção de manter o funcionamento apropriado da aplicação.
+O sistema consome uma API externa, o [Finnhub](https://finnhub.io/), para obter os valores atualizados das ações. Assim, duas variáveis de ambiente são importantes para essa configuração. A variável API_TOKEN é um token pessoal gratuíto, feito apenas para o contexto desse projeto, e está sendo disponibilizada aqui para permitir o teste da aplicação. No entanto, ressalta-se que disponibilizar esse tipo de informação em um repositório público não é uma boa prática e está sendo feito apenas por ser a única opção de manter o funcionamento apropriado da aplicação.
 
 A outra variável importante é a EXTERNAL_API. no arquivo de exemplo .env ela vai configurada como "true", o que significa que o sistema estará consumindo informações da API externa. Caso ocorra algum problema com a API externa, os endpoints do tipo GET para /stocks não irão retornar o currentValue da ação. Nesse caso, para ser possível testar a aplicação, a variável EXTERNAL_API deverá ser trocada para "false" e o projeto irá utilizar um arquivo de backup para manter o sistema em funcionamento. Nesse caso, as únicas ações que poderão ser pesquisadas ou compradas são as que constam no arquivo "/utils/mainStocks".
 </details>
@@ -91,7 +91,9 @@ Além do token JWT, a senha cadastrada pela pessoa usuária passar por um algor�
   <summary>Uso da aplicação</summary><br />
 
 Com o intuito de melhorar a usabilidade do sistema e facilitar as requisições de um possível frontend à aplicação, algumas alterações foram feitas na estrutura do corpo das requisições. 
+
 O desafio solicitava inicialmente que fosse enviado no corpo das requisições do tipo post o código do usuário, na compra e venda de ações. Ao invés de enviar essa informação pelo body da requisição, essa informação está sendo enviada no payload do token. Assim, a informação é enviada criptografada e melhora o uso da aplicação.
+
 Outra alteração foi a do código do ativo. Essa informação consta no sistema como Symbol, e equivale o símbolo oficial da ação. Por exemplo, o símbolo de ações da Apple é "AAPL". Assim, as ações são identificadas no banco de dados e requisições por este símbolo, para facilitar a pesquisa da pessoa usuária com um termo padronizado mundialmente e não exclusivo do sistema. Como consequência, o código do ativo solicitado inicilamente como um integer é uma string neste sistema.
 
 </details>
@@ -100,8 +102,40 @@ Outra alteração foi a do código do ativo. Essa informação consta no sistema
   <summary>Carteira de investimentos e Histórico de negociações</summary><br />
 
 
-O funcionamento da carteira de investimentos dos usuários está baseada nos arquivos do tipo InvestmentPortfolio. Para cada ação que uma pessoa usuária tiver, independente do numero de ativos, haverá um "id". Por exemplo, na carteira de investimentos de uma pessoa usuária pode ter ações da Aaple, com 50 ativos e "id" igual a 1, e ações da XP, com 50 ativos e "id" 2, enquanto outra pessoa usuária pode ter 40 ativos da Aaple e o "id" igual a 3. Ou seja, este id identifica a combinação pessoa usuária + ação específica. É importante não confundir esse "id" com o código do ativo mencionado na especificação do desafio, uma vez que este é substituido pela variável "symbol". 
+O funcionamento da carteira de investimentos dos usuários está baseada nos arquivos do tipo InvestmentPortfolio. Para cada ação que uma pessoa usuária tiver, independente do numero de ativos, haverá um "id". Por exemplo, na carteira de investimentos de uma pessoa usuária pode ter ações da Aaple, com 50 ativos e "id" igual a 1, e ações da XP, com 50 ativos e "id" 2, enquanto outra pessoa usuária pode ter 40 ativos da Aaple e o "id" igual a 3. Ou seja, este id identifica a combinação pessoa usuária com ação específica. É importante não confundir esse "id" com o código do ativo mencionado na especificação do desafio, uma vez que este é substituido pela variável "symbol". 
 
 Toda negociação de ativos fica registrada no banco de dados, identificado por um id da transação. Este registro mantém a quantidade negociada, o valor da ação no momento da negociação, o tipo de negociação (compra ou venda), data, e o "portfolioId" (identificação da ação na carteira de investimentos da pessoa usuária).
+
+</details>
+
+<details>
+  <summary>Lógica das Transações</summary><br />
+
+
+Quando é solicitada a compra de uma ação, a seguinte sequência de ações ocorre:
+
+1 - A função getStock do stockApiService é chamada para a consulta do valor atual da ação na API externa;
+
+2 - É inicializada uma Transaction do sequelize: tudo que ocorrer no escopo dessa transação será desfeito caso alguma das funções chamadas lance alguma exceção;
+
+3 - Dentro da transaction: tenta realizar uma operação de saque da conta. Se não houver a quantia suficiente, lançará uma exceção;
+
+4 - Dentro da transaction: tenta retirar esses ativos da corretora. Se a corretora não possuir ativos suficiente, lançará uma exceção;
+
+5 - Dentro da transaction: atualiza o numero de ativos ou cria um novo registro na carteira de investimentos;
+
+6 - Se nenhum erro for lançado dentro da transaction, é feito o "commit" das alterações no banco de dados;
+
+7 - Por fim, é registrada a movimentação na tabela de negociações (TradeModel)
+
+</details>
+
+<details>
+  <summary>Banco de dados</summary><br />
+
+
+O Diagrama Entidade Relacionamento na sequência ilustra a estrutura do banco de dados da aplicação.
+
+<img src="./er-diagram.png" alt="Diagrama Entidade Relacionamento" width="200">
 
 </details>

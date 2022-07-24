@@ -12,7 +12,7 @@ const deposit = async (
 ): Promise<Account | undefined> => {
   const user = await UserModel.findByPk(userId) as UserModel;
   const updatedUser = await user.update({
-    balance: Math.round(user.balance + value),
+    balance: Number((user.balance + value).toFixed(2)),
   }, { transaction: t });
   return { fullName: updatedUser.fullName, balance: updatedUser.balance };
 };
@@ -26,7 +26,7 @@ const withdraw = async (
   if (user.balance >= value) {
     await UserModel.update(
       {
-        balance: Math.round(user.balance - value),
+        balance: Number((user.balance - value).toFixed(2)),
       },
       {
         where: { id: userId },
