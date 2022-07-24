@@ -87,7 +87,7 @@ const getEarningByStock = async (
   stockSymbol: string,
 ): Promise<number> => {
   const userAsset = await getAssetByCustomerHistory(userId, stockSymbol);
-  if (userAsset.trades) {
+  if (userAsset.trades && stockSymbol) {
     const totalEarnings = calculateEarnings(userAsset, userAsset.trades);
     return Number(totalEarnings.toFixed(2));
   }

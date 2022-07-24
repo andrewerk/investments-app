@@ -57,7 +57,7 @@
             },
             "patch": {
               "summary": "Edita email ou nome da pessoa usuária",
-              "description": "Edita o email ou nome completo da pessoa usuária.",
+              "description": "Este endpoint tem a finalidade de editar o email ou nome completo da pessoa usuária. Necessita de autenticação com o Token JWT.",
               "tags": ["user"],
               "security": [
                 {
@@ -68,11 +68,11 @@
                   "content": {
                       "application/json": {
                           "schema": {
-                              "$ref": "#/components/schemas/user"
+                              "$ref": "#/components/schemas/userUpdated"
                           },
                           "examples": {
                               "UserData": {
-                                  "summary": "user",
+                                  "summary": "userUpdated",
                                   "value": {
                                       "fullName": "Nome da pessoa usuária",
                                       "email": "user@email.com"
@@ -97,7 +97,7 @@
                     "content": {
                       "application/json": {
                         "schema": {
-                          "$ref": "#/components/schemas/user"
+                          "$ref": "#/components/schemas/userUpdated"
                         }
                       }
                     }
@@ -119,11 +119,11 @@
                 "content": {
                     "application/json": {
                         "schema": {
-                            "$ref": "#/components/schemas/user"
+                            "$ref": "#/components/schemas/changePassword"
                         },
                         "examples": {
                             "UserData": {
-                                "summary": "user",
+                                "summary": "password",
                                 "value": {
                                     "password": "novaSenha"
                                 }
@@ -143,14 +143,7 @@
                   "description": "Algum dos campos está preenchido de forma incorreta"
                 },
                 "204": {
-                  "description": "Senha atualizada com sucesso.",
-                  "content": {
-                    "application/json": {
-                      "schema": {
-                        "$ref": "#/components/schemas/user"
-                      }
-                    }
-                  }
+                  "description": "Senha atualizada com sucesso."
                 }  
             }
         }
@@ -428,6 +421,9 @@
               "401": {
                 "description": "Token nao encontrado ou inválido."
               },
+              "404": {
+                "description": "Ação não encontrada."
+              },
               "409": {
                 "description": "A conta não possui fundos suficientes para esta compra ou a corretora nao possui ativos suficiente."
               },
@@ -530,6 +526,14 @@
           "summary": "Histórico de transações por tipo",
           "description": "Este endpoint retorna o histórico de negociações que a pessoa usuária realizou, de acordo com seu tipo (buy ou sell). O array retorna objetos que contém o id desta negociação, o id do ativo em seu portfolio (o mesmo que retorna quando é feita uma compra ou venda), nome da ação, preço da ação no momento da negociação e quantidade de ativos que a pessoa usuáriao negociou. A autenticação pelo token é necessária neste endpoint.",
           "tags": ["investments"],
+          "parameters": [
+            {
+              "name": "type",
+              "in": "path",
+              "description": "Símbolo da ação",
+              "required": true
+            }
+            ],
           "security": [
             {
             "jwt": []
@@ -642,10 +646,7 @@
                 "content": {
                   "application/json": {
                     "schema": {
-                      "type": "array",
-                      "items": {
                         "$ref": "#/components/schemas/earnings"
-                    }
                   }
                 }
               }
@@ -656,7 +657,7 @@
       "/account/earnings/{symbol}": {
         "get": {
           "summary": "Retornar rendimentos por ação",
-          "description": "Este endpoint retorna o rendimento que a pesoa usuária teve até o momento, considerando todas suas negociações. O cálculo soma o total em ativos que a pessoa usuária possui com o total em ativos que ja foi vendido (pelo preço da ação no momento da venda) e subtrai o total gasto no momento de compra desses ativos. A autenticação pelo token é necessária neste endpoint. ",
+          "description": "Este endpoint retorna o rendimento que a pesoa usuária teve até o momento com uma ação específica, considerando todas suas negociações. O cálculo soma o total em ativos que a pessoa usuária possui com o total em ativos que ja foi vendido (pelo preço da ação no momento da venda) e subtrai o total gasto no momento de compra desses ativos. A autenticação pelo token é necessária neste endpoint. ",
           "tags": ["earnings"],
           "security": [
             {
@@ -680,10 +681,7 @@
                 "content": {
                   "application/json": {
                     "schema": {
-                      "type": "array",
-                      "items": {
                         "$ref": "#/components/schemas/earnings"
-                    }
                   }
                 }
               }
@@ -726,6 +724,14 @@
                     }
                 }
             },
+            "changePassword": {
+              "type": "object",
+              "properties": {
+                  "password": {
+                      "type": "string"
+                  }
+              }
+          },
             "token": {
                 "type": "object",
                 "properties": {
@@ -901,7 +907,18 @@
                         "type": "string"
                     }
                 }
-            }
+            },
+            "userUpdated": {
+              "type": "object",
+              "properties": {
+                  "fullName": {
+                      "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                }
+              }
+          }
         },
         "responses": {
           "Unauthorized": {

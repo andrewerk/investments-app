@@ -78,7 +78,7 @@ O Projeto também possui <b>middlewares</b>, que avaliam as requisições antes 
 <details>
   <summary>Validação de Token JWT e hash das senhas</summary><br />
 
-O projeto utiliza, para autorizar requisições, o <b>Token JWT</b>. A biblioteca permite que seja gerado um token, que envia em seu payload informações pré selecionadas. Nesse caso, o payload do corpo carrega o id da pessoa usuária e o email. Esse token é expirado 50 minutos após ser gerado, durante login ou quando um usuário é criado no sistema. <b>Todas as rotas, exceto a de login e criar usuário</b>, necessitam que seja enviado um token para ser autorizada e também para passar ao backend as informações de qual pessoa usuária está realizando a requisição. O token deve ser enviado nos headers, na chave "authorization".
+O projeto utiliza, para autorizar requisições, o <b>Token JWT</b>. A biblioteca permite que seja gerado um token, que envia em seu payload informações pré selecionadas. Nesse caso, o payload do corpo carrega o id da pessoa usuária e o email. Esse token é expirado 50 minutos após ser gerado, durante login ou quando um usuário é criado no sistema. <b>Todas as rotas, exceto a de login e criar usuário</b>, necessitam que seja enviado um token para ser autorizada e também para passar ao backend as informações de qual pessoa usuária está realizando a requisição. O token deve ser enviado nos headers, na chave "authorization", e na interface gráfica do Swagger ele pode ser inserido no cadeado verde que se encontra na parte superior - direita da página.
 
 Além do token JWT, a senha cadastrada pela pessoa usuária passar por um <b>algorítmo de Hash</b> antes de ser armazenada no banco de dados. Esse algorítmo, proveniente da biblioteca <b>bcrypt</b>, é aplicado no UserModel e verificado quando a pessoa usuária faz login na camada de loginService.
 </details>
@@ -156,4 +156,19 @@ As tecnologias utilizadas neste projeto foram:
 
 
 
+</details>
+
+<details>
+  <summary>Glossário</summary><br />
+
+
+Como o código esta escrito todo em inglês, segue um pequeno glossário para tornar o projeto mais acessível e facilitar a compreensão.
+
+- Stock: Se refere a alguma ação, por exemplo, AAPL, XP, MSFT, etc;
+- StockSymbol: Se refere ao símbolo oficial da ação;
+- Asset: Se refere à ativos;
+- StockQuantity ou quantity: se refere à quantidade de ativos;
+- Trade: negociações
+- InvestmentPortfolio ou apenas Portfolio - Carteira de investimentos
+- Current Value: valor atual da ação (preço unitário)
 </details>
