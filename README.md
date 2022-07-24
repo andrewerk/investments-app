@@ -12,22 +12,24 @@ Os serviços responsáveis pelo funcionamento local do projeto foram orquestrado
 1. Clone o repositório e entre na pasta do projeto:
   - `cd stock-app`
 
-2. Instale as dependências do projetoÇ
+2. Instale as dependências do projeto:
 
   - `npm install`
 
-3. Rode o comando para subir os conteineres rodando node e o banco de dados por meio do docker-compose. Certifique-se de que não há nenhum serviço rodando na porta 3000 e na porta 5432 (postgres)Ç
+3. Renomeie o arquivo .env.example para .env, permitindo assim o uso das variáveis de ambiente pela biblioteca dotenv.
+
+4. Rode o comando para subir os conteineres rodando node e o banco de dados por meio do docker-compose. Certifique-se de que não há nenhum serviço rodando na porta 3000 e na porta 5432 (postgres):
 
   - `docker-compose up --build -d`
 
-4. Sua aplicação estará rodando na porta 3000!
+5. Sua aplicação estará rodando na porta 3000!
 
 
-5. Para rodar os testes unitários da aplicação, entre no container para garantir a conexão com o banco:
+6. Para rodar os testes unitários da aplicação, entre no container para garantir a conexão com o banco:
 
   - `docker exec -it stock-app /bin/sh`
 
-6. Rode o script para teste ou, se preferir, para cobertura de teste, respectivamente:
+7. Rode o script para teste ou, se preferir, para cobertura de teste, respectivamente:
 
 - `npm test`
 - `npm run test:coverage`
@@ -72,7 +74,7 @@ Por fim, a camada de Model é responsável pela administração do banco de dado
 
 Em cada camada existem arquivos responsáveis pelo "eixo" do sistema: users, login, conta(account), carteira de investimentos(investmentPortfoli0), histórico de transações(trade) e ações (stocks).
 
-O Projeto também possui middlewares, que avaliam as requisições antes de chegar nos controladores. Os middlewares têm a função de:  validar o corpo das requisições e gerar exceções, caso necessário; manipulação de erros e exceções, tanto geradas propositalmente quanto do sistema; validação do token enviado na requisição.
+O Projeto também possui middlewares, que avaliam as requisições antes de chegar nos controladores. Os middlewares têm a função de:  validar o corpo das requisições com a biblioteca [Joi](https://joi.dev/api/) e gerar exceções, caso necessário; manipulação de erros e exceções, tanto geradas propositalmente quanto do sistema; validação do token enviado na requisição.
 
 
 </details>
@@ -100,6 +102,6 @@ Outra alteração foi a do código do ativo. Essa informação consta no sistema
 
 O funcionamento da carteira de investimentos dos usuários está baseada nos arquivos do tipo InvestmentPortfolio. Para cada ação que uma pessoa usuária tiver, independente do numero de ativos, haverá um "id". Por exemplo, na carteira de investimentos de uma pessoa usuária pode ter ações da Aaple, com 50 ativos e "id" igual a 1, e ações da XP, com 50 ativos e "id" 2, enquanto outra pessoa usuária pode ter 40 ativos da Aaple e o "id" igual a 3. Ou seja, este id identifica a combinação pessoa usuária + ação específica. É importante não confundir esse "id" com o código do ativo mencionado na especificação do desafio, uma vez que este é substituido pela variável "symbol". 
 
-Toda negociação de ativos fica registrada no banco de dados, identificado por um id da transação. Este registro mantém a quantidade negociada, o valor da ação no momento da negociação, o tipo de negociação (compra ou venda), data, e o "portfolioId" (identificação da ação na carteira de investimentos da pessoa usuária) 
+Toda negociação de ativos fica registrada no banco de dados, identificado por um id da transação. Este registro mantém a quantidade negociada, o valor da ação no momento da negociação, o tipo de negociação (compra ou venda), data, e o "portfolioId" (identificação da ação na carteira de investimentos da pessoa usuária).
 
 </details>
