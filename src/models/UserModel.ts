@@ -37,7 +37,9 @@ export default class UserModel extends Model<IUser> {
   })
     balance!: number;
 
-  @HasMany(() => InvestmentsPortfoliotModel)
+  @HasMany(() => InvestmentsPortfoliotModel, {
+    onDelete: 'CASCADE',
+  })
     portfolios!: InvestmentsPortfoliotModel[];
 
   @BeforeCreate

@@ -4,7 +4,7 @@ export interface IUserData {
 
 export interface IUserAdd extends IUserData {
   fullName: string,
-  password: string,
+  password?: string,
   balance?: number
 }
 

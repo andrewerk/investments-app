@@ -54,8 +54,107 @@
                       }
                     }  
                 }
-            }
+            },
+            "patch": {
+              "summary": "Edita email ou nome da pessoa usuária",
+              "description": "Edita o email ou nome completo da pessoa usuária.",
+              "tags": ["user"],
+              "security": [
+                {
+                "jwt": []
+              }
+              ],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/components/schemas/user"
+                          },
+                          "examples": {
+                              "UserData": {
+                                  "summary": "user",
+                                  "value": {
+                                      "fullName": "Nome da pessoa usuária",
+                                      "email": "user@email.com"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "401": {
+                    "description": "Token nao encontrado ou inválido."
+                  },
+                  "409": {
+                      "description": "Email já cadastrado na plataforma."
+                    },
+                  "422": {
+                    "description": "Algum dos campos está preenchido de forma incorreta ou pelo menos um campo deve estar preenchido."
+                  },
+                  "200": {
+                    "description": "Dados atualizados com sucesso.",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "$ref": "#/components/schemas/user"
+                        }
+                      }
+                    }
+                  }  
+              }
+          }
         },
+        "/users/pass": {
+          "patch": {
+            "summary": "Edita senha da pessoa usuária",
+            "description": "Este endpoint permite alterar a senha da pessoa usuária. Deve ser enviado a nova senha no corpo da requisição, na chave 'password'. A autenticação pelo token é necessária neste endpoint.",
+            "tags": ["user"],
+            "security": [
+              {
+              "jwt": []
+            }
+            ],
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/user"
+                        },
+                        "examples": {
+                            "UserData": {
+                                "summary": "user",
+                                "value": {
+                                    "password": "novaSenha"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "400": {
+                  "description": "Algum dos campos obrigatórios não foi enviado."
+                },
+                "401": {
+                  "description": "Token nao encontrado ou inválido."
+                },
+                "422": {
+                  "description": "Algum dos campos está preenchido de forma incorreta"
+                },
+                "204": {
+                  "description": "Senha atualizada com sucesso.",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/user"
+                      }
+                    }
+                  }
+                }  
+            }
+        }
+      },
         "/login": {
             "post": {
                 "summary": "Login no sistema.",

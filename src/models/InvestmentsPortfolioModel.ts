@@ -44,6 +44,8 @@ export default class InvestmentsPortfolioModel extends Model<IPortfolio> {
   })
     quantity!: number;
 
-  @HasMany(() => TradeModel)
+  @HasMany(() => TradeModel, {
+    onDelete: 'CASCADE',
+  })
     trades!: TradeModel[];
 }
