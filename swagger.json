@@ -240,15 +240,18 @@
             }
           ],
           "responses": {
-              "200": {
-                "description": "Ações em alta.",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/stock"
-                    }
+            "401": {
+              "description": "Token nao encontrado ou inválido."
+            },
+            "200": {
+              "description": "Ações em alta.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/stock"
+                      }
                   }
                 }
               }
@@ -275,12 +278,15 @@
             }
           ],
           "responses": {
-              "200": {
-                "description": "Informações da ação.",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "$ref": "#/components/schemas/stock"
+            "401": {
+              "description": "Token nao encontrado ou inválido."
+            },
+            "200": {
+              "description": "Informações da ação.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/stock"
                   }
                 }
               }
@@ -390,6 +396,66 @@
             }
         }
       },
+      "/investments": {
+        "get": {
+          "summary": "Histórico de transações",
+          "description": "Este endpoint retorna o histórico de toda negociação que a pessoa usuária realizou. O array retorna objetos que contém o id desta negociação, o id do ativo em seu portfolio (o mesmo que retorna quando é feita uma compra ou venda), nome da ação, preço da ação no momento da negociação e quantidade de ativos que a pessoa usuáriao negociou. A autenticação pelo token é necessária neste endpoint.",
+          "tags": ["investments"],
+          "security": [
+            {
+            "jwt": []
+            }
+          ],
+          "responses": {
+            "401": {
+              "description": "Token nao encontrado ou inválido."
+            },
+              "200": {
+                "description": "Ativos da pessoa usuária.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/tradeWithSymbol"
+                    }
+                  }
+                }
+              }
+            }  
+          }
+        }
+      },
+      "/investments/user/{type}": {
+        "get": {
+          "summary": "Histórico de transações por tipo",
+          "description": "Este endpoint retorna o histórico de negociações que a pessoa usuária realizou, de acordo com seu tipo (buy ou sell). O array retorna objetos que contém o id desta negociação, o id do ativo em seu portfolio (o mesmo que retorna quando é feita uma compra ou venda), nome da ação, preço da ação no momento da negociação e quantidade de ativos que a pessoa usuáriao negociou. A autenticação pelo token é necessária neste endpoint.",
+          "tags": ["investments"],
+          "security": [
+            {
+            "jwt": []
+            }
+          ],
+          "responses": {
+            "401": {
+              "description": "Token nao encontrado ou inválido."
+            },
+              "200": {
+                "description": "Histórico por tipo de negociação",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/tradeWithSymbol"
+                    }
+                  }
+                }
+              }
+            }  
+          }
+        }
+      },
       "/assets": {
         "get": {
           "summary": "Listar todos ativos que pessoa usuária possui",
@@ -401,6 +467,9 @@
             }
           ],
           "responses": {
+            "401": {
+              "description": "Token nao encontrado ou inválido."
+            },
               "200": {
                 "description": "Ativos da pessoa usuária.",
                 "content": {
@@ -436,6 +505,9 @@
             }
           ],
           "responses": {
+            "401": {
+              "description": "Token nao encontrado ou inválido."
+            },
               "200": {
                 "description": "Ativo da ação pesquisada.",
                 "content": {
@@ -444,6 +516,74 @@
                       "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/assetHistory"
+                    }
+                  }
+                }
+              }
+            }  
+          }
+        }
+      },
+      "/account/earnings": {
+        "get": {
+          "summary": "Retornar rendimentos",
+          "description": "Este endpoint retorna o rendimento que a pesoa usuária teve até o momento, considerando todas suas negociações. O cálculo soma o total em ativos que a pessoa usuária possui com o total em ativos que ja foi vendido (pelo preço da ação no momento da venda) e subtrai o total gasto no momento de compra desses ativos. A autenticação pelo token é necessária neste endpoint. ",
+          "tags": ["earnings"],
+          "security": [
+            {
+            "jwt": []
+            }
+          ],
+          "responses": {
+            "401": {
+              "description": "Token nao encontrado ou inválido."
+            },
+              "200": {
+                "description": "Rendimentos da pessoa usuária.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/earnings"
+                    }
+                  }
+                }
+              }
+            }  
+          }
+        }
+      },
+      "/account/earnings/{symbol}": {
+        "get": {
+          "summary": "Retornar rendimentos por ação",
+          "description": "Este endpoint retorna o rendimento que a pesoa usuária teve até o momento, considerando todas suas negociações. O cálculo soma o total em ativos que a pessoa usuária possui com o total em ativos que ja foi vendido (pelo preço da ação no momento da venda) e subtrai o total gasto no momento de compra desses ativos. A autenticação pelo token é necessária neste endpoint. ",
+          "tags": ["earnings"],
+          "security": [
+            {
+            "jwt": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "symbol",
+              "in": "path",
+              "description": "Símbolo da ação",
+              "required": true
+            }
+          ],
+          "responses": {
+            "401": {
+              "description": "Token nao encontrado ou inválido."
+            },
+              "200": {
+                "description": "Rendimentos da pessoa usuária por ação.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/earnings"
                     }
                   }
                 }
@@ -503,6 +643,14 @@
                   }
               }
             },
+            "earnings": {
+              "type": "object",
+              "properties": {
+                  "earnings": {
+                      "type": "number"
+                  }
+              }
+            },
             "account": {
               "type": "object",
               "properties": {
@@ -524,68 +672,76 @@
                     "type": "number"
                   }
               }
-          },
-          "assetTradeResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                  "type": "number"
-                },
-                "stockSymbol": {
-                  "type": "string"
-                },
-                "quantity": {
-                  "type": "number"
-                }
-            }
-        },
-        "stock": {
-          "type": "object",
-          "properties": {
-              "currentValue": {
-                "type": "number"
-              },
-              "stock": {
-                "type": "string"
-              },
-              "stockQuantity": {
-                "type": "number"
+            },
+            "assetTradeResponse": {
+              "type": "object",
+              "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "stockSymbol": {
+                    "type": "string"
+                  },
+                  "quantity": {
+                    "type": "number"
+                  }
               }
-          }
-      },
-      "asset": {
-        "type": "object",
-        "properties": {
-            "id": {
-              "type": "number"
+          },
+            "stock": {
+              "type": "object",
+              "properties": {
+                  "currentValue": {
+                    "type": "number"
+                  },
+                  "stock": {
+                    "type": "string"
+                  },
+                  "stockQuantity": {
+                    "type": "number"
+                  }
+              }
+          },
+            "asset": {
+              "type": "object",
+              "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "stockSymbol": {
+                    "type": "string"
+                  },
+                  "quantity": {
+                    "type": "number"
+                  },
+                  "currentValue": {
+                    "type": "number"
+                  }
+              }
             },
-            "stockSymbol": {
-              "type": "string"
+            "assetHistory": {
+              "type": "object",
+              "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "stockSymbol": {
+                    "type": "string"
+                  },
+                  "quantity": {
+                    "type": "number"
+                  },
+                  "currentValue": {
+                    "type": "array"
+                  },
+                  "trade": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/trade"
+                    }
+                  }          
+              }
             },
-            "quantity": {
-              "type": "number"
-            },
-            "currentValue": {
-              "type": "number"
-            }
-        }
-      },
-      "assetHistory": {
-        "type": "object",
-        "properties": {
-            "id": {
-              "type": "number"
-            },
-            "stockSymbol": {
-              "type": "string"
-            },
-            "quantity": {
-              "type": "number"
-            },
-            "currentValue": {
-              "type": "number"
-            },
-            "trade": {
+            "tradeWithSymbol": {
               "type": "object",
               "properties": {
                 "id": {
@@ -603,22 +759,50 @@
                 "createdAt": {
                   "type": "string"
                 },
-                "updatedAt": {
-                  "type": "string"
+                "portfolio": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/portfolioInTrade"
+                }
                 }
               }
-            }
-            
-        }
-    },
-            "invalidToken": {
-              "type": "object",
-              "properties": {
-                  "message": {
-                      "type": "string"
+              },
+              "trade": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "quantity": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "number"
+                  },
+                  "createdAt": {
+                    "type": "string"
                   }
-              }
-          }
+                }
+                },
+              "portfolioInTrade": {
+                "type": "object",
+                "properties": {
+                    "stockSymbol": {
+                        "type": "string"
+                    }
+                }
+              },
+              "invalidToken": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            }
         },
         "responses": {
           "Unauthorized": {
