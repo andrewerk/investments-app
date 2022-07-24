@@ -12,6 +12,7 @@ import InvestmentsPortfoliotModel from './InvestmentsPortfolioModel';
 }))
 @Table({
   timestamps: true,
+  updatedAt: false,
   tableName: 'Trades',
 })
 export default class TradeModel extends Model<ITrade> {

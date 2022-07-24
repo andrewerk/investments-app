@@ -5,5 +5,4 @@ export default interface ITrade {
   value: number,
   type: string
   createdAt?: Date,
-  updatedAt?: Date,
 }

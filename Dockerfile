@@ -8,6 +8,8 @@ RUN npm install
 
 COPY . .
 
+RUN apk add g++ make py3-pip
+
 EXPOSE 3000
 
 CMD npm start
