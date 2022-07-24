@@ -4,6 +4,7 @@ import HttpException from '../utils/http.exception';
 import HttpStatusCode from '../utils/http.status.code';
 import IPortfolio from '../interfaces/Portfolio';
 import insertValue from '../utils/insertValue';
+// import tradeService from './tradeService';
 
 const buy = async (
   userId: number,
@@ -80,6 +81,13 @@ const getAssetByCustomerHistory = async (
   const userAssetsValues = await insertValue([userAsset]);
   return userAssetsValues[0];
 };
+
+// const getEarningByStock = async (
+//   userId: number,
+// ): Promise<IPortfolio> => {
+//   const transactions = await tradeService.getTrades(userId);
+
+// };
 
 export default {
   buy,
