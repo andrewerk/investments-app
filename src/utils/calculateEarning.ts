@@ -8,10 +8,7 @@ const calculateEarnings = (asset: IPortfolio, history: ITrade[]): number => {
     }
     return prev + current.value * current.quantity;
   }, 0);
-  let totalInAssets = 0;
-  if (asset.currentValue) {
-    totalInAssets = asset.currentValue * asset.quantity;
-  }
+  const totalInAssets = asset.currentValue as number * asset.quantity;
   return totalInAssets + totalInTransactions;
 };
 

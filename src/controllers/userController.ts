@@ -21,14 +21,8 @@ const changePassword = async (req: Request, res: Response): Promise<Response> =>
   return res.status(HttpStatusCode.NO_CONTENT).end();
 };
 
-const notallowed = async (req: Request, res: Response): Promise<Response> => {
-  const response = 'Method not allowed';
-  return res.status(HttpStatusCode.METHOD_NOT_ALLOWED).json({ response });
-};
-
 export default {
   createUser,
-  notallowed,
   updateUser,
   changePassword,
 };

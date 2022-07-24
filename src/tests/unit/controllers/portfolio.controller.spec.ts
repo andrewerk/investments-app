@@ -62,4 +62,18 @@ describe('Test portfolio controller', () => {
     expect(response.status).to.eql(HttpStatusCode.OK);
     expect(response.body).to.eql(portfolioObject);
   });
+  it('Test earnings by stock', async () => {
+    sinon.stub(investmentsPortfolioService, 'getEarningByStock').resolves(10);
+    const response = await request(app)
+      .get('/account/earnings/string')
+      .set({ authorization: token });
+    expect(response.body.earnings).to.eql(10);
+  });
+  it('Test earnings by stock', async () => {
+    sinon.stub(investmentsPortfolioService, 'getTotalEarnings').resolves(10);
+    const response = await request(app)
+      .get('/account/earnings/')
+      .set({ authorization: token });
+    expect(response.body.earnings).to.eql(10);
+  });
 });

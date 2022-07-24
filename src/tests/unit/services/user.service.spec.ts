@@ -18,6 +18,10 @@ describe('Test createUser service', () => {
     password: 'password',
     fullName: 'full name',
   };
+  const updatedUser = {
+    fullName: 'name',
+    email: 'email@test.com',
+  };
   it('Test createUser for existent user', async () => {
     sinon.stub(UserModel, 'findOrCreate').resolves([userReturn as any, false]);
     try {
@@ -35,5 +39,12 @@ describe('Test createUser service', () => {
     const user = await userService.createUser(userCreate);
 
     expect(user).to.eql({ id: 1, email: 'test@test.com' });
+  });
+  it('Test updateUser working properly', async () => {
+    sinon.stub(UserModel, 'update').resolves([undefined, [updatedUser]] as any);
+
+    const user = await userService.updateUser(1, updatedUser);
+
+    expect(user).to.eql(updatedUser);
   });
 });

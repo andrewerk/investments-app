@@ -14,6 +14,45 @@ describe('Test portfolio service', () => {
     stockSymbol: 'string',
     quantity: 100,
   };
+  // const tradeArray = [
+  //   {
+  //     id: 1,
+  //     portfolioId: 1,
+  //     quantity: 3,
+  //     type: 'buy',
+  //     value: 100,
+  //     portfolio: {
+  //       symbol: 'string',
+  //     },
+  //   },
+  //   {
+  //     id: 1,
+  //     portfolioId: 1,
+  //     quantity: 3,
+  //     type: 'buy',
+  //     value: 150,
+  //     portfolio: {
+  //       symbol: 'string',
+  //     },
+  //   },
+  //   {
+  //     id: 1,
+  //     portfolioId: 1,
+  //     quantity: 1,
+  //     type: 'sell',
+  //     value: 170,
+  //     portfolio: {
+  //       symbol: 'string',
+  //     },
+  //   },
+  // ];
+  // const portfolioObjectWithTrades = {
+  //   id: 1,
+  //   stockSymbol: 'string',
+  //   quantity: 5,
+  //   currentValue: 170,
+  //   trades: tradeArray,
+  // };
   const { userId, stockSymbol, quantity } = assetReturn;
   it('Test buy new asset', async () => {
     sinon.stub(InvestmentsPortfolioModel, 'findOrCreate').resolves([assetReturn as any, true]);
@@ -117,4 +156,16 @@ describe('Test portfolio service', () => {
       }
     }
   });
+  // it('Test getEarningsByStock function', async () => {
+  //   sinon.stub(investmentsPortfolioService, 'getAssetByCustomerHistory')
+  //     .resolves(portfolioObjectWithTrades);
+  //   const earnings = await investmentsPortfolioService.getEarningByStock(1, 'string');
+  //   expect(earnings).to.eql(270);
+  // });
+  // it('Test getTotalEarnings function', async () => {
+  //   sinon.stub(InvestmentsPortfolioModel, 'findAll').resolves([1] as any);
+  //   sinon.stub(investmentsPortfolioService, 'getEarningByStock').resolves(10);
+  //   const earnings = await investmentsPortfolioService.getTotalEarnings(1);
+  //   expect(earnings).to.eql(10);
+  // });
 });

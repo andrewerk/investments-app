@@ -18,10 +18,10 @@ const buyStock = async (userId: number, stockSymbol: string, quantity: number) =
     await stockService.buy(stockSymbol, quantity, t);
     const portfolio = await investmentsPortfolioService
       .buy(userId, stockSymbol, quantity, t) as IPortfolio;
+    await TradeModel.create({
+      portfolioId: portfolio.id, type: 'buy', quantity, value: currentValue,
+    }, { transaction: t });
     return portfolio;
-  });
-  await TradeModel.create({
-    portfolioId: account.id, type: 'buy', quantity, value: currentValue,
   });
   return account;
 };
@@ -35,10 +35,10 @@ const sellStock = async (userId: number, stockSymbol: string, quantity: number) 
     await stockService.sell(stockSymbol, quantity, t);
     const portfolio = await investmentsPortfolioService
       .sell(userId, stockSymbol, quantity, t) as IPortfolio;
+    await TradeModel.create({
+      portfolioId: portfolio.id, type: 'sell', quantity, value: currentValue,
+    }, { transaction: t });
     return portfolio;
-  });
-  await TradeModel.create({
-    portfolioId: account.id, type: 'sell', quantity, value: currentValue,
   });
   return account;
 };

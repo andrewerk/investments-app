@@ -23,7 +23,7 @@ export interface ApiData {
   t?: number,
 }
 
-const fetchData = async (stock: string): Promise<ApiResponse> => {
+const fetchValues = async (stock: string): Promise<ApiResponse> => {
   if (process.env.EXTERNAL_API === 'true') {
     const url = `https://finnhub.io/api/v1/quote?symbol=${stock}&token=${token}`;
     const response = await fetch(url);
@@ -39,5 +39,5 @@ const fetchData = async (stock: string): Promise<ApiResponse> => {
 };
 
 export default {
-  fetchData,
+  fetchValues,
 };

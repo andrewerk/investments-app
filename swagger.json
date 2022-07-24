@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "App de Ações!",
+        "title": "Stock App!",
         "description": "API para um aplicativo de compra e venda de ações, desenvolvida no âmbito do processo seletivo da XP para os alunos da Trybe - Turma XP.",
         "contact": {
             "email": "andrewerk1804@gmail.com"
