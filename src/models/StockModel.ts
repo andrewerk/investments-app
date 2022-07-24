@@ -2,14 +2,14 @@
 import {
   Table, Model, Column, DataType, PrimaryKey, HasMany,
 } from 'sequelize-typescript';
-import { StockAvailability } from '../interfaces/Stock';
+import { IStockAvailability } from '../interfaces/Stock';
 import InvestmentsPortfoliotModel from './InvestmentsPortfolioModel';
 
 @Table({
   timestamps: true,
   tableName: 'Stocks',
 })
-export default class StockModel extends Model<StockAvailability> {
+export default class StockModel extends Model<IStockAvailability> {
   @PrimaryKey
   @Column({
     type: DataType.STRING,

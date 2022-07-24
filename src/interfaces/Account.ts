@@ -1,4 +1,4 @@
-export default interface Account {
+export default interface IAccount {
   fullName: string,
   balance: number
 }

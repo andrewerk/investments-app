@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { Stock } from '../interfaces/Stock';
+import { IStock } from '../interfaces/Stock';
 import HttpException from '../utils/http.exception';
 import HttpStatusCode from '../utils/http.status.code';
 import mainStocks from '../utils/mainStocks';
@@ -8,7 +8,7 @@ import finnHubClient from '../utils/finnHubClient';
 
 dotenv.config();
 
-const getStock = async (stock: string): Promise<Stock> => {
+const getStock = async (stock: string): Promise<IStock> => {
   const { statusCode, data } = await finnHubClient.fetchValues(stock);
   if (statusCode === 429) {
     throw new HttpException(HttpStatusCode.TO_MANY_REQUESTS, 'To many requests to external API. Wait one minute');
@@ -20,7 +20,7 @@ const getStock = async (stock: string): Promise<Stock> => {
   return { currentValue: data.c, stock, stockQuantity };
 };
 
-const listPopularStocks = async (): Promise<Stock[]> => {
+const listPopularStocks = async (): Promise<IStock[]> => {
   const stocks = Promise.all(mainStocks.map((stock) => getStock(stock)));
   return stocks;
 };

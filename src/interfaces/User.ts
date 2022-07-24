@@ -16,4 +16,4 @@ export interface IUserLogin extends IUserData {
   password: string
 }
 
-export interface IUser extends IUserAdd, IUserData, IUserToken {}
+export interface IUser extends IUserAdd, IUserToken {}

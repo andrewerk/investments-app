@@ -1,10 +1,10 @@
-export interface Stock {
+export interface IStock {
   currentValue: number,
   stock: string,
   stockQuantity: number,
 }
 
-export interface StockAvailability {
+export interface IStockAvailability {
   symbol: string,
   stockQuantity: number
 }
