@@ -25,14 +25,10 @@ Os serviços responsáveis pelo funcionamento local do projeto foram orquestrado
 5. Sua aplicação estará rodando na porta 3000!
 
 
-6. Para rodar os testes unitários da aplicação, entre no container para garantir a conexão com o banco:
+6. Para realizar os testes unitários da aplicação, rode o script para teste ou, se preferir, para cobertura de teste, respectivamente:
 
-  - `docker exec -it stock-app /bin/sh`
-
-7. Rode o script para teste ou, se preferir, para cobertura de teste, respectivamente:
-
-- `npm test`
-- `npm run test:coverage`
+  - `docker exec -it stock-app npm test`
+  - `docker exec -it stock-app npm run test:coverage`
 
 
 # Deploy e documentação completa
@@ -102,7 +98,7 @@ Outra alteração foi a do <b>código do ativo</b>. Essa informação consta no 
   <summary>Carteira de investimentos e Histórico de negociações</summary><br />
 
 
-O funcionamento da carteira de investimentos dos usuários está baseada nos arquivos do tipo <b>InvestmentPortfolio</b>. Para cada ação que uma pessoa usuária tiver, independente do numero de ativos, haverá um "id". Por exemplo, na carteira de investimentos de uma pessoa usuária pode ter ações da Aaple, com 50 ativos e "id" igual a 1, e ações da XP, com 50 ativos e "id" 2, enquanto outra pessoa usuária pode ter 40 ativos da Aaple e o "id" igual a 3. Ou seja, este id identifica a combinação pessoa usuária com ação específica.<b> É importante não confundir esse "id" com o código do ativo mencionado na especificação do desafio</b>, uma vez que este é substituido pela variável "symbol". 
+O funcionamento da carteira de investimentos dos usuários está baseada nos arquivos do tipo <b>InvestmentPortfolio</b>. Para cada ação que uma pessoa usuária tiver, independente do numero de ativos, haverá um "id". Por exemplo, na carteira de investimentos de uma pessoa usuária pode ter ações da Apple, com 50 ativos e "id" igual a 1, e ações da XP, com 50 ativos e "id" 2, enquanto outra pessoa usuária pode ter 40 ativos da Apple e o "id" igual a 3. Ou seja, este id identifica a combinação pessoa usuária com ação específica.<b> É importante não confundir esse "id" com o código do ativo mencionado na especificação do desafio</b>, uma vez que este é substituido pela variável "symbol". 
 
 <b>Toda negociação de ativos fica registrada no banco de dados</b>, identificado por um id da transação. Este registro mantém a quantidade negociada, o valor da ação no momento da negociação, o tipo de negociação (compra ou venda), data, e o "portfolioId" (identificação da ação na carteira de investimentos da pessoa usuária).
 
