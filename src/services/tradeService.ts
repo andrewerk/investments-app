@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+import Sequelize, { Op } from 'sequelize';
 import accountService from './accountService';
 import connection from '../db/config';
 import TradeModel from '../models/TradeModel';
@@ -7,6 +7,7 @@ import stockService from './stockService';
 import investmentsPortfolioService from './investmentsPortfolioService';
 import IPortfolio from '../interfaces/Portfolio';
 import InvestmentsPortfolioModel from '../models/InvestmentsPortfolioModel';
+import ITrade from '../interfaces/Trade';
 
 const buyStock = async (userId: number, stockSymbol: string, quantity: number) => {
   const stock = await stockApiService.getStock(stockSymbol);
@@ -42,30 +43,31 @@ const sellStock = async (userId: number, stockSymbol: string, quantity: number) 
   return account;
 };
 
-const getTrades = async (userId: number): Promise<InvestmentsPortfolioModel | IPortfolio[]> => {
-  const trades = await InvestmentsPortfolioModel.scope('records')
-    .findAll({
-      attributes: ['stockSymbol', 'quantity'],
-      where: { userId },
-    });
+const getTrades = async (userId: number): Promise<ITrade[]> => {
+  const assets = await InvestmentsPortfolioModel.findAll({
+    attributes: ['id', 'stockSymbol'],
+    where: { userId },
+  });
+  const portfolioIds = assets.map((asset) => asset.id);
+  const trades = await TradeModel.findAll({
+    where: {
+      portfolioId: {
+        [Op.in]: portfolioIds,
+      },
+    },
+    include: {
+      model: InvestmentsPortfolioModel,
+      attributes: ['stockSymbol'],
+    },
+  });
   return trades;
 };
 
 const getTradesByType = async (userId: number, type: string):
-Promise<InvestmentsPortfolioModel | IPortfolio[]> => {
-  const trades = await InvestmentsPortfolioModel.scope('records')
-    .findAll({
-      attributes: ['stockSymbol', 'quantity'],
-      where: { userId },
-      include: {
-        model: TradeModel,
-        attributes: { exclude: ['type'] },
-        where: {
-          type,
-        },
-      },
-    });
-  return trades;
+Promise<ITrade[]> => {
+  const trades = await getTrades(userId);
+  const tradeByType = trades.filter((trade) => trade.type === type);
+  return tradeByType;
 };
 
 export default {

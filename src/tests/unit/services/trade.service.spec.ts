@@ -46,31 +46,35 @@ describe('Test trade service', () => {
     });
   });
   describe('Test listing trades functions', () => {
-    const tradeObject = {
+    const stockObject = {
       id: 1,
       stockSymbol: 'string',
       quantity: 3,
-      trades: [
-        {
-          id: 1,
-          portfolioId: 1,
-          quantity: 2,
-          type: 'buy',
-          value: 100,
-        },
-      ],
     };
+    const tradeArray = [
+      {
+        id: 1,
+        portfolioId: 1,
+        quantity: 3,
+        type: 'buy',
+        value: 100,
+        portfolio: {
+          symbol: 'string',
+        },
+      },
+    ];
     beforeEach(() => {
-      sinon.stub(InvestmentsPortfolioModel, 'findAll').resolves(tradeObject as any);
+      sinon.stub(InvestmentsPortfolioModel, 'findAll').resolves([stockObject] as any);
+      sinon.stub(TradeModel, 'findAll').resolves(tradeArray as any);
     });
     afterEach(() => sinon.restore());
     it('Test getTrades function', async () => {
       const trades = await tradeService.getTrades(1);
-      expect(trades).to.eql(tradeObject);
+      expect(trades).to.eql(tradeArray);
     });
     it('Test getTradesByType function', async () => {
       const trades = await tradeService.getTradesByType(1, 'buy');
-      expect(trades).to.eql(tradeObject);
+      expect(trades).to.eql(tradeArray);
     });
   });
 });

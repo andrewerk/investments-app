@@ -82,7 +82,7 @@ O Projeto também possui <b>middlewares</b>, que avaliam as requisições antes 
 <details>
   <summary>Validação de Token JWT e hash das senhas</summary><br />
 
-O projeto utiliza, para autorizar requisições, o <b>Token JWT</b>. A biblioteca permite que seja gerado um token, que envia em seu payload informações pré selecionadas. Nesse caso, o payload do corpo carrega o id da pessoa usuária e o email. Esse token é expirado 50 minutos após ser gerado, durante login ou quando um usuário é criado no sistema. <b>Todas as rotas, exceto a de login e criar usuário</b>, necessitam que seja enviado um token para ser autorizada e também para passar ao backend as informações de qual pessoa usuária está realizando a requisição.
+O projeto utiliza, para autorizar requisições, o <b>Token JWT</b>. A biblioteca permite que seja gerado um token, que envia em seu payload informações pré selecionadas. Nesse caso, o payload do corpo carrega o id da pessoa usuária e o email. Esse token é expirado 50 minutos após ser gerado, durante login ou quando um usuário é criado no sistema. <b>Todas as rotas, exceto a de login e criar usuário</b>, necessitam que seja enviado um token para ser autorizada e também para passar ao backend as informações de qual pessoa usuária está realizando a requisição. O token deve ser enviado nos headers, na chave "authorization".
 
 Além do token JWT, a senha cadastrada pela pessoa usuária passar por um <b>algorítmo de Hash</b> antes de ser armazenada no banco de dados. Esse algorítmo, proveniente da biblioteca <b>bcrypt</b>, é aplicado no UserModel e verificado quando a pessoa usuária faz login na camada de loginService.
 </details>
@@ -137,5 +137,27 @@ Quando é solicitada a compra de uma ação, a seguinte sequência de ações oc
 O Diagrama Entidade Relacionamento na sequência ilustra a estrutura do banco de dados da aplicação.
 
 <img src="./er-diagram.png" alt="Diagrama Entidade Relacionamento" width="800">
+
+</details>
+
+<details>
+  <summary>Tecnologias utilizadas</summary><br />
+
+
+As tecnologias utilizadas neste projeto foram:
+
+- TypeScript;
+- Express;
+- Node.js;
+- Sequelize e biblioteca auxiliar sequelize-typescript;
+- Postgres;
+- Docker e docker-compose;
+- Joi (para validações);
+- bcrypt para o hash da senha no banco de dados;
+- JWT para o token de autorização das requisições;
+- Mocha, Chai, Sinon, Supertest para os testes unitários;
+- nyc para cobertura de testes;
+
+
 
 </details>
