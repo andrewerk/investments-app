@@ -20,18 +20,26 @@ describe('Test portfolio service', () => {
     const asset = await investmentsPortfolioService.buy(userId, stockSymbol, quantity, null);
     expect(asset).to.eql({ id: asset.id, stockSymbol, quantity });
   });
-  // it('Test buy more assets of a stock customer already has', async () => {
-  //   sinon.stub(InvestmentsPortfolioModel, 'findOrCreate').resolves([assetReturn as any, false]);
-  //   sinon.stub(InvestmentsPortfolioModel, 'update');
-  //   const asset = await investmentsPortfolioService.buy(userId, stockSymbol, quantity, null);
-  //   expect(asset).to.eql({ id: asset.id, stockSymbol, quantity: quantity * 2 });
-  // });
-  // it('Test sell asset successfully', async () => {
-  //   sinon.stub(InvestmentsPortfolioModel, 'findOne').resolves(assetReturn as any);
-  //   sinon.stub(InvestmentsPortfolioModel, 'update');
-  //   const asset = await investmentsPortfolioService.sell(userId, stockSymbol, quantity, null);
-  //   expect(asset).to.eql({ id: asset.id, stockSymbol, quantity: 0 });
-  // });
+  it('Test buy more assets of a stock customer already has', async () => {
+    sinon.stub(InvestmentsPortfolioModel, 'findOrCreate').resolves([assetReturn as any, false]);
+    sinon.stub(InvestmentsPortfolioModel, 'update').resolves([1, [assetReturn]] as any);
+    const asset = await investmentsPortfolioService.buy(userId, stockSymbol, quantity, null);
+    expect(asset).to.eql({
+      id: asset.id,
+      stockSymbol: asset.stockSymbol,
+      quantity: asset.quantity,
+    });
+  });
+  it('Test sell asset successfully', async () => {
+    sinon.stub(InvestmentsPortfolioModel, 'findOne').resolves(assetReturn as any);
+    sinon.stub(InvestmentsPortfolioModel, 'update').resolves([1, [assetReturn]] as any);
+    const asset = await investmentsPortfolioService.sell(userId, stockSymbol, quantity, null);
+    expect(asset).to.eql({
+      id: asset.id,
+      stockSymbol: asset.stockSymbol,
+      quantity: asset.quantity,
+    });
+  });
   it('Test sell asset without having any of the stock', async () => {
     sinon.stub(InvestmentsPortfolioModel, 'findOne').resolves(null);
     try {
