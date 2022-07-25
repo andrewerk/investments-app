@@ -13,7 +13,7 @@ const buyStock = async (userId: number, stockSymbol: string, quantity: number) =
   const stock = await stockApiService.getStock(stockSymbol);
   const { currentValue } = stock;
   const account = await connection.transaction(async (t: Sequelize.Transaction) => {
-    const total: number = currentValue * quantity;
+    const total = currentValue * quantity;
     await accountService.withdraw(userId, total, t);
     await stockService.buy(stockSymbol, quantity, t);
     const portfolio = await investmentsPortfolioService
