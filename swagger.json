@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Stock App!",
-        "description": "API para um aplicativo de compra e venda de ações, desenvolvida no âmbito do processo seletivo da XP para os alunos da Trybe - Turma XP.",
+        "title": "Investments App!",
+        "description": "API for an investments app, with endpoints to create and manage your username, login, deposit money into your account, withdraw, buy and sell assets, and check your transaction history and earnings so far.",
         "contact": {
             "email": "andrewerk1804@gmail.com"
         },
@@ -11,8 +11,8 @@
     "paths": {
         "/users": {
             "post": {
-                "summary": "Cria nova pessoa usuária",
-                "description": "Cria nova pessoa usuária no o sistema. Ao criar um usuário, o sistema retornará um token que será utilizado para autenticação em todas as rotas, com exceção de criar uma nova pessoa usuária e login. Assim, ao receber o token na resposta, copie o conteúdo entre as aspas e clique no cadeado verde na parte superior direita da página, para colar o token e autenticar todas suas requisições no tempo em que estiver na página. Vale salientar que, para criar um usuário, deve ser enviado um email com o formato correto, uma senha com pelo menos 6 caracters e nome completo com 3 caracteres.",
+                "summary": "Creates new user",
+                "description": "Creates new user to the system. By requesting this endpoint with the correct requisition body, the user should receive an authentication token, which should be used for all others requests to the system, except login. This token should be sent in the requests header, in the key authorization. In swagger UI, users can authenticate all their requests by copying the token into the green locker on the top-right of the page. It`s important to state that the email to create a new user should be sent with the correct form, the password must have at least 6 characters and the full name 3 characters.",
                 "tags": ["user"],
                 "requestBody": {
                     "content": {
@@ -24,9 +24,9 @@
                                 "UserData": {
                                     "summary": "user",
                                     "value": {
-                                        "fullName": "Nome da pessoa usuária",
+                                        "fullName": "User full name",
                                         "email": "user@email.com",
-                                        "password": "senhaComPeloMenosSeisDigitos"
+                                        "password": "password"
                                     }
                                 }
                             }
@@ -35,16 +35,16 @@
                 },
                 "responses": {
                     "400": {
-                      "description": "Algum dos campos obrigatórios não foi enviado."
+                      "description": "Some of the required fields are missing."
                     },
                     "409": {
-                        "description": "Email já cadastrado na plataforma."
+                        "description": "Email already registered."
                       },
                     "422": {
-                      "description": "Algum dos campos está preenchido de forma incorreta."
+                      "description": "Some fields was sent incorrectly."
                     },
                     "201": {
-                      "description": "Pessoa usuária cadastrada com sucesso.",
+                      "description": "New user registered.",
                       "content": {
                         "application/json": {
                           "schema": {
@@ -56,8 +56,8 @@
                 }
             },
             "patch": {
-              "summary": "Edita email ou nome da pessoa usuária",
-              "description": "Este endpoint tem a finalidade de editar o email ou nome completo da pessoa usuária. Necessita de autenticação com o Token JWT.",
+              "summary": "Edit user full name or email",
+              "description": "This endpoint allows the user to update personal information. In this endpoint, it is necessary to send a JWT validation token.",
               "tags": ["user"],
               "security": [
                 {
@@ -74,7 +74,7 @@
                               "UserData": {
                                   "summary": "userUpdated",
                                   "value": {
-                                      "fullName": "Nome da pessoa usuária",
+                                      "fullName": "User full name",
                                       "email": "user@email.com"
                                   }
                               }
@@ -83,17 +83,20 @@
                   }
               },
               "responses": {
+                  "400": {
+                    "description": "Some of the required fields are missing."
+                  },
                   "401": {
-                    "description": "Token nao encontrado ou inválido."
+                    "description": "Token not found or invalid."
                   },
                   "409": {
-                      "description": "Email já cadastrado na plataforma."
-                    },
-                  "422": {
-                    "description": "Algum dos campos está preenchido de forma incorreta ou pelo menos um campo deve estar preenchido."
+                    "description": "Email already registered."
+                  },
+                "422": {
+                  "description": "Some field were sent incorrectly."
                   },
                   "200": {
-                    "description": "Dados atualizados com sucesso.",
+                    "description": "Data successfully updated.",
                     "content": {
                       "application/json": {
                         "schema": {
@@ -107,8 +110,8 @@
         },
         "/users/pass": {
           "patch": {
-            "summary": "Edita senha da pessoa usuária",
-            "description": "Este endpoint permite alterar a senha da pessoa usuária. Deve ser enviado a nova senha no corpo da requisição, na chave 'password'. A autenticação pelo token é necessária neste endpoint.",
+            "summary": "Change user password",
+            "description": "this endpoint allows the user to change password. In this endpoint, it is necessary to send JWT validation token, which will be used to change identify the user.",
             "tags": ["user"],
             "security": [
               {
@@ -125,7 +128,7 @@
                             "UserData": {
                                 "summary": "password",
                                 "value": {
-                                    "password": "novaSenha"
+                                    "password": "newPassword"
                                 }
                             }
                         }
@@ -134,24 +137,24 @@
             },
             "responses": {
                 "400": {
-                  "description": "Algum dos campos obrigatórios não foi enviado."
+                  "description": "Some of the required fields are missing."
                 },
                 "401": {
-                  "description": "Token nao encontrado ou inválido."
+                  "description": "Token not found or invalid."
                 },
                 "422": {
-                  "description": "Algum dos campos está preenchido de forma incorreta"
-                },
+                  "description": "Some fields were sent incorrectly."
+                  },
                 "204": {
-                  "description": "Senha atualizada com sucesso."
+                  "description": "Password successfully changed"
                 }  
             }
         }
       },
         "/login": {
             "post": {
-                "summary": "Login no sistema.",
-                "description": "Os usuários já cadastrados no sistema podem utilizar seu email e senha para recuperar um novo token, caso o que tenha sido recebido anteriormente tenha expirado ou a pessoa usuária tenha perdido seu token de autenticação.",
+                "summary": "Login into system.",
+                "description": "Already registered users are allowed to retrieve a new token by using this endpoint, in case of losing the previous token or it is expired.",
                 "tags": ["login"],
                 "requestBody": {
                     "content": {
@@ -173,13 +176,13 @@
                 },
                 "responses": {
                   "400": {
-                    "description": "Algum dos campos obrigatórios não foi enviado."
+                    "description": "Some of the required fields are missing."
                   },
                   "422": {
-                    "description": "Algum dos campos está preenchido de forma incorreta."
-                  },
+                    "description": "Some fields were sent incorrectly."
+                    },
                     "200": {
-                      "description": "Login feito com sucesso.",
+                      "description": "Login successfully.",
                       "content": {
                         "application/json": {
                           "schema": {
@@ -193,8 +196,8 @@
         },
       "/account": {
         "get": {
-          "summary": "Verificar conta",
-          "description": "Este endpoint retorna o nome completo da pessoa usuária e seu saldo bancário (balance). A autenticação pelo token é necessária neste endpoint.",
+          "summary": "Verify account balance",
+          "description": "This endpoint allows users to check their account balance.  In this endpoint, it is necessary to send a JWT validation token.",
           "tags": ["account"],
           "security": [
             {
@@ -203,10 +206,10 @@
           ],
           "responses": {
               "401": {
-                "description": "Token nao encontrado ou inválido."
+                "description": "Token not found or invalid."
               },
               "200": {
-                "description": "Conta da pessoa usuária.",
+                "description": "User account.",
                 "content": {
                   "application/json": {
                     "schema": {
@@ -220,8 +223,8 @@
       },
       "/account/deposit": {
         "post": {
-            "summary": "Deposito em conta",
-            "description": "Endpoint utilizado para operações de depósito na conta da pessoa usuária. Deve ser enviado no body da requisição a propriedade value com o valor total a ser depositado. Uma vez que se tenha dinheiro na conta, será possível futuramente realizar a compra de ações. Não é necessário enviar nenhuma informação para identificar o usuário, uma vez que a identificação é feita automaticamente pelo token, que é obrigatório nesta requisição. O endpoint irá retornar o nome completo da pessoa usuária e seu saldo bancário.",
+            "summary": "Deposit into your account",
+            "description": "Endpoint used for deposit operations in the user's account. The value property with the total amount to be deposited must be sent in the request body. Once you have money in the account, it will be possible to purchase assets in the future. It is not necessary to send any information to identify the user, since the identification is done automatically by the token, which is mandatory in this request. The endpoint will return the user's full name and their bank balance.",
             "tags": ["account"],
             "security": [
               {
@@ -247,16 +250,16 @@
             },
             "responses": {
               "400": {
-                "description": "Value deve ser enviado no campo da requisição."
+                "description": "Some of the required fields are missing."
               },
               "401": {
-                "description": "Token nao encontrado ou inválido."
+                "description": "Token not found or invalid."
               },
               "422": {
-                "description": "Value deve ser um número maior do que 0."
-              },
+                "description": "Some fields were sent incorrectly."
+                },
                 "200": {
-                  "description": "Dinheiro depositado com sucesso.",
+                  "description": "Money successfully sent.",
                   "content": {
                     "application/json": {
                       "schema": {
@@ -270,8 +273,8 @@
       },
       "/account/withdraw": {
         "post": {
-            "summary": "Saque da conta",
-            "description": "Endpoint utilizado para operações de saque da conta da pessoa usuária. Deve ser enviado no body da requisição a propriedade value com o valor total a ser retirado. Caso a pessoa usuária não tenha em conta o suficiente para sacar, a transação será recusada e uma exceção será retornada. Não é necessário enviar nenhuma informação para identificar o usuário, uma vez que a identificação é feita automaticamente pelo token, que é obrigatório nesta requisição.  O endpoint irá retornar o nome completo da pessoa usuária e seu saldo bancário.",
+            "summary": " Money Withdraw",
+            "description": "The endpoint is used for withdrawing operations out of the user's account. The value property with the total amount to be deposited must be sent in the request body. If the user does not have enough funds to withdraw, an exception will be thrown. It is not necessary to send any information to identify the user, since the identification is done automatically by the token, which is mandatory in this request. The endpoint will return the user's full name and bank balance.",
             "tags": ["account"],
             "security": [
               {
@@ -297,19 +300,19 @@
             },
             "responses": {
               "400": {
-                "description": "Value deve ser enviado no campo da requisição."
+                "description": "Some of the required fields are missing."
               },
               "401": {
-                "description": "Token nao encontrado ou inválido."
+                "description": "Token not found or invalid."
               },
               "409": {
-                "description": "A conta não possui fundos suficientes para sacar esta quantia."
+                "description": "Not enough funds to withdraw."
               },
               "422": {
-                "description": "Value deve ser um número maior do que 0."
-              },
+                "description": "Some fields were sent incorrectly."
+                },
                 "200": {
-                  "description": "Dinheiro retirado com sucesso.",
+                  "description": "Money successfully withdraw.",
                   "content": {
                     "application/json": {
                       "schema": {
@@ -323,8 +326,8 @@
       },
       "/stocks": {
         "get": {
-          "summary": "Listar ações em alta",
-          "description": "Este endpoint retorna 20 ações pré selecionadas, que estão em destaque na plataforma da NASDAQ. O array retorna objetos que contém o nome da ação, preço atualizado em tempo real e quantidade fictícia disponivel na corretora. A autenticação pelo token é necessária neste endpoint.",
+          "summary": "Listing top company's stocks",
+          "description": "This endpoint returns 20 pre-selected stocks, of important companies in the world scenario. The array returns objects with the stock symbol, current value, and amount available to negotiate.In this endpoint, it is necessary to send a JWT validation token.",
           "tags": ["stocks"],
           "security": [
             {
@@ -333,10 +336,10 @@
           ],
           "responses": {
             "401": {
-              "description": "Token nao encontrado ou inválido."
+              "description": "Token not found or invalid."
             },
             "200": {
-              "description": "Ações em alta.",
+              "description": "Top company's stocks",
               "content": {
                 "application/json": {
                   "schema": {
@@ -353,8 +356,8 @@
       },
       "/stocks/{symbol}": {
         "get": {
-          "summary": "Procurar ação por símbolo",
-          "description": "Este endpoint retorna informações relacionadas a uma ação, conforme o símbolo passado na url como parâmetro. O objeto contém o nome da ação, preço atualizado em tempo real e quantidade fictícia disponivel na corretora. Pode ser pesquisada qualquer ação que exista no mercado, pelo seu símbolo oficial (exemplos de simbolos podem ser procurados no site https://www.nasdaq.com/market-activity/stocks/screener ). A autenticação pelo token é necessária neste endpoint.",
+          "summary": "Search stock by symbol",
+          "description": "This endpoint returns info about a specific stock, which should be sent in the URL, as a parameter. It returns an object with the stock symbol, current value, and amount available to negotiate. It can be searched for any stock by its symbol. In this endpoint, it is necessary to send a JWT validation token.",
           "tags": ["stocks"],
           "security": [
             {
@@ -365,16 +368,19 @@
             {
               "name": "symbol",
               "in": "path",
-              "description": "Símbolo da ação",
+              "description": "Stock Symbol",
               "required": true
             }
           ],
           "responses": {
             "401": {
-              "description": "Token nao encontrado ou inválido."
+              "description": "Token not found or invalid"
+            },
+            "404": {
+              "description": "Stock not found"
             },
             "200": {
-              "description": "Informações da ação.",
+              "description": "Stock information.",
               "content": {
                 "application/json": {
                   "schema": {
@@ -388,8 +394,8 @@
       },
       "/investments/buy": {
         "post": {
-            "summary": "Comprar ações",
-            "description": "Endpoint utilizado para operações de compra de ações. Deve ser enviado no body da requisição a propriedade 'symbol', a qual representa o simbolo oficial da ação, como por exemplo AAPL para ações da Apple (exemplos de simbolos podem ser procurados no site https://www.nasdaq.com/market-activity/stocks/screener ). Além do símbolo, deve também ser enviada a quantidade de ações a serem compradas, por meio da propriedade 'quantity'. O endpoint irá retornar um objeto com o 'id' desse ação da pessoa usuária, com o 'stockSymbol' e a quantity, reprensentando a quantidade total de ativos que a pessoa usuária possui. Ressalta-se que se a pessoa comprar ou vender mais ativos da mesma ação, o id será o mesmo, bem como a quantidade será afetada pela nova compra ou venda. Essa requisição poderar falhar nos cenários de a pessoa usuária não possuir saldo para a compra, a corretora não possuir ativos suficiente, ou requisição não está autenticada. Não é necessário enviar nenhuma informação para identificar o usuário, uma vez que a identificação é feita automaticamente pelo token, que é obrigatório nesta requisição.",
+            "summary": "Buy assets",
+            "description": "Endpoint used for stock purchase operations. The 'symbol' property must be sent in the request body, which represents the official symbol of the action, such as AAPL for Apple shares (examples of symbols can be found at https://www.nasdaq.com/market -activity/stocks/screener ). In addition to the symbol, the quantity of the asset to be purchased must also be sent, using the 'quantity' property. The endpoint will return an object with the user's asset 'id', with the 'stockSymbol' and the quantity, representing the total amount of assets that the user has. Important: if the user buys or sells more assets of the same stock, the id will be the same, as well as the amount will be affected by the new purchase or sale. This request may fail in scenarios where the user does not have enough funds for the purchase, the company does not have enough assets to sell, or the request is not authenticated. It is not necessary to send any information to identify the user, since the identification is done automatically by the token, which is mandatory in this request.",
             "tags": ["investments"],
             "security": [
               {
@@ -416,19 +422,19 @@
             },
             "responses": {
               "400": {
-                "description": "Algum dos campos obrigatórios não foi preenchido."
+                "description": "Some of the required fields are missing."
               },
               "401": {
-                "description": "Token nao encontrado ou inválido."
+                "description": "Token not found or invalid"
               },
               "404": {
-                "description": "Ação não encontrada."
+                "description": "Stock not found"
               },
               "409": {
-                "description": "A conta não possui fundos suficientes para esta compra ou a corretora nao possui ativos suficiente."
+                "description": "Account does not have enough funds for this purchase or withdraw, or company don't have enough assets for this sale."
               },
                 "200": {
-                  "description": "Compra realizada com sucesso.",
+                  "description": "Purchase successfully.",
                   "content": {
                     "application/json": {
                       "schema": {
@@ -442,8 +448,8 @@
       },
       "/investments/sell": {
         "post": {
-            "summary": "Vender ações",
-            "description": "Endpoint utilizado para operações de venda de ações. Deve ser enviado no body da requisição a propriedade 'symbol', a qual representa o simbolo oficial da ação, como por exemplo AAPL para ações da Apple (exemplos de simbolos podem ser procurados no site https://www.nasdaq.com/market-activity/stocks/screener ). Além do símbolo, deve também ser enviada a quantidade de ações a serem vendidas, por meio da propriedade 'quantity'. O endpoint irá retornar um objeto com o 'id' desse ação da pessoa usuária, com o 'stockSymbol' e a quantity, reprensentando a quantidade total de ativos que a pessoa usuária possui. Ressalta-se que se a pessoa comprar ou vender mais ativos da mesma ação, o id será o mesmo, bem como a quantidade será afetada pela nova compra ou venda. Essa requisição poderar falhar nos cenários de a pessoa usuária não possuir ativos suficientes para a venda ou requisição não está autenticada. Não é necessário enviar nenhuma informação para identificar o usuário, uma vez que a identificação é feita automaticamente pelo token, que é obrigatório nesta requisição.",
+            "summary": "Sell assets",
+            "description": "Endpoint used for stock selling operations. The 'symbol' property must be sent in the request body, which represents the official symbol of the action, such as AAPL for Apple shares (examples of symbols can be found at https://www.nasdaq.com/market -activity/stocks/screener ). In addition to the symbol, the quantity of the assets to be sold must also be sent, using the 'quantity' property. The endpoint will return an object with the user's asset 'id', with the 'stockSymbol' and the quantity, representing the total amount of assets that the user has. Important: if the user buys or sells more assets of the same stock, the id will be the same, as well as the amount will be affected by the new purchase or sale. This request may fail in scenarios where the user does not have enough assets for sale, or the request is not authenticated. It is not necessary to send any information to identify the user, since the identification is done automatically by the token, which is mandatory in this request.",
             "tags": ["investments"],
             "security": [
               {
@@ -470,16 +476,19 @@
             },
             "responses": {
               "400": {
-                "description": "Algum dos campos obrigatórios não foi preenchido."
+                "description": "Some of the required fields are missing."
               },
               "401": {
-                "description": "Token nao encontrado ou inválido."
+                "description": "Token not found or invalid"
+              },
+              "404": {
+                "description": "Stock not found"
               },
               "409": {
-                "description": "A pessoa usuária não possui ativos suficientes para esta venda."
+                "description": "User does not have enough assets for this sale."
               },
                 "200": {
-                  "description": "Venda realizada com sucesso.",
+                  "description": "Sale successfully.",
                   "content": {
                     "application/json": {
                       "schema": {
@@ -493,8 +502,8 @@
       },
       "/investments": {
         "get": {
-          "summary": "Histórico de transações",
-          "description": "Este endpoint retorna o histórico de toda negociação que a pessoa usuária realizou. O array retorna objetos que contém o id desta negociação, o id do ativo em seu portfolio (o mesmo que retorna quando é feita uma compra ou venda), nome da ação, preço da ação no momento da negociação e quantidade de ativos que a pessoa usuáriao negociou. A autenticação pelo token é necessária neste endpoint.",
+          "summary": "Transaction history",
+          "description": "This endpoint returns the user's transaction history. It returns an array of objects, in which can be found the trade 'id', portfolio 'id', stock symbol, value in the transaction moment, and asset quantity. In this endpoint, it is necessary to send a JWT validation token. ",
           "tags": ["investments"],
           "security": [
             {
@@ -503,10 +512,10 @@
           ],
           "responses": {
             "401": {
-              "description": "Token nao encontrado ou inválido."
+              "description": "Token not found or invalid."
             },
               "200": {
-                "description": "Ativos da pessoa usuária.",
+                "description": "User trade history.",
                 "content": {
                   "application/json": {
                     "schema": {
@@ -524,13 +533,13 @@
       "/investments/user/{type}": {
         "get": {
           "summary": "Histórico de transações por tipo",
-          "description": "Este endpoint retorna o histórico de negociações que a pessoa usuária realizou, de acordo com seu tipo (buy ou sell). O array retorna objetos que contém o id desta negociação, o id do ativo em seu portfolio (o mesmo que retorna quando é feita uma compra ou venda), nome da ação, preço da ação no momento da negociação e quantidade de ativos que a pessoa usuáriao negociou. A autenticação pelo token é necessária neste endpoint.",
+          "description": "This endpoint returns the user's transaction history, according to its type (purchase or sale). It returns an array of objects, in which can be found the trade 'id', portfolio 'id', stock symbol, value in the transaction moment, and asset quantity. In this endpoint, it is necessary to send a JWT validation token.",
           "tags": ["investments"],
           "parameters": [
             {
               "name": "type",
               "in": "path",
-              "description": "Símbolo da ação",
+              "description": "Stock symbol",
               "required": true
             }
             ],
@@ -541,10 +550,10 @@
           ],
           "responses": {
             "401": {
-              "description": "Token nao encontrado ou inválido."
+              "description": "Token not found."
             },
               "200": {
-                "description": "Histórico por tipo de negociação",
+                "description": "User trade history by type",
                 "content": {
                   "application/json": {
                     "schema": {
@@ -561,8 +570,8 @@
       },
       "/assets": {
         "get": {
-          "summary": "Listar todos ativos que pessoa usuária possui",
-          "description": "Este endpoint retorna todos os ativos que a pessoa usuária possui. O array retorna objetos que contém o id deste ativo em sua conta (o mesmo que retorna quando é feita uma compra ou venda), nome da ação, preço atualizado em tempo real e quantidade de ativos que a pessoa usuáriao possui. A autenticação pelo token é necessária neste endpoint.",
+          "summary": "List all assets the user possesses",
+          "description": "This endpoint returns all the assets the user possesses. The array contain objects, in which can be found information such as asset 'id', stock symbol, asset quantity, and current value. In this endpoint, it is necessary to send a JWT validation token.",
           "tags": ["assets"],
           "security": [
             {
@@ -571,10 +580,10 @@
           ],
           "responses": {
             "401": {
-              "description": "Token nao encontrado ou inválido."
+              "description": "Token not found or invalid."
             },
               "200": {
-                "description": "Ativos da pessoa usuária.",
+                "description": "User assets.",
                 "content": {
                   "application/json": {
                     "schema": {
@@ -591,8 +600,8 @@
       },
       "/assets/{symbol}": {
         "get": {
-          "summary": "Ativos da pessoa usuária na respectiva ação",
-          "description": "Este endpoint retorna o ativo pesquisado se a pessoa usuária o possui. O array retorna um objeto que contém o id deste ativo em sua conta (o mesmo que retorna quando é feita uma compra ou venda), nome da ação, preço atualizado em tempo real e quantidade de ativos que a pessoa usuáriao possui. A requisição também retorna o histórico de movimentação dessa ação pela pessoa usuária, na chave trade, por meio de um objeto que informa: o id dessa movimentação, a quantidade que foi negociada, o tipo de negociação (compra ou venda), o valor da ação no momento da negociação e o instante da negociação. A autenticação pelo token é necessária neste endpoint.",
+          "summary": "User assets by stock symbol",
+          "description": "This endpoint returns the stock searched in the URL parameter. The returns contain an object, in which can be found information such as asset 'id', stock symbol, asset quantity, and current value.  The asset trade history is also returned in the endpoint. In this endpoint, it is necessary to send a JWT validation token.",
           "tags": ["assets"],
           "security": [
             {
@@ -603,16 +612,16 @@
             {
               "name": "symbol",
               "in": "path",
-              "description": "Símbolo da ação",
+              "description": "Stock symbol",
               "required": true
             }
           ],
           "responses": {
             "401": {
-              "description": "Token nao encontrado ou inválido."
+              "description": "Token not found or invalid."
             },
               "200": {
-                "description": "Ativo da ação pesquisada.",
+                "description": "Asset found.",
                 "content": {
                   "application/json": {
                     "schema": {
@@ -629,8 +638,8 @@
       },
       "/account/earnings": {
         "get": {
-          "summary": "Retornar rendimentos",
-          "description": "Este endpoint retorna o rendimento que a pesoa usuária teve até o momento, considerando todas suas negociações. O cálculo soma o total em ativos que a pessoa usuária possui com o total em ativos que ja foi vendido (pelo preço da ação no momento da venda) e subtrai o total gasto no momento de compra desses ativos. A autenticação pelo token é necessária neste endpoint. ",
+          "summary": "Return earnings",
+          "description": "This endpoint returns the user's earnings to the point. The calculation considers the total spent buying assets, the total earned selling assets, and the total assets the user currently possesses.In this endpoint, it is necessary to send a JWT validation token. ",
           "tags": ["earnings"],
           "security": [
             {
@@ -639,10 +648,10 @@
           ],
           "responses": {
             "401": {
-              "description": "Token nao encontrado ou inválido."
+              "description": "Token not found or invalid."
             },
               "200": {
-                "description": "Rendimentos da pessoa usuária.",
+                "description": "User earnings.",
                 "content": {
                   "application/json": {
                     "schema": {
@@ -656,8 +665,8 @@
       },
       "/account/earnings/{symbol}": {
         "get": {
-          "summary": "Retornar rendimentos por ação",
-          "description": "Este endpoint retorna o rendimento que a pesoa usuária teve até o momento com uma ação específica, considerando todas suas negociações. O cálculo soma o total em ativos que a pessoa usuária possui com o total em ativos que ja foi vendido (pelo preço da ação no momento da venda) e subtrai o total gasto no momento de compra desses ativos. A autenticação pelo token é necessária neste endpoint. ",
+          "summary": "Returns earnings by stock symbol",
+          "description": "This endpoint returns the user's earnings to the point, considering only one stock. The calculation considers the total spent buying assets, the total earned selling assets, and the total assets the user currently possesses.In this endpoint, it is necessary to send a JWT validation token. ",
           "tags": ["earnings"],
           "security": [
             {
@@ -668,16 +677,16 @@
             {
               "name": "symbol",
               "in": "path",
-              "description": "Símbolo da ação",
+              "description": "Stock symbol",
               "required": true
             }
           ],
           "responses": {
             "401": {
-              "description": "Token nao encontrado ou inválido."
+              "description": "Token not found or invalid."
             },
               "200": {
-                "description": "Rendimentos da pessoa usuária por ação.",
+                "description": "User earnings by Stock.",
                 "content": {
                   "application/json": {
                     "schema": {
