@@ -41,7 +41,7 @@ The project can be run locally, using the docker-compose command. To run this fi
 
 # Deploy and full documentation
 
-The API full documentation was built according to Open API specs, and it is available in the deploy <b>[link](https://andrewerk-stock-app.herokuapp.com/docs/)</b> through <b>Swagger</b> User Interface. The requests sent by this interface will be running directly on the cloud database.
+The API full documentation was built according to Open API specs, and it is available in the deploy <b>[link](https://andrewerk-investments-app.herokuapp.com/docs/)</b> through <b>Swagger</b> User Interface. The requests sent by this interface will be running directly on the cloud database.
 
 This project was deployed using Heroku and Supabase for the DB. It uses a <b>CI/CD pipeline</b>, with every push to this Git Repository being tested by <b>GitHub Actions</b>, which runs the unit tests and the ESlint verification. After the actions are successfully finished, Heroku identifies the new push and starts building again, uploading the new version to the production environment.
 
